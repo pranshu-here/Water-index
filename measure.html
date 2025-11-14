@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Water Health Index | Measure</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #0fa, #09a 90%); margin:0;}
+    nav {
+      background:#053b5e; color:#fff; display:flex; align-items:center;
+      padding:0 2rem; height:68px; box-shadow:0 2px 12px #0001;
+    }
+    .logo{ font-size: 2rem; font-weight: bold; margin-right: 2.2rem; display:flex; align-items:center; gap:0.6rem; letter-spacing:2px;}
+    .wave { animation: wave 2s infinite alternate; display:inline-block;}
+    @keyframes wave { 0%{ transform: translateY(0);} 100%{ transform: translateY(-8px);} }
+    .nav-links{ display:flex; gap:1.1rem; flex-grow:1;}
+    .nav-links a{ color:#fff; text-decoration:none; padding:0.4rem 1.1rem; border-radius:5px; font-size:1.12rem; transition:background 0.2s,color 0.2s;}
+    .nav-links a.active, .nav-links a:hover{ background:#aff; color:#023; font-weight:bold;}
+    .content {
+      max-width: 760px;
+      margin: 3.2rem auto 0;
+      background: #fffefaee;
+      border-radius: 18px;
+      padding: 2.2rem 1.5rem 2.5rem;
+      box-shadow: 0 4px 40px #03989630;
+      min-height: 450px;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .measure-card {
+      flex:2 1 340px;
+      background: #eafffc;
+      padding: 2rem 1.3rem 1.3rem;
+      border-radius: 15px;
+      box-shadow: 0 3px 15px #00f2bb10;
+      display: flex; flex-direction: column;
+      gap:1rem;
+    }
+    label { font-weight: bold; color:#0491a8; margin-bottom: 0.2rem;}
+    input, select{
+      width:100%; padding:0.47rem; margin-bottom:1.1rem;
+      font-size:1.11rem; border-radius:5px; border:1px solid #abd;
+      background:#f8fffe;
+    }
+    .action-btns{
+      display:flex;flex-wrap:wrap;gap:0.8rem 1rem;margin:1rem 0 0 0;
+    }
+    button{
+      padding:0.62rem 1.3rem; border:none; border-radius:7px;
+      background: #06c9a5; color:#fff; font-size:1.04rem; font-weight:500;
+      cursor:pointer; transition:background 0.16s;
+      box-shadow: 0 2px 6px #26ffa60d;
+    }
+    button:hover{ background:#02948f;}
+    .mini-map-card{flex:1 1 200px;padding:1.3rem 0.2rem;display:flex;flex-direction:column;align-items:center}
+    #mini-map{width:98%;height:165px;border-radius:10px;margin:0 auto 0.7rem;border:2px solid #c3f7f3;}
+    #place-name{color:#066;font-size:1.03rem;margin-bottom:0.53rem;}
+    .status-box{
+      padding:0.63rem 1rem;border-radius:9px;display:flex;align-items:center;gap:1rem;
+      background:#f0fff0;margin:1.2rem 0;
+    }
+    .status-circle{
+      width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:bold;background:#07e9b8;color:#054;
+    }
+    .status-state{font-weight:bold;font-size:1.11rem;}
+    .history{margin:1.4rem 0 0 0;}
+    .history li{background:#eafffd;border-radius:6px;margin:0.3rem 0;padding:0.44rem 0.6rem;}
+    video{width:100%;border-radius:10px;margin:0.9rem 0;}
+    @media (max-width:800px){ .content{flex-direction:column;gap:0.9rem;} .mini-map-card{width:100%;}}
+  </style>
+</head>
+<body>
+  <nav>
+    <span class="logo"><span class="wave">🌊</span> Water Health Index</span>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="measure.html" class="active">Measure</a>
+      <a href="map.html">Map</a>
+      <a href="farmers.html">Farmers Assistance</a>
+      <a href="care.html">Care</a>
+      <a href="chart.html">Chart</a>
+      <a href="details.html">Details</a>
+    </div>
+  </nav>
+  <main class="content">
+    <form class="measure-card" onsubmit="event.preventDefault(); analyzeReading();">
+      <h2>Measure Water Health</h2>
+      <label for="ph">pH (0.0–14.0):</label>
+      <input id="ph" type="number" min="0" max="14" step="0.1" required placeholder="e.g. 7.2"/>
+      <label for="temp">Temperature (°C):</label>
+      <input id="temp" type="number" min="-10" max="60" step="0.1" required placeholder="e.g. 24"/>
+      <label for="turbidity">Turbidity:</label>
+      <select id="turbidity" required>
+        <option value="" disabled selected>Select option</option>
+        <option value="Low">Low — Clear</option>
+        <option value="Medium">Medium — Cloudy</option>
+        <option value="High">High — Muddy</option>
+      </select>
+      <div class="action-btns">
+        <button type="submit">Analyze</button>
+        <button type="button" onclick="openCamera()">Camera</button>
+        <button type="button" onclick="switchCamera()">Switch Camera</button>
+        <button type="button" onclick="getLocation()">Use My Location</button>
+        <button type="button" onclick="saveReading()">Save Reading</button>
+        <button type="button" onclick="clearHistory()">Clear</button>
+      </div>
+      <div class="status-box" id="status-row" style="display:none;">
+        <div class="status-circle" id="score-el">–</div>
+        <div>
+          <div class="status-state" id="state-el">–</div>
+          <div id="desc-el">–</div>
+        </div>
+      </div>
+      <video id="camera" autoplay playsinline style="display:none"></video>
+      <ul class="history" id="history-list"></ul>
+    </form>
+    <div class="mini-map-card">
+      <div id="place-name">&nbsp;</div>
+      <div id="mini-map"></div>
+    </div>
+  </main>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // 1. Camera logic
+    let camStream = null, usingFront = true;
+
+    function openCamera() {
+      if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert('Camera not supported!'); return;
+      }
+      let constraints = { video: { facingMode: usingFront ? "user" : "environment" } };
+      navigator.mediaDevices.getUserMedia(constraints).then(stream=>{
+        camStream = stream;
+        const video = document.getElementById('camera');
+        video.srcObject = stream;
+        video.style.display = "block";
+      }).catch(e=>{ alert('Error opening camera: ' + e.message); });
+    }
+    function switchCamera() {
+      usingFront = !usingFront;
+      if(camStream) { camStream.getTracks().forEach(t => t.stop()); }
+      openCamera();
+    }
+
+    // 2. Location and map logic w/ reverse geocoding
+    let map, marker;
+    window.onload = function() {
+      map = L.map('mini-map').setView([20.5937,78.9629], 4); // Centered on India by default
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
+    };
+    function getLocation() {
+      if(!navigator.geolocation) { alert('Location not supported.'); return; }
+      navigator.geolocation.getCurrentPosition(function(pos){
+        const lat = pos.coords.latitude, lon = pos.coords.longitude;
+        setPlaceName(lat, lon);
+        if(marker) { marker.setLatLng([lat, lon]); }
+        else { marker = L.marker([lat, lon]).addTo(map);}
+        map.setView([lat, lon], 11);
+      });
+    }
+    function setPlaceName(lat, lon){
+      // Uses Geoapify's free reverse geocoding API (for exhibition use)
+      fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=YOUR_GEOAPIFY_KEY`)
+      .then(r=>r.json()).then(data=>{
+        document.getElementById('place-name').innerText =
+          (data.features && data.features[0]) ?
+           (data.features[0].properties.city || data.features[0].properties.county || data.features[0].properties.state || "Near You")
+           : "Unknown location";
+      }).catch(()=>{document.getElementById('place-name').innerText = 'Unknown location';});
+    }
+    // Replace 'YOUR_GEOAPIFY_KEY' with an actual free API key or use another reverse geocoding service.
+
+    // 3. Analysis/Water index logic
+    function analyzeReading(){
+      const ph = parseFloat(document.getElementById('ph').value);
+      const temp = parseFloat(document.getElementById('temp').value);
+      const tur = document.getElementById('turbidity').value;
+      if(isNaN(ph)||isNaN(temp)||!tur){alert('Fill all fields!');return;}
+      let score = Math.round(100 - Math.abs(7 - ph)*8 - (40-temp)*0.9 - (tur == "High" ? 18 : tur == "Medium" ? 6 : 0));
+      score = Math.max(0,Math.min(99,score));
+      let state, desc, col;
+      if(score>=75){ state='GOOD'; desc='Excellent—minimal stress.'; col='#36cd7e'; }
+      else if(score>=55){ state='MODERATE'; desc='Usable but caution.'; col='#efd148'; }
+      else{ state='POOR'; desc='Avoid use.'; col='#e94a3b'; }
+      document.getElementById('score-el').innerText=score;
+      document.getElementById('state-el').innerText=state;
+      document.getElementById('desc-el').innerText=desc;
+      document.getElementById('status-row').style.display='flex';
+      document.getElementById('score-el').style.background = col;
+    }
+
+    // 4. Local storage for chart page
+    function saveReading(){
+      const ph = document.getElementById('ph').value;
+      const temp = document.getElementById('temp').value;
+      const tur = document.getElementById('turbidity').value;
+      const score = document.getElementById('score-el').innerText;
+      if(!ph||!temp||!tur||score==='–'){ alert('Analyze first!'); return; }
+      let history = JSON.parse(localStorage.getItem('waterHistory')||'[]');
+      let reading = {
+         time: new Date().toLocaleString(),
+         ph, temp, tur, score
+      };
+      history.push(reading);
+      localStorage.setItem('waterHistory', JSON.stringify(history));
+      renderHistory();
+    }
+    function clearHistory(){
+      localStorage.removeItem('waterHistory');
+      renderHistory();
+    }
+    function renderHistory(){
+      let history = JSON.parse(localStorage.getItem('waterHistory')||'[]');
+      const list = document.getElementById('history-list');
+      list.innerHTML = "";
+      if(history.length===0){list.innerHTML="<li>No saved readings.</li>";return;}
+      history.slice().reverse().forEach(r=>{
+        list.innerHTML += `<li>
+           <b>${r.time.split(',')[0]}</b>
+           &mdash; pH:${r.ph}|Temp:${r.temp}|Turbidity:${r.tur}|Score:<span style="font-weight:bold;color:#029;">${r.score}</span>
+           </li>`;
+      });
+    }
+    renderHistory();
+  </script>
+</body>
+</html>
