@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Water Health Index - Measure</title>
+<style>
+  :root {
+    --dark-bg: #184757;
+    --dark-grad: linear-gradient(to bottom right, #215871 0%, #184757 100%);
+    --card-bg: #263b4d;
+    --step-bg: #243848e3;
+    --tick-green: #55ebca;
+    --header: #e3fbfa;
+    --mainblue: #39bbe9;
+    --accent-teal: #85dad7;
+    --shadow: 0 8px 26px rgba(65,180,202,0.11);
+    --form-blue: #00a7d7;
+  }
+  html, body {
+    font-family: "Times New Roman", Times, serif;
+    margin: 0; padding: 0;
+    height: 100%;
+    background: var(--dark-grad);
+    color: var(--header);
+  }
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem 0.3rem 2rem;
+    background: transparent;
+  }
+  .logo {
+    font-weight: bold;
+    font-size: 2.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: "Times New Roman", Times, serif;
+    color: var(--mainblue);
+  }
+  .logo .waveemoji {
+    font-size: 2.5rem;
+    animation: floatTide 2s infinite alternate ease-in-out;
+    filter: drop-shadow(0 4px 10px #1daed865);
+  }
+  @keyframes floatTide {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+  }
+  .nav-links a {
+    color: var(--header);
+    font-weight: bold;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 1.17rem;
+    text-decoration: none;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.18s, border-bottom 0.18s;
+  }
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: var(--tick-green);
+    border-bottom: 2px solid var(--tick-green);
+  }
+  .langbar select {
+    font-family: inherit;
+    font-size: 1.11rem;
+    border-radius: 7px;
+    padding: 0.3rem 0.85rem;
+    border: 1.4px solid #74c6e0;
+    background: #15313e;
+    color: var(--mainblue);
+    font-weight: 700;
+    box-shadow: 0 2px 9px #0002;
+    transition: background 0.3s, border 0.2s, color 0.2s;
+  }
+  main {
+    max-width: 1000px;
+    margin: 3.1vw auto 2.1vw auto;
+    background: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    padding: 2rem 2.6rem 3rem 2.6rem;
+    color: var(--header);
+  }
+  h1 {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bolder;
+    font-size: 2.7rem;
+    color: var(--tick-green);
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.03em;
+    text-align: center;
+  }
+  form {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .input-card {
+    flex: 1 1 320px;
+    background-color: var(--step-bg);
+    border-radius: 16px;
+    padding: 1.8rem 1.9rem 2.2rem 1.9rem;
+    box-shadow: 0 4px 18px rgba(25, 180, 168, 0.12);
+    display: flex;
+    flex-direction: column;
+  }
+  label {
+    font-weight: 700;
+    font-size: 1.06rem;
+    margin-bottom: 0.5rem;
+    color: var(--mainblue);
+  }
+  input, select {
+    border-radius: 8px;
+    border: none;
+    padding: 0.6rem 0.9rem;
+    font-size: 1.08rem;
+    font-family: "Times New Roman", Times, serif;
+    color: var(--header);
+    background-color: #124556;
+    margin-bottom: 1.2rem;
+  }
+  button {
+    padding: 0.68rem 1.3rem;
+    font-size: 1.12rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 9px;
+    font-weight: 700;
+    font-family: "Times New Roman", Times, serif;
+    transition: background-color 0.2s ease;
+  }
+  .btn-primary {
+    background-color: var(--form-blue);
+    color: #e7f6fe;
+    margin-right: 0.6rem;
+  }
+  .btn-primary:hover {
+    background-color: #0e8ac2;
+  }
+  .btn-secondary {
+    background-color: #e84d59;
+    color: #f8eae9;
+  }
+  .btn-secondary:hover {
+    background-color: #bb3745;
+  }
+  .status-card {
+    background-color: #1b3f3b;
+    border-radius: 12px;
+    padding: 1.1rem 1.3rem;
+    margin-top: 1rem;
+    color: #aff3d1;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    box-shadow: 0 0 10px #1bc695cc;
+  }
+  .status-score {
+    font-size: 2.7rem;
+    font-weight: 900;
+    width: 62px;
+    height: 62px;
+    line-height: 62px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #2aaa83;
+    color: white;
+    flex-shrink: 0;
+  }
+  .status-info {
+    flex-grow: 1;
+  }
+  .status-info strong {
+    font-weight: 700;
+  }
+  .status-info .label {
+    color: #3fd9ba;
+  }
+  .map-container {
+    flex: 1 1 320px;
+    background: var(--step-bg);
+    border-radius: 16px;
+    padding: 1rem 1.3rem;
+    max-height: 346px;
+  }
+  #mini-map {
+    height: 320px;
+    border-radius: 11px;
+  }
+  .location-info {
+    color: var(--form-blue);
+    margin: 0.7rem 0 0 0.4rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .history-table {
+    margin-top: 2.8rem;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+  }
+  .history-table th, .history-table td {
+    border-bottom: 1px solid #234f4d;
+    padding: 0.56rem 0.8rem;
+    text-align: left;
+    color: #addad6;
+    font-weight: 600;
+  }
+  .history-table thead {
+    background: #22454d;
+  }
+  .history-title {
+    font-weight: 700;
+    margin: 2rem 0 0.6rem 0;
+    font-size: 1.3rem;
+    color: var(--mainblue);
+  }
+  @media (max-width: 810px) {
+    form {
+      flex-direction: column;
+    }
+    .map-container,
+    .input-card {
+      max-width: 100%;
+    }
+    #mini-map {
+      height: 280px;
+    }
+  }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+</head>
+<body>
+<nav>
+  <div class="logo">
+    <span class="waveemoji" aria-hidden="true">🌊</span>
+    Water Health Index
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="measure.html" class="active">Measure</a>
+    <a href="map.html">Map</a>
+    <a href="farmers.html">Farmers Assistance</a>
+    <a href="care.html">Care</a>
+    <a href="chart.html">Chart</a>
+    <a href="details.html">Details</a>
+    <span class="langbar">
+      <select id="langsel" aria-label="Select language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+        <option value="fr">Français</option>
+        <option value="ja">日本語</option>
+        <option value="ru">Русский</option>
+        <option value="es">Español</option>
+        <option value="zh">中文</option>
+      </select>
+    </span>
+  </div>
+</nav>
+<main>
+  <h1 id="main-title">Measure Water Quality</h1>
+  <form id="meas-form" onsubmit="event.preventDefault(); analyzeReading();">
+    <div class="input-card">
+      <label for="ph">pH (0.0 - 14.0)</label>
+      <input type="number" id="ph" name="ph" min="0" max="14" step="0.1" placeholder="7.0" required />
+      
+      <label for="temp">Temperature (°C)</label>
+      <input type="number" id="temp" name="temp" min="0" max="100" step="0.1" placeholder="25.0"  required />
+
+      <label for="turbidity">Turbidity</label>
+      <select id="turbidity" name="turbidity" required>
+        <option value="" disabled selected>Select turbidity</option>
+        <option value="Low">Low — Clear</option>
+        <option value="Medium">Medium — Cloudy</option>
+        <option value="High">High — Muddy</option>
+      </select>
+
+      <button type="button" id="cameraBtn" class="btn-primary">Camera</button>
+      <button type="button" id="switchCamBtn" class="btn-primary">Switch Camera</button>
+      <button type="button" id="locBtn" class="btn-primary">Use My Location</button>
+
+      <div class="location-info" id="locationInfo"></div>
+
+      <button type="submit" class="btn-primary">Analyze</button>
+      <button type="button" class="btn-secondary" id="clearReadingsBtn">Clear History</button>
+
+      <div class="status-card" role="region" aria-live="polite" aria-atomic="true" hidden id="statusCard">
+        <div class="status-score" id="statusScore">--</div>
+        <div class="status-info">
+          <strong>Status: </strong><span id="statusText"></span><br/>
+          <small id="statusMsg"></small><br/>
+          <small>
+            <em>pH:</em> <span id="statusPh"></span> • <em>Temperature:</em> <span id="statusTemp"></span> • <em>Turbidity:</em> <span id="statusTurb"></span>
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="map-container">
+      <div id="mini-map"></div>
+      <small>Your saved readings appear here.<br/>Green=Good, Yellow=Moderate, Red=Poor</small>
+    </div>
+  </form>
+  <div class="history-title">Saved Readings</div>
+  <table class="history-table" aria-live="polite" aria-atomic="false" aria-describedby="tableDesc">
+    <thead>
+      <tr>
+        <th scope="col">When</th>
+        <th scope="col">pH</th>
+        <th scope="col">Temp</th>
+        <th scope="col">Turb</th>
+        <th scope="col">Index</th>
+      </tr>
+    </thead>
+    <tbody id="historyBody">
+      <tr><td colspan="5" style="color:#678;">No readings saved.</td></tr>
+    </tbody>
+  </table>
+  <p id="tableDesc" class="visually-hidden">Saved water quality readings, ordered by most recent first.</p>
+</main>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  // Multilanguage support
+  const translations = {
+    en: {
+      statusMessages: [
+        "Severe contamination detected, avoid use.",
+        "Extremely poor quality, unsafe water.",
+        "Very poor quality, do not consume.",
+        "Poor quality, not recommended for use.",
+        "Between poor and moderate quality.",
+        "Moderate quality, caution advised.",
+        "Fair quality, minimal treatment needed.",
+        "Almost good quality, generally safe.",
+        "Good quality, healthy water.",
+        "Excellent — minimal stress.",
+        "Pristine, excellent water quality."
+      ],
+      statusRanges: [9, 19, 29, 39, 49, 59, 69, 79, 89, 94, 100],
+      titles: {
+        pageTitle: "Measure Water Quality",
+        camera: "Camera",
+        switchCamera: "Switch Camera",
+        location: "Use My Location",
+        analyze: "Analyze",
+        clearHistory: "Clear History",
+        turbidityLabel: "Turbidity",
+        phLabel: "pH (0.0 - 14.0)",
+        tempLabel: "Temperature (°C)",
+        savedReadingsTitle: "Saved Readings",
+        noReadings: "No readings saved.",
+        greenLegend: "Green=Good",
+        yellowLegend: "Yellow=Moderate",
+        redLegend: "Red=Poor"
+      }
+    },
+    hi: {
+      statusMessages: [
+        [translate:"गंभीर प्रदूषण, उपयोग से बचें।"],
+        [translate:"अत्यंत खराब गुणवत्ता, पानी असुरक्षित।"],
+        [translate:"बहुत खराब गुणवत्ता, सेवन न करें।"],
+        [translate:"खराब गुणवत्ता, उपयोग की सलाह नहीं दी जाती।"],
+        [translate:"खराब और मध्यम के बीच गुणवत्ता।"],
+        [translate:"मध्यम गुणवत्ता, सावधानी रखिए।"],
+        [translate:"श्रेष्ठ गुणवत्ता से थोड़ा कम।"],
+        [translate:"लगभग अच्छी गुणवत्ता, सामान्यतः सुरक्षित।"],
+        [translate:"अच्छी गुणवत्ता, स्वस्थ पानी।"],
+        [translate:"उत्कृष्ट — न्यूनतम तनाव।"],
+        [translate:"अति उत्कृष्ट, साफ पानी।"]
+      ],
+      statusRanges: [9, 19, 29, 39, 49, 59, 69, 79, 89, 94, 100],
+      titles: {
+        pageTitle: [translate:"जल गुणवत्ता मापन"],
+        camera: [translate:"कैमरा"],
+        switchCamera: [translate:"कैमरा बदलें"],
+        location: [translate:"मेरा स्थान प्रयोग करें"],
+        analyze: [translate:"विश्लेषण करें"],
+        clearHistory: [translate:"इतिहास साफ करें"],
+        turbidityLabel: [translate:"अस्पष्टता"],
+        phLabel: [translate:"pH (0.0 - 14.0)"],
+        tempLabel: [translate:"तापमान (°C)"],
+        savedReadingsTitle: [translate:"सहेजे गए रीडिंग्स"],
+        noReadings: [translate:"कोई रीडिंग्स सेव नहीं।"],
+        greenLegend: [translate:"हरा=अच्छा"],
+        yellowLegend: [translate:"पीला=मध्यम"],
+        redLegend: [translate:"लाल=खराब"]
+      }
+    },
+    // Add other languages similarly here...
+  };
+
+  // Initialize page language, default to English
+  let currentLang = localStorage.getItem('whilang') || 'en';
+
+  // Simple helper: find description for score based on statusRanges
+  function getStatusMessage(score, lang) {
+    const arr = translations[lang]?.statusMessages || translations.en.statusMessages;
+    const ranges = translations[lang]?.statusRanges || translations.en.statusRanges;
+    for(let i=0; i<ranges.length; i++) {
+      if(score <= ranges[i]) { return arr[i]; }
+    }
+    return arr[arr.length-1];
+  }
+
+  // Setup localization for static labels similarly here if needed...
+
+  // Map initialization
+  let map, marker;
+  function initMap() {
+    map = L.map('mini-map').setView([22.56, 88.37], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 13,
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+  }
+
+  // Location geocoding - returns promise to set address display etc.
+  function geocodeLatLng(lat, lng) {
+    // Use OpenStreetMap Nominatim API for reverse geocoding (free, no key needed)
+    return fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
+      .then(res => res.json())
+      .then(data => data.display_name || "Unknown Location")
+      .catch(() => "Unknown Location");
+  }
+
+  // Get user location + place address + set marker on map
+  function useMyLocation() {
+    if(!navigator.geolocation) {
+      alert("Geolocation not supported by your browser.");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(async position => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      const locationInfoEl = document.getElementById('locationInfo');
+      let address = await geocodeLatLng(lat,lng);
+      locationInfoEl.textContent = address;
+      if(marker) { marker.setLatLng([lat,lng]); }
+      else { marker = L.marker([lat,lng]).addTo(map); }
+      map.setView([lat,lng], 12);
+    }, ()=>alert("Unable to retrieve location."));
+  }
+
+  // Camera and pH detection (color) placeholder: triggers camera
+  // Actual sensor/AI integration should be added separately or with accurate color formula
+  let camStream = null;
+  let currentCameraFacing = 'environment'; // back camera default
+  async function openCamera() {
+    if(camStream) {
+      camStream.getTracks().forEach(t=>t.stop());
+      camStream = null;
+      document.getElementById('cameraView').style.display = 'none';
+      return;
+    }
+    try {
+      camStream = await navigator.mediaDevices.getUserMedia({video: {facingMode: currentCameraFacing}});
+      const video = document.getElementById('cameraView');
+      video.srcObject = camStream;
+      video.style.display = 'block';
+      video.play();
+    } catch(err) {
+      alert("Camera access denied or unavailable.");
+    }
+  }
+  function switchCamera() {
+    currentCameraFacing = (currentCameraFacing === 'environment') ? 'user' : 'environment';
+    if(camStream) {
+      camStream.getTracks().forEach(t=>t.stop());
+      camStream = null;
+      openCamera();
+    }
+  }
+
+  // Parse form inputs and calculate index
+  function calculateIndex(ph,temp,turbidity) {
+    let score = Math.round(100 - Math.abs(7 - ph)*8 - (40-temp)*0.9 - (turbidity === "High" ? 18 : (turbidity === "Medium" ? 6 : 0)));
+    score = Math.max(0, Math.min(100,score));
+    return score;
+  }
+
+  // Display water health status message
+  function displayStatus(score, ph, temp, turbidity) {
+    const msg = getStatusMessage(score, currentLang);
+    const statusTextEl = document.getElementById('statusText');
+    const statusMsgEl = document.getElementById('statusMsg');
+    const statusScoreEl = document.getElementById('statusScore');
+    const statusPhEl = document.getElementById('statusPh');
+    const statusTempEl = document.getElementById('statusTemp');
+    const statusTurbEl = document.getElementById('statusTurb');
+
+    statusScoreEl.textContent = score;
+    statusTextEl.textContent = msg.match(/[a-zA-Z]/i) ? "GOOD" : msg; // simple fallback, localize better if needed
+    statusMsgEl.textContent = msg;
+    statusPhEl.textContent = ph;
+    statusTempEl.textContent = temp + '°C';
+    statusTurbEl.textContent = turbidity;
+
+    document.getElementById('statusCard').hidden = false;
+  }
+
+  // Form analyze
+  function analyzeReading() {
+    const ph = parseFloat(document.getElementById('ph').value);
+    const temp = parseFloat(document.getElementById('temp').value);
+    const turbidity = document.getElementById('turbidity').value;
+    if(isNaN(ph) || isNaN(temp) || !turbidity) {
+      alert("Please fill out all fields.");
+      return;
+    }
+    const score = calculateIndex(ph, temp, turbidity);
+    displayStatus(score, ph, temp, turbidity);
+  }
+
+  // Readings storage + display
+  function saveReading() {
+    const ph = parseFloat(document.getElementById('ph').value);
+    const temp = parseFloat(document.getElementById('temp').value);
+    const turbidity = document.getElementById('turbidity').value;
+    if(isNaN(ph) || isNaN(temp) || !turbidity) {
+      alert("Please fill out all fields.");
+      return;
+    }
+    const score = calculateIndex(ph, temp, turbidity);
+    const history = JSON.parse(localStorage.getItem('waterHistory') || '[]');
+    const now = new Date().toLocaleString();
+    history.push({when: now, ph, temp, turbidity, score});
+    localStorage.setItem('waterHistory', JSON.stringify(history));
+    renderHistory();
+  }
+  function clearHistory() {
+    if(confirm("Clear all saved readings?")) {
+      localStorage.removeItem('waterHistory');
+      renderHistory();
+    }
+  }
+  function renderHistory() {
+    const tbody = document.getElementById('historyBody');
+    const history = JSON.parse(localStorage.getItem('waterHistory') || '[]');
+    tbody.innerHTML = '';
+    if(history.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="color:#678;">No readings saved.</td></tr>';
+      return;
+    }
+    history.slice().reverse().forEach(r => {
+      const row = document.createElement('tr');
+      row.innerHTML = `<td>${r.when}</td><td>${r.ph}</td><td>${r.temp}</td><td>${r.turbidity}</td><td>${r.score}</td>`;
+      tbody.appendChild(row);
+    });
+  }
+
+  // Initialize map
+  let map, marker;
+  function initMap() {
+    map = L.map('mini-map').setView([22.56, 88.37], 5); // Default: India
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 13, attribution: '© OpenStreetMap'}).addTo(map);
+  }
+
+  // Language switch functions
+  const translations = {
+    en: { ... /* as above, shortened for brevity, same keys */ },
+    hi: { ... },
+    bn: { ... },
+    fr: { ... },
+    ja: { ... },
+    ru: { ... },
+    es: { ... },
+    zh: { ... }
+  };
+
+  function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('whilang', lang);
+    // Potentially update UI strings here...
+  }
+  document.getElementById('langsel').addEventListener('change', e => {
+    setLang(e.target.value);
+  });
+
+  window.onload = () => {
+    initMap();
+    renderHistory();
+    const storedLang = localStorage.getItem('whilang');
+    if(storedLang) {
+      document.getElementById('langsel').value = storedLang;
+      setLang(storedLang);
+    }
+  };
+
+  document.getElementById('cameraBtn').addEventListener('click', openCamera);
+  document.getElementById('switchCamBtn').addEventListener('click', switchCamera);
+  document.getElementById('locBtn').addEventListener('click', useMyLocation);
+  document.getElementById('clearReadingsBtn').addEventListener('click', clearHistory);
+
+</script>
+<video id="cameraView" autoplay playsinline muted style="display:none; width:320px; margin-top: 0.7rem;"></video>
+</body>
+</html>
