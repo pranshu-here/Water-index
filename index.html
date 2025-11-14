@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Water Health Index - Home</title>
+  <style>
+    :root {
+      --dark-bg: #184757;
+      --dark-grad: linear-gradient(to bottom right, #215871 0%, #184757 100%);
+      --card-bg: #263b4d;
+      --step-bg: #243848e3;
+      --tick-green: #55ebca;
+      --header: #e3fbfa;
+      --mainblue: #39bbe9;
+      --quote: #90e0cf;
+      --accent: #85dad7;
+      --shadow: 0 8px 26px rgba(65,180,202,0.11);
+      --s1: 1.2rem;
+      --s2: 2.2rem;
+    }
+    html, body {
+      height: 100%; margin: 0; padding: 0;
+      font-family: "Times New Roman", Times, serif;
+      background: var(--dark-grad);
+      color: var(--header);
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      padding: 1.1rem 2.2rem 0.3rem 2.2rem;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: var(--s2);
+      display: flex;
+      align-items:center;
+      gap:0.7rem;
+      font-family: "Times New Roman", Times, serif;
+      color: var(--mainblue);
+      letter-spacing:.03em;
+    }
+    .logo .waveemoji {
+      font-size: 2.5rem;
+      display: inline-block;
+      will-change: transform;
+      animation: floatTide 2s infinite alternate cubic-bezier(.55,.06,.87,.6);
+      filter: drop-shadow(0 4px 10px #1daed865);
+    }
+    @keyframes floatTide {
+      0% {transform:translateY(0);}
+      100%{transform:translateY(-10px);}
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items:center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--header);
+      font-weight: bold;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.17rem;
+      border-bottom: 2px solid transparent;
+      transition: color 0.18s, border-bottom 0.18s;
+      padding-bottom: 4px;
+    }
+    .nav-links a.active, .nav-links a:hover {
+      color: var(--tick-green);
+      border-bottom: 2px solid var(--tick-green);
+    }
+    .langbar {
+      margin-left: 2.3rem;
+    }
+    .langbar select {
+      font-family: inherit;
+      font-size: 1.11rem;
+      border-radius: 7px;
+      padding: 0.32rem 0.9rem;
+      border: 1.4px solid #74c6e0;
+      background: #15313e;
+      color: var(--mainblue);
+      font-weight: 700;
+      box-shadow: 0 2px 9px #0002;
+      transition: background 0.3s, border 0.2s, color 0.2s;
+    }
+    main {
+      max-width: 900px;
+      margin: 3vw auto 3vw auto;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 2.8rem 1.7rem 2.5rem 1.7rem;
+      text-align: center;
+      position: relative;
+      border: 1.5px solid #224155;
+    }
+    h1 {
+      font-family: "Times New Roman", Times, serif;
+      font-weight: bolder;
+      font-size: 2.5rem;
+      color: var(--tick-green);
+      margin-bottom: 1.2rem;
+      letter-spacing:0.03em;
+      text-shadow:0 2px 10px #24aac9ad;
+    }
+    .quote {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.37rem;
+      font-style: italic;
+      color: var(--quote);
+      margin: 1.4rem auto 1.7rem auto;
+      font-weight: 700;
+    }
+    .intro {
+      max-width: 590px;
+      font-family: "Times New Roman", Times, serif;
+      color: #bcefff;
+      font-size: 1.14rem;
+      margin: 0 auto 2.3rem auto;
+      line-height: 1.58;
+      font-weight: 500;
+    }
+    .steps {
+      display: flex;
+      flex-wrap:wrap;
+      gap: 2.2rem 2rem;
+      justify-content: center;
+      margin: 2.2rem 0 1.4rem 0;
+    }
+    .step {
+      background: var(--step-bg);
+      border-radius: 17px;
+      min-width: 272px;
+      box-shadow: 0 6px 22px #1badc735;
+      padding: 1.14rem 1.38rem 1.10rem 1.2rem;
+      display: flex;
+      align-items: center;
+      font-size: 1.17rem;
+      color:var(--header);
+      font-weight: 700;
+      margin-bottom: 1.1rem;
+      gap: 0.87rem;
+      text-align: left;
+      transition: background 0.2s;
+    }
+    .step:hover { background: #223647;}
+    .ticksvg {
+      width: 2em; height: 2em;
+      margin-right: 0.19em;
+      stroke: var(--tick-green);
+      fill: none;
+      stroke-width: 3.5px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+      opacity: 0;
+      transform: translateY(16px) scale(0.63);
+      animation: popin 0.68s cubic-bezier(.4,2.1,.6,.97) forwards;
+    }
+    .step:nth-child(2) .ticksvg { animation-delay:0.14s;}
+    .step:nth-child(3) .ticksvg { animation-delay:0.31s;}
+    @keyframes popin {
+      60% {opacity:1;transform:translateY(-5px) scale(1.14);}
+      100%{opacity:1;transform:translateY(0) scale(1);}
+    }
+    .step a {color:#58cdf4; text-decoration:underline;}
+    .step a:hover{color:var(--tick-green);}
+    footer {
+      text-align: center;
+      padding: 1.1rem 1rem 0.4rem 1rem;
+      font-style: italic;
+      color: #b7fff6;
+      font-weight: 700;
+      font-size:1.03rem;
+      margin-bottom: 0.7rem;
+      letter-spacing:.04em;
+    }
+    @media (max-width: 730px) {
+      main{padding:1rem 0.4rem;}
+      .steps{flex-direction:column;gap:0.93rem;}
+      .step{min-width:0;}
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="logo">
+    <span class="waveemoji" aria-hidden="true">🌊</span>
+    Water Health Index
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="measure.html">Measure</a>
+    <a href="map.html">Map</a>
+    <a href="farmers.html">Farmers Assistance</a>
+    <a href="care.html">Care</a>
+    <a href="chart.html">Chart</a>
+    <a href="details.html">Details</a>
+    <span class="langbar">
+      <select id="langsel" aria-label="Select language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+        <option value="fr">Français</option>
+        <option value="ja">日本語</option>
+        <option value="ru">Русский</option>
+        <option value="es">Español</option>
+        <option value="zh">中文</option>
+      </select>
+    </span>
+  </div>
+</nav>
+<main>
+  <h1 id="home-title"></h1>
+  <div class="quote" id="home-quote"></div>
+  <div class="intro" id="home-desc"></div>
+  <div class="steps">
+    <div class="step">
+      <svg class="ticksvg" viewBox="0 0 30 30"><polyline points="7,16 14,24 25,7"/></svg>
+      <span id="s1"></span>
+    </div>
+    <div class="step">
+      <svg class="ticksvg" viewBox="0 0 30 30"><polyline points="7,16 14,24 25,7"/></svg>
+      <span id="s2"></span>
+    </div>
+    <div class="step">
+      <svg class="ticksvg" viewBox="0 0 30 30"><polyline points="7,16 14,24 25,7"/></svg>
+      <span id="s3"></span>
+    </div>
+  </div>
+</main>
+<footer id="foot"></footer>
+<script>
+const translations = {
+  en: {
+    title: "Welcome to Water Health Index",
+    quote: `"Protecting water today, empowering communities tomorrow."`,
+    desc: `Use simple tools and your device to measure local water quality. Join our community in creating a real-time global map for better water health monitoring—powered by citizens, trusted by everyone.`,
+    s1: `Go to <a href="measure.html" target="_blank">Measure</a> to enter your water test data.`,
+    s2: `Use your camera and location tools to speed up data entry.`,
+    s3: `Save readings and contribute to our global water health map.`,
+    foot: "&copy; 2025 Water Health Index · National Exhibition Project"
+  },
+  hi: {
+    title: "वाटर हेल्थ इंडेक्स में आपका स्वागत है",
+    quote: "आज जल की सुरक्षा, कल समुदाय को सशक्त बनाना।",
+    desc: "स्थानीय जल गुणवत्ता मापने के लिए सरल उपकरणों और अपने डिवाइस का उपयोग करें। बेहतर जल स्वास्थ्य निगरानी के लिए हमारी वैश्विक मानचित्र समुदाय से जुड़ें।",
+    s1: `<a href="measure.html" target="_blank">मापें</a> टैब पर जाएँ और डेटा दर्ज करें।`,
+    s2: "डेटा जल्दी दर्ज करने के लिए कैमरा और स्थान विकल्प इस्तेमाल करें।",
+    s3: "अपनी जानकारी सहेजें और वैश्विक जल मानचित्र में योगदान दें।",
+    foot: "&copy; 2025 वाटर हेल्थ इंडेक्स · राष्ट्रीय प्रदर्शनी परियोजना"
+  },
+  bn: {
+    title: "ওয়াটার হেলথ ইনডেক্স-এ স্বাগতম",
+    quote: "আজকের জল রক্ষা, আগামীর সম্প্রদায়কে শক্তি প্রদান।",
+    desc: "সরল সরঞ্জাম ও ডিভাইস ব্যবহার করুন স্থানীয় জল মান নির্ণয়ের জন্য। জল স্বাস্থ্য পর্যবেক্ষণে আজই আমাদের সাথে যুক্ত হন।",
+    s1: `<a href="measure.html" target="_blank">পরিমাপ</a> এ যান এবং ডেটা দিন।`,
+    s2: "ডেটা দ্রুত দিতে ক্যামেরা ও অবস্থান ব্যবহার করুন।",
+    s3: "রিডিং সংরক্ষণ করুন এবং বিশ্ব জল মানচিত্রে অবদান রাখুন।",
+    foot: "&copy; ২০২৫ ওয়াটার হেলথ ইনডেক্স · জাতীয় প্রদর্শনী প্রকল্প"
+  },
+  fr: {
+    title: "Bienvenue à Water Health Index",
+    quote: "Protéger l'eau aujourd'hui, autonomiser les communautés demain.",
+    desc: "Utilisez des outils simples et votre appareil pour mesurer la qualité de l'eau locale. Rejoignez notre communauté pour créer une carte mondiale de la santé de l'eau.",
+    s1: `Allez à <a href="measure.html" target="_blank">Mesurer</a> pour saisir vos données d'eau.`,
+    s2: "Utilisez votre caméra et la localisation pour accélérer la saisie.",
+    s3: "Enregistrez vos relevés et contribuez à la carte mondiale.",
+    foot: "&copy; 2025 Water Health Index · Projet national d'exposition"
+  },
+  ja: {
+    title: "ウォーターヘルスインデックスへようこそ",
+    quote: "水を守ることで、未来の社会を支える。",
+    desc: "シンプルなツールとデバイスで水質を測定できます。グローバルマップのために私たちのコミュニティに参加しましょう。",
+    s1: `<a href="measure.html" target="_blank">測定</a> ページでデータ入力。`,
+    s2: "カメラと位置情報でデータ入力を効率化。",
+    s3: "測定値を保存・共有し世界マップに貢献。",
+    foot: "&copy; 2025 ウォーターヘルスインデックス · 全国展示プロジェクト"
+  },
+  ru: {
+    title: "Добро пожаловать в Water Health Index",
+    quote: "Защищая воду сегодня, мы укрепляем общества завтра.",
+    desc: "Используйте простые инструменты и устройство для измерения качества воды. Присоединяйтесь к нашему сообществу для создания глобальной карты водного здоровья.",
+    s1: `Перейдите в <a href="measure.html" target="_blank">Измерить</a>, чтобы ввести данные анализа воды.`,
+    s2: "Используйте камеру и геолокацию для быстрого ввода.",
+    s3: "Сохраняйте данные и помогайте формировать глобальную карту.",
+    foot: "&copy; 2025 Water Health Index · Национальный проект выставки"
+  },
+  es: {
+    title: "Bienvenido a Water Health Index",
+    quote: "Protegiendo el agua hoy, empoderando comunidades mañana.",
+    desc: "Utiliza herramientas simples y tu dispositivo para medir la calidad del agua local. Únete a nuestra comunidad y ayuda a crear un mapa global.",
+    s1: `Dirígete a <a href="measure.html" target="_blank">Medir</a> para ingresar tus datos.`,
+    s2: "Usa la cámara y la ubicación para agilizar el ingreso.",
+    s3: "Guarda tus lecturas y contribuye al mapa de salud hídrica.",
+    foot: "&copy; 2025 Water Health Index · Proyecto Nacional de Exhibición"
+  },
+  zh: {
+    title: "欢迎来到水健康指数",
+    quote: "今天保护水资源，明天赋能社区。",
+    desc: "使用简单工具和设备检测水质，加入我们的全球水健康社区。",
+    s1: `前往<a href="measure.html" target="_blank">测量</a>页面录入数据。`,
+    s2: "使用相机和定位信息快捷录入。",
+    s3: "保存你的读数并共建全球水健康地图。",
+    foot: "&copy; 2025 水健康指数 · 全国展览项目"
+  }
+};
+function setLang(lang) {
+  const t = translations[lang] || translations.en;
+  document.getElementById('home-title').innerHTML = t.title;
+  document.getElementById('home-quote').innerHTML = t.quote;
+  document.getElementById('home-desc').innerHTML = t.desc;
+  document.getElementById('s1').innerHTML = t.s1;
+  document.getElementById('s2').innerHTML = t.s2;
+  document.getElementById('s3').innerHTML = t.s3;
+  document.getElementById('foot').innerHTML = t.foot;
+  localStorage.setItem('whilang', lang);
+}
+document.getElementById('langsel').addEventListener('change', e => setLang(e.target.value));
+const startLang = localStorage.getItem('whilang') || 'en';
+document.getElementById('langsel').value = startLang;
+setLang(startLang);
+</script>
+</body>
+</html>
