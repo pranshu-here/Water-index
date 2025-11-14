@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>pH Chart — Water Health & Index</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary:#0093E9;
+      --secondary:#80D0C7;
+      --bg: linear-gradient(180deg,var(--primary),var(--secondary));
+      --card:#fff;
+      --muted:#274142;
+      --radius:12px;
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:"Poppins",system-ui,Arial,sans-serif;
+      margin:0;
+      background:linear-gradient(180deg,#0077b6 0%, #00b4d8 100%);
+      color:#06343a;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:18px;
+      max-width:1200px;
+      margin:0 auto;
+      color:white;
+    }
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{
+      width:54px;height:54px;border-radius:10px;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-weight:800;
+    }
+    nav a{color:white;text-decoration:none;margin-left:12px;font-weight:600}
+    nav a.active{font-weight:900;text-decoration:underline}
+    .langbar select{
+      font-family:inherit;
+      border-radius:7px;
+      padding:4px 8px;
+      border:1px solid rgba(255,255,255,0.4);
+      background:rgba(0,0,0,0.2);
+      color:#fff;
+    }
+    .page{max-width:1200px;margin:18px auto;padding:16px}
+    .card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:0 12px 30px rgba(0,0,0,0.12)}
+    h1{margin:0 0 8px 0;color:#06343a}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:16px}
+    @media(max-width:980px){.grid{grid-template-columns:1fr}}
+    .gradient-bar{
+      height:46px;border-radius:12px;border:1px solid rgba(2,60,80,0.06);
+      background: linear-gradient(90deg,
+        #6b0000 0%,
+        #ff3b30 6%,
+        #ff7a00 14%,
+        #ffb300 24%,
+        #ffee58 38%,
+        #b2ff59 46%,
+        #64ffda 58%,
+        #00b0ff 72%,
+        #0077ff 86%,
+        #1f0b4b 100%);
+      position:relative;box-shadow:0 10px 30px rgba(2,60,80,0.06);
+      cursor:pointer;
+    }
+    .handle{
+      position:absolute;
+      top:50%;
+      width:18px;height:52px;
+      margin-top:-26px;
+      margin-left:-9px;
+      border-radius:999px;
+      background:#ffffffdd;
+      border:2px solid #06343a;
+      box-shadow:0 4px 10px rgba(0,0,0,0.25);
+      cursor:grab;
+    }
+    .handle:active{cursor:grabbing}
+    .tick-row{display:flex;justify-content:space-between;margin-top:8px;font-weight:700;color:var(--muted);font-size:0.95rem}
+    .controls{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    input[type=number]{padding:8px;border-radius:8px;border:1px solid #e8f6fb;width:110px}
+    .btn{background:linear-gradient(90deg,var(--primary),var(--secondary));color:#fff;border:none;padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
+    .btn.ghost{background:transparent;border:1px solid rgba(2,60,80,0.06);color:var(--muted)}
+    .badge{display:inline-block;padding:8px 10px;border-radius:8px;font-weight:700;color:#fff}
+    .cat-acid{background:linear-gradient(135deg,#ff3b30,#ff7a00)}
+    .cat-neutral{background:linear-gradient(135deg,#2e7d32,#66bb6a)}
+    .cat-alk{background:linear-gradient(135deg,#0077ff,#00b0ff)}
+    .info-block{margin-top:12px}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:10px;border-bottom:1px dashed rgba(2,60,80,0.04);text-align:left}
+    .small{font-size:0.92rem;color:var(--muted)}
+    .click-hint{font-size:0.9rem;color:var(--muted);margin-top:8px}
+    footer{max-width:1200px;margin:18px auto;padding:12px;color:white;text-align:center}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand" style="margin-left:24px">
+      <div class="logo">PH</div>
+      <div>
+        <div style="font-weight:800" id="brandTitle">Water Health & Index</div>
+        <div style="font-size:12px;opacity:0.95" id="brandSub">pH reference & interactive guide</div>
+      </div>
+    </div>
+
+    <nav style="margin-right:24px;display:flex;align-items:center;gap:14px">
+      <div>
+        <a href="index.html" id="navHome">Home</a>
+        <a href="map.html" id="navMap">Map</a>
+        <a href="phchart.html" class="active" id="navChart">pH Chart</a>
+        <a href="phcare.html" id="navCare">pH Care</a>
+        <a href="details.html" id="navDetails">Details</a>
+      </div>
+      <div class="langbar">
+        <select id="langsel">
+          <option value="en">EN</option>
+          <option value="hi">हिन्दी</option>
+          <option value="bn">বাংলা</option>
+          <option value="es">ES</option>
+          <option value="fr">FR</option>
+          <option value="ru">RU</option>
+          <option value="ja">日本語</option>
+          <option value="zh">中文</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page">
+    <div class="card">
+      <h1 id="pageTitle">Interactive pH Chart</h1>
+      <p class="small" id="introText">
+        Drag on the gradient, type a pH, or use the quick examples to see what each pH range means and get practical advice.
+        Use the "<strong>Open in Home</strong>" button to continue measurement and save results there.
+      </p>
+
+      <div class="grid" style="margin-top:12px">
+        <!-- LEFT: interactive chart -->
+        <section>
+          <div style="margin-bottom:8px" id="gradLabel">pH Gradient</div>
+
+          <div id="grad" class="gradient-bar" title="Drag to choose pH value">
+            <div id="handle" class="handle"></div>
+          </div>
+
+          <div class="tick-row">
+            <span>0</span><span>2</span><span>4</span><span>6</span><span>7</span><span>8</span><span>10</span><span>12</span><span>14</span>
+          </div>
+
+          <div class="controls">
+            <label for="phVal" id="phLabel" style="font-weight:700;color:#06343a">pH</label>
+            <input id="phVal" type="number" step="0.1" min="0" max="14" placeholder="7.0">
+            <button id="checkBtn" class="btn">Check</button>
+            <button id="openHome" class="btn ghost">Open in Home</button>
+            <div id="catBadge" style="margin-left:6px"></div>
+          </div>
+
+          <div id="resultBox" class="info-block" style="display:none">
+            <div style="display:flex;gap:12px;align-items:center">
+              <div id="bigPH" style="font-weight:800;font-size:28px;color:#06343a">pH 7.0</div>
+              <div id="category" class="badge cat-neutral">Neutral / Healthy</div>
+            </div>
+            <div id="phAdvice" style="margin-top:10px" class="small"></div>
+            <div style="margin-top:12px">
+              <strong id="impactTitle">Practical impact:</strong>
+              <div id="impact" class="small" style="margin-top:6px"></div>
+            </div>
+          </div>
+
+          <div style="margin-top:18px">
+            <strong id="quickExamplesTitle">Quick examples</strong>
+            <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+              <button class="btn ghost ex" data-ph="4.5" id="ex45">pH 4.5 (Acidic)</button>
+              <button class="btn ghost ex" data-ph="6.0" id="ex60">pH 6.0 (Slightly acidic)</button>
+              <button class="btn ghost ex" data-ph="7.0" id="ex70">pH 7.0 (Neutral)</button>
+              <button class="btn ghost ex" data-ph="8.4" id="ex84">pH 8.4 (Slight alkaline)</button>
+              <button class="btn ghost ex" data-ph="10.0" id="ex100">pH 10.0 (Alkaline)</button>
+            </div>
+          </div>
+
+          <div style="margin-top:18px" class="card">
+            <h3 style="margin:0 0 8px 0" id="howTitle">How drag-to-select works</h3>
+            <p class="small" id="howText">
+              Drag the handle along the gradient (or click anywhere); it maps the horizontal position to the pH scale 0–14.
+              For best accuracy, use calibration and white light when comparing with physical strips.
+            </p>
+          </div>
+        </section>
+
+        <!-- RIGHT: reference and table -->
+        <aside>
+          <div class="card">
+            <h3 style="margin:0 0 8px 0" id="rangesTitle">pH Ranges & Guidance</h3>
+            <table>
+              <thead><tr><th id="thRange">Range</th><th id="thLabel">Label</th><th id="thGuide">Guidance</th></tr></thead>
+              <tbody>
+                <tr><td>0–3</td><td id="lblVeryAcid">Very acidic</td><td id="txtVeryAcid">Corrosive; toxic to most aquatic life. Avoid contact.</td></tr>
+                <tr><td>4–5</td><td id="lblAcid">Acidic</td><td id="txtAcid">Harmful to sensitive species; test for metal leaching.</td></tr>
+                <tr><td>5.5–6.4</td><td id="lblSlightAcid">Slightly acidic</td><td id="txtSlightAcid">Some stress for sensitive species; monitor trends.</td></tr>
+                <tr><td>6.5–8.5</td><td id="lblNeutral">Neutral / Healthy</td><td id="txtNeutral">Suitable for most aquatic life and recreational use (typically).</td></tr>
+                <tr><td>8.6–9.5</td><td id="lblSlightAlk">Slightly alkaline</td><td id="txtSlightAlk">Monitor for ammonia toxicity in warm water.</td></tr>
+                <tr><td>9.6–11</td><td id="lblAlk">Alkaline</td><td id="txtAlk">May harm some fish; consider filtration/dilution.</td></tr>
+                <tr><td>11–14</td><td id="lblVeryAlk">Very alkaline</td><td id="txtVeryAlk">Corrosive and hazardous. Avoid use and notify authorities.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card" style="margin-top:12px">
+            <h3 style="margin:0 0 8px 0" id="tipsTitle">Measurement tips</h3>
+            <ul class="small" style="margin-left:16px" id="tipsList">
+              <li>Use a calibrated meter or fresh strips for accuracy.</li>
+              <li>Measure at consistent temperature (pH is temperature-dependent).</li>
+              <li>Compare strip color under neutral white light — avoid colored lamps.</li>
+              <li>When uncertain, run multiple readings and average them.</li>
+            </ul>
+            <div class="click-hint" id="camHint">
+              Want to use the camera reader? Go to <a href="index.html" style="color:#0077b6">Home</a> and open the camera tool.
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:12px">
+            <h3 style="margin:0 0 8px 0" id="srcTitle">Sources</h3>
+            <div class="small" id="srcText">
+              WHO drinking water guidelines, US EPA basics on pH and aquatic life, USGS educational materials.
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2025 Water Health & Index</footer>
+
+  <script>
+    // -------- language strings (same languages as measure.html) ----------
+    const strings = {
+      en:{
+        brandTitle:"Water Health & Index",
+        brandSub:"pH reference & interactive guide",
+        navHome:"Home",navMap:"Map",navChart:"pH Chart",navCare:"pH Care",navDetails:"Details",
+        pageTitle:"Interactive pH Chart",
+        intro:"Drag on the gradient, type a pH, or use the quick examples to see what each pH range means and get practical advice. Use the \"Open in Home\" button to continue measurement and save results there.",
+        gradLabel:"pH Gradient",
+        phLabel:"pH",
+        check:"Check",
+        openHome:"Open in Home",
+        howTitle:"How drag-to-select works",
+        howText:"Drag the handle along the gradient (or click anywhere); it maps the horizontal position to the pH scale 0–14. For best accuracy, use calibration and white light when comparing with physical strips.",
+        quickExamplesTitle:"Quick examples",
+        ex45:"pH 4.5 (Acidic)",
+        ex60:"pH 6.0 (Slightly acidic)",
+        ex70:"pH 7.0 (Neutral)",
+        ex84:"pH 8.4 (Slight alkaline)",
+        ex100:"pH 10.0 (Alkaline)",
+        impactTitle:"Practical impact:",
+        rangesTitle:"pH Ranges & Guidance",
+        thRange:"Range",thLabel:"Label",thGuide:"Guidance",
+        lblVeryAcid:"Very acidic",txtVeryAcid:"Corrosive; toxic to most aquatic life. Avoid contact.",
+        lblAcid:"Acidic",txtAcid:"Harmful to sensitive species; test for metal leaching.",
+        lblSlightAcid:"Slightly acidic",txtSlightAcid:"Some stress for sensitive species; monitor trends.",
+        lblNeutral:"Neutral / Healthy",txtNeutral:"Suitable for most aquatic life and recreational use (typically).",
+        lblSlightAlk:"Slightly alkaline",txtSlightAlk:"Monitor for ammonia toxicity in warm water.",
+        lblAlk:"Alkaline",txtAlk:"May harm some fish; consider filtration/dilution.",
+        lblVeryAlk:"Very alkaline",txtVeryAlk:"Corrosive and hazardous. Avoid use and notify authorities.",
+        tipsTitle:"Measurement tips",
+        tips:[
+          "Use a calibrated meter or fresh strips for accuracy.",
+          "Measure at consistent temperature (pH is temperature-dependent).",
+          "Compare strip color under neutral white light — avoid colored lamps.",
+          "When uncertain, run multiple readings and average them."
+        ],
+        camHint:"Want to use the camera reader? Go to Home and open the camera tool.",
+        srcTitle:"Sources",
+        srcText:"WHO drinking water guidelines, US EPA basics on pH and aquatic life, USGS educational materials."
+      },
+      // To keep this answer shorter, other languages only change key labels.
+      // You can tweak wording later if you want.
+      hi:{
+        brandTitle:"Water Health & Index",
+        brandSub:"pH संदर्भ और इंटरएक्टिव मार्गदर्शिका",
+        navHome:"होम",navMap:"मानचित्र",navChart:"pH चार्ट",navCare:"pH देखभाल",navDetails:"विवरण",
+        pageTitle:"इंटरएक्टिव pH चार्ट",
+        intro:"ग्रेडिएंट पर ड्रैग करें, pH लिखें या त्वरित उदाहरणों का उपयोग करें और प्रत्येक pH सीमा का अर्थ और सलाह देखें। \"Open in Home\" से मुख्य पेज पर मान भेजें।",
+        gradLabel:"pH ग्रेडिएंट",
+        phLabel:"pH",
+        check:"जांचें",
+        openHome:"होम में खोलें",
+        howTitle:"ड्रैग‑से‑चयन कैसे काम करता है",
+        howText:"हैंडल को ग्रेडिएंट पर घुमाएँ या कहीं भी क्लिक करें; यह 0–14 pH स्केल पर स्थिति मैप करता है। सही तुलना के लिए सफेद प्रकाश का उपयोग करें।",
+        quickExamplesTitle:"त्वरित उदाहरण",
+        ex45:"pH 4.5 (अम्लीय)",
+        ex60:"pH 6.0 (हल्का अम्लीय)",
+        ex70:"pH 7.0 (न्यूट्रल)",
+        ex84:"pH 8.4 (हल्का क्षारीय)",
+        ex100:"pH 10.0 (क्षारीय)",
+        impactTitle:"व्यावहारिक प्रभाव:",
+        rangesTitle:"pH सीमाएँ और मार्गदर्शन",
+        thRange:"सीमा",thLabel:"लेबल",thGuide:"मार्गदर्शन",
+        lblVeryAcid:"अत्यधिक अम्लीय",
+        txtVeryAcid:"बहुत संक्षारक; अधिकांश जलीय जीवन के लिए विषैला। संपर्क से बचें।",
+        lblAcid:"अम्लीय",
+        txtAcid:"संवेदनशील प्रजातियों के लिए हानिकारक; धातु घुलने की जाँच करें।",
+        lblSlightAcid:"हल्का अम्लीय",
+        txtSlightAcid:"संवेदनशील प्रजातियों पर कुछ तनाव; प्रवृत्ति पर नज़र रखें।",
+        lblNeutral:"न्यूट्रल / स्वस्थ",
+        txtNeutral:"अधिकांश जलीय जीवन और सामान्य मनोरंजन के लिए उपयुक्त।",
+        lblSlightAlk:"हल्का क्षारीय",
+        txtSlightAlk:"गरम पानी में अमोनिया विषाक्तता पर नज़र रखें।",
+        lblAlk:"क्षारीय",
+        txtAlk:"कुछ मछलियों को नुकसान पहुँचा सकता है; निस्पंदन/पतला करने पर विचार करें।",
+        lblVeryAlk:"अत्यधिक क्षारीय",
+        txtVeryAlk:"संक्षारक और खतरनाक। उपयोग से बचें और अधिकारियों को सूचित करें।",
+        tipsTitle:"मापन सुझाव",
+        tips:[
+          "सटीकता के लिए कैलिब्रेटेड मीटर या नए स्ट्रिप्स का उपयोग करें।",
+          "pH तापमान पर निर्भर है, इसलिए समान तापमान पर मापें।",
+          "सफेद प्रकाश में स्ट्रिप के रंग की तुलना करें।",
+          "शंका होने पर कई रीडिंग लेकर औसत लें।"
+        ],
+        camHint:"कैमरा रीडर चाहिए? होम पेज पर जाएँ और कैमरा टूल खोलें।",
+        srcTitle:"स्रोत",
+        srcText:"WHO पीने के पानी दिशानिर्देश, US EPA, USGS शैक्षिक सामग्री।"
+      }
+      // You could similarly fill bn, es, fr, ru, ja, zh if you want full localization.
+    };
+
+  const langSelect = document.getElementById('langsel');
+
+  function applyLang(){
+    const t = strings[window.currentLang] || strings.en;
+    document.getElementById('brandTitle').textContent = t.brandTitle;
+    document.getElementById('brandSub').textContent   = t.brandSub;
+    document.getElementById('navHome').textContent    = t.navHome;
+    document.getElementById('navMap').textContent     = t.navMap;
+    document.getElementById('navChart').textContent   = t.navChart;
+    document.getElementById('navCare').textContent    = t.navCare;
+    document.getElementById('navDetails').textContent = t.navDetails;
+
+    document.getElementById('pageTitle').textContent  = t.pageTitle;
+    document.getElementById('introText').textContent  = t.intro;
+    document.getElementById('gradLabel').textContent  = t.gradLabel;
+    document.getElementById('phLabel').textContent    = t.phLabel;
+    document.getElementById('checkBtn').textContent   = t.check;
+    document.getElementById('openHome').textContent   = t.openHome;
+    document.getElementById('howTitle').textContent   = t.howTitle;
+    document.getElementById('howText').textContent    = t.howText;
+    document.getElementById('quickExamplesTitle').textContent = t.quickExamplesTitle;
+    document.getElementById('ex45').textContent  = t.ex45;
+    document.getElementById('ex60').textContent  = t.ex60;
+    document.getElementById('ex70').textContent  = t.ex70;
+    document.getElementById('ex84').textContent  = t.ex84;
+    document.getElementById('ex100').textContent = t.ex100;
+    document.getElementById('impactTitle').textContent = t.impactTitle;
+    document.getElementById('rangesTitle').textContent = t.rangesTitle;
+    document.getElementById('thRange').textContent = t.thRange;
+    document.getElementById('thLabel').textContent = t.thLabel;
+    document.getElementById('thGuide').textContent = t.thGuide;
+    document.getElementById('lblVeryAcid').textContent = t.lblVeryAcid;
+    document.getElementById('txtVeryAcid').textContent = t.txtVeryAcid;
+    document.getElementById('lblAcid').textContent = t.lblAcid;
+    document.getElementById('txtAcid').textContent = t.txtAcid;
+    document.getElementById('lblSlightAcid').textContent = t.lblSlightAcid;
+    document.getElementById('txtSlightAcid').textContent = t.txtSlightAcid;
+    document.getElementById('lblNeutral').textContent = t.lblNeutral;
+    document.getElementById('txtNeutral').textContent = t.txtNeutral;
+    document.getElementById('lblSlightAlk').textContent = t.lblSlightAlk;
+    document.getElementById('txtSlightAlk').textContent = t.txtSlightAlk;
+    document.getElementById('lblAlk').textContent = t.lblAlk;
+    document.getElementById('txtAlk').textContent = t.txtAlk;
+    document.getElementById('lblVeryAlk').textContent = t.lblVeryAlk;
+    document.getElementById('txtVeryAlk').textContent = t.txtVeryAlk;
+    document.getElementById('tipsTitle').textContent = t.tipsTitle;
+    const tipsList = document.getElementById('tipsList');
+    tipsList.innerHTML = "";
+    t.tips.forEach(item=>{
+      const li = document.createElement('li');
+      li.textContent = item;
+      tipsList.appendChild(li);
+    });
+    document.getElementById('camHint').innerHTML = t.camHint.replace("Home","<a href='index.html' style='color:#0077b6'>Home</a>");
+    document.getElementById('srcTitle').textContent = t.srcTitle;
+    document.getElementById('srcText').textContent  = t.srcText;
+  }
+
+  window.currentLang = localStorage.getItem('phLang') || 'en';
+  langSelect.value = window.currentLang;
+  applyLang();
+
+  langSelect.addEventListener('change',()=>{
+    window.currentLang = langSelect.value;
+    localStorage.setItem('phLang', window.currentLang);
+    applyLang();
+  });
+
+  // ---------- interactive pH logic ----------
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+  function round(v,d=2){ return Number(v.toFixed(d)); }
+
+  const grad   = document.getElementById('grad');
+  const handle = document.getElementById('handle');
+  const phVal  = document.getElementById('phVal');
+  const checkBtn = document.getElementById('checkBtn');
+  const resultBox = document.getElementById('resultBox');
+  const bigPH = document.getElementById('bigPH');
+  const categoryEl = document.getElementById('category');
+  const phAdvice = document.getElementById('phAdvice');
+  const impactEl = document.getElementById('impact');
+  const catBadge = document.getElementById('catBadge');
+
+  function classifyPH(pH){
+    pH = clamp(Number(pH), 0, 14);
+    if(pH < 4.5) return {label:'Very acidic', cls:'cat-acid', advice:'Highly acidic — corrosive and toxic. Do not use.', impact:'Strongly corrosive; metals leach out; aquatic life mortality likely.'};
+    if(pH < 5.5) return {label:'Acidic', cls:'cat-acid', advice:'Acidic — harmful to sensitive species; buffering is needed.', impact:'Metal solubility and stress to organisms.'};
+    if(pH < 6.5) return {label:'Slightly acidic', cls:'cat-acid', advice:'Slight acidity — monitor regularly and correct if persistent.', impact:'Minor stress; watch for trends after rain.'};
+    if(pH <= 8.5) return {label:'Neutral / Healthy', cls:'cat-neutral', advice:'Healthy range — suitable for most aquatic life.', impact:'Ideal for fish, plants, and safe recreation.'};
+    if(pH <= 9.5) return {label:'Slightly alkaline', cls:'cat-alk', advice:'Slight alkalinity — check minerals and nutrient levels.', impact:'Watch for ammonia issues in warm water.'};
+    if(pH <= 11) return {label:'Alkaline', cls:'cat-alk', advice:'Alkaline — may harm fish and plants; treatment required.', impact:'Scaling and irritation risk; dilute or filter.'};
+    return {label:'Very alkaline', cls:'cat-alk', advice:'Very alkaline — hazardous. Avoid contact and seek lab help.', impact:'Corrosive, harmful to organisms; professional treatment only.'};
+  }
+
+  function showPH(pH){
+    const c = classifyPH(pH);
+    resultBox.style.display = 'block';
+    bigPH.textContent = 'pH ' + round(pH,2);
+    categoryEl.textContent = c.label;
+    categoryEl.className = 'badge ' + c.cls;
+    phAdvice.textContent = c.advice;
+    impactEl.textContent = c.impact;
+    catBadge.innerHTML = `<span class="badge ${c.cls}" style="font-size:0.9rem">${c.label}</span>`;
+    moveHandleToPH(pH);
+  }
+
+  function moveHandleToPH(pH){
+    const rect = grad.getBoundingClientRect();
+    const frac = clamp(pH/14,0,1);
+    const x = rect.left + frac*rect.width;
+    const offset = x - rect.left;
+    handle.style.left = offset + 'px';
+  }
+
+  // click on gradient
+  grad.addEventListener('click', (e)=>{
+    const rect = grad.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const frac = clamp(x / rect.width,0,1);
+    const ph = frac * 14;
+    phVal.value = round(ph,2);
+    showPH(ph);
+  });
+
+  // drag handle
+  let dragging = false;
+  handle.addEventListener('mousedown', (e)=>{ dragging = true; e.preventDefault(); });
+  window.addEventListener('mouseup', ()=>{ dragging = false; });
+  window.addEventListener('mousemove', (e)=>{
+    if(!dragging) return;
+    const rect = grad.getBoundingClientRect();
+    let x = clamp(e.clientX - rect.left, 0, rect.width);
+    handle.style.left = x + 'px';
+    const frac = x / rect.width;
+    const ph = frac * 14;
+    phVal.value = round(ph,2);
+    showPH(ph);
+  });
+
+  checkBtn.addEventListener('click', ()=>{
+    const v = parseFloat(phVal.value);
+    if(isNaN(v) || v < 0 || v > 14){ alert('Enter a pH value between 0 and 14'); phVal.focus(); return; }
+    showPH(v);
+  });
+
+  document.querySelectorAll('.ex').forEach(b=>{
+    b.addEventListener('click', ()=> {
+      const v = parseFloat(b.dataset.ph);
+      phVal.value = v;
+      showPH(v);
+    });
+  });
+
+  document.getElementById('openHome').addEventListener('click', ()=>{
+    const v = parseFloat(phVal.value);
+    if(isNaN(v) || v < 0 || v > 14){ alert('Enter a valid pH first'); phVal.focus(); return; }
+    const url = 'index.html?ph=' + encodeURIComponent(round(v,2));
+    window.location.href = url;
+  });
+
+  // default
+  showPH(7.0);
+  // also position handle initially
+  moveHandleToPH(7.0);
+  // store language preference across pages
+  localStorage.setItem('phLang', lang);
+});
+  </script>
+</body>
+</html>
