@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Water Health Index – Care</title>
+  <style>
+    :root{
+      --bg1:#215871;
+      --bg2:#184757;
+      --card:#213a4a;
+      --card2:#253c4d;
+      --text:#e3fbfa;
+      --accent:#55ebca;
+      --accent2:#39bbe9;
+      --btn:#2cb5d6;
+      --btn-hover:#168eaf;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:"Times New Roman",Times,serif;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
+    }
+    nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:1.1rem 2.2rem 0.3rem 2.2rem;
+    }
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:0.7rem;
+      font-weight:bold;
+      font-size:2.2rem;
+    }
+    .logo span{font-size:2.6rem;}
+    .nav-links{
+      display:flex;
+      gap:2rem;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      color:var(--text);
+      text-decoration:none;
+      font-weight:bold;
+      padding-bottom:2px;
+      border-bottom:2px solid transparent;
+    }
+    .nav-links a.active,
+    .nav-links a:hover{
+      color:var(--accent);
+      border-bottom-color:var(--accent);
+    }
+    .langbar select{
+      font-family:inherit;
+      font-size:1.05rem;
+      border-radius:7px;
+      padding:0.32rem 0.9rem;
+      border:1.3px solid #74c6e0;
+      background:#15313e;
+      color:var(--accent2);
+      font-weight:bold;
+    }
+    main{
+      max-width:1200px;
+      margin:3vw auto 2.5vw auto;
+      background:var(--card);
+      border-radius:17px;
+      padding:2.3rem 1.7rem 2.5rem;
+      box-shadow:0 8px 28px rgba(0,0,0,0.25);
+    }
+    h1{
+      margin:0 0 .4rem 0;
+      text-align:left;
+      color:var(--accent);
+      font-size:2.2rem;
+    }
+    .intro{
+      font-size:.96rem;
+      color:#bfe9f4;
+      margin-bottom:1.4rem;
+    }
+    .layout{
+      display:grid;
+      grid-template-columns:1.6fr 1.2fr;
+      gap:1.5rem;
+    }
+    @media(max-width:1024px){
+      .layout{grid-template-columns:1fr;}
+    }
+    .panel{
+      background:#233845;
+      border-radius:15px;
+      padding:1.3rem 1.2rem 1.4rem;
+    }
+    .panel h2{
+      margin:.1rem 0 .7rem 0;
+      font-size:1.25rem;
+      color:var(--accent2);
+    }
+    .section{
+      margin-top:1.1rem;
+      padding-top:.6rem;
+      border-top:1px solid rgba(160,220,240,0.26);
+    }
+    .section:first-of-type{
+      margin-top:.2rem;
+      border-top:none;
+      padding-top:0;
+    }
+    .section-title{
+      font-weight:bold;
+      color:var(--accent2);
+      margin-bottom:.35rem;
+      font-size:1rem;
+    }
+    .note{
+      font-size:.86rem;
+      color:#b8e3ff;
+      margin-top:.35rem;
+    }
+    .reading-box{
+      background:#1b3240;
+      border-radius:11px;
+      padding:.7rem .8rem .8rem;
+      font-size:.9rem;
+      color:#e5fbff;
+    }
+    .reading-top{
+      display:flex;
+      justify-content:space-between;
+      gap:.6rem;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .badge-band{
+      padding:4px 9px;
+      border-radius:999px;
+      font-size:.82rem;
+      font-weight:bold;
+      color:#fff;
+    }
+    .band-good{background:#2e7d32;}
+    .band-med{background:#f9a825;}
+    .band-poor{background:#c62828;}
+    .band-unknown{background:#546e7a;}
+    .reading-details{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.7rem;
+      margin-top:.4rem;
+      font-size:.86rem;
+      color:#d1f3ff;
+    }
+    .reading-details span{
+      padding:2px 6px;
+      border-radius:7px;
+      background:#102632;
+    }
+    .controls-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.6rem;
+      align-items:center;
+      margin-top:.3rem;
+    }
+    label{
+      font-weight:bold;
+      color:var(--accent2);
+    }
+    input[type=number],select{
+      padding:.38rem .55rem;
+      border-radius:7px;
+      border:1px solid #27536b;
+      background:#182b35;
+      color:#e7fbff;
+      font-family:"Times New Roman",Times,serif;
+    }
+    select{min-width:170px;}
+    button{
+      border:none;
+      border-radius:8px;
+      padding:.45rem .9rem;
+      font-family:"Times New Roman",Times,serif;
+      font-size:.93rem;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    .btn-main{background:var(--btn);color:#fff;}
+    .btn-main:hover{background:var(--btn-hover);}
+    .btn-ghost{
+      background:transparent;
+      border:1px solid #3b7b95;
+      color:#cdefff;
+    }
+    .cards{
+      display:flex;
+      flex-direction:column;
+      gap:.6rem;
+      margin-top:.4rem;
+    }
+    .card{
+      background:#1b3441;
+      border-radius:10px;
+      padding:.6rem .7rem .7rem;
+      font-size:.9rem;
+      color:#e5fbff;
+    }
+    .card-title{
+      font-weight:bold;
+      color:var(--accent2);
+      margin-bottom:.2rem;
+    }
+    .card ul{
+      margin:.2rem 0 0 1.05rem;
+      padding:0;
+      list-style:disc;
+      font-size:.88rem;
+    }
+    .chip{
+      display:inline-block;
+      padding:3px 9px;
+      border-radius:999px;
+      font-size:.78rem;
+      margin-left:.35rem;
+      color:#fff;
+      background:#29485a;
+    }
+    .checklist{
+      margin:.2rem 0 0 .2rem;
+      padding:0;
+      list-style:none;
+      font-size:.88rem;
+    }
+    .checklist li{
+      margin-bottom:.25rem;
+      display:flex;
+      align-items:flex-start;
+      gap:.35rem;
+    }
+    .checklist input[type=checkbox]{
+      margin-top:.18rem;
+    }
+    .banner{
+      margin-top:.4rem;
+      background:#193241;
+      border-radius:10px;
+      padding:.45rem .6rem;
+      font-size:.86rem;
+      color:#d3f2ff;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <span aria-hidden="true">💧</span>
+    Water Health Index
+  </div>
+  <div class="nav-links">
+    <a href="index.html" id="navHome">Home</a>
+    <a href="measure.html" id="navMeasure">Measure</a>
+    <a href="map.html" id="navMap">Map</a>
+    <a href="farmers.html" id="navFarm">Farmers Assistance</a>
+    <a href="care.html" class="active" id="navCare">Care</a>
+    <a href="phchart.html" id="navChart">Chart</a>
+    <a href="details.html" id="navDetails">Details</a>
+    <span class="langbar">
+      <select id="langsel">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="ru">Русский</option>
+        <option value="ja">日本語</option>
+        <option value="zh">中文</option>
+      </select>
+    </span>
+  </div>
+</nav>
+
+<main>
+  <h1 id="pageTitle">Water care & actions</h1>
+  <p class="intro" id="introText">
+    See what your latest reading means, get a simple care plan for your water, and learn how to protect wells, tanks, ponds, and community water bodies.
+  </p>
+
+  <div class="layout">
+    <!-- LEFT COLUMN -->
+    <section class="panel">
+      <h2 id="leftHeading">Care for my water</h2>
+
+      <div class="section">
+        <div class="section-title" id="lastReadingTitle">1. My latest reading</div>
+        <div class="controls-row">
+          <button id="loadLast" class="btn-main">Load latest from history</button>
+          <button id="clearChecks" class="btn-ghost">Clear care checklist</button>
+        </div>
+        <div class="reading-box" id="readingBox" style="display:none;">
+          <div class="reading-top">
+            <div>
+              <div id="readingWhen">Last saved: –</div>
+              <div id="readingPlace" style="font-size:.84rem;color:#c7eafe;"></div>
+            </div>
+            <div>
+              <span id="bandLabel" class="badge-band band-unknown">No index</span>
+            </div>
+          </div>
+          <div class="reading-details" id="readingDetails"></div>
+        </div>
+        <p class="note" id="noReadingNote">
+          Load the latest reading from the Measure page to see a care plan based on its index and pH.
+        </p>
+      </div>
+
+      <div class="section" id="carePlanSection" style="display:none;">
+        <div class="section-title" id="carePlanTitle">2. Care plan for this band</div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title" id="safetyTitle">Health & safety first</div>
+            <ul id="safetyList"></ul>
+          </div>
+          <div class="card">
+            <div class="card-title" id="improveTitle">Improve water quality</div>
+            <ul id="improveList"></ul>
+          </div>
+          <div class="card">
+            <div class="card-title" id="expertTitle">When to seek expert help</div>
+            <ul id="expertList"></ul>
+          </div>
+          <div class="card">
+            <div class="card-title" id="checklistTitle">My care checklist</div>
+            <ul class="checklist" id="checklist"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title" id="symptomTitle">3. What does your water look like?</div>
+        <div class="controls-row">
+          <label for="symptomSelect" id="symptomLabel">Choose a symptom</label>
+          <select id="symptomSelect">
+            <option value="none">– Select –</option>
+            <option value="muddy">Looks brown or muddy</option>
+            <option value="green">Green layer / algae on top</option>
+            <option value="smell">Strong smell (rotten egg / sewage)</option>
+            <option value="scale">White scale on taps / utensils</option>
+            <option value="foam">Foam or detergent bubbles</option>
+          </select>
+        </div>
+        <div class="cards" id="symptomCards" style="display:none;">
+          <div class="card">
+            <div class="card-title" id="symptomCauseTitle">Likely causes</div>
+            <ul id="symptomCauseList"></ul>
+          </div>
+          <div class="card">
+            <div class="card-title" id="symptomActionTitle">What you can do now</div>
+            <ul id="symptomActionList"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title" id="reminderTitle">4. Reminders</div>
+        <div class="controls-row">
+          <label for="reminderSelect" id="reminderLabel">Check water every</label>
+          <select id="reminderSelect">
+            <option value="0">No reminder</option>
+            <option value="7">7 days</option>
+            <option value="30">30 days</option>
+            <option value="90">90 days</option>
+          </select>
+          <button id="saveReminder" class="btn-ghost">Save reminder</button>
+        </div>
+        <div class="banner" id="reminderBanner" style="display:none;"></div>
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN -->
+    <aside class="panel">
+      <h2 id="rightHeading">Care library</h2>
+
+      <div class="section">
+        <div class="card">
+          <div class="card-title" id="homeCareTitle">At home (drinking & cooking)</div>
+          <ul id="homeCareList"></ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="card">
+          <div class="card-title" id="farmCareTitle">For farms & ponds</div>
+          <ul id="farmCareList"></ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="card">
+          <div class="card-title" id="communityCareTitle">Community water bodies</div>
+          <ul id="communityCareList"></ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="card">
+          <div class="card-title" id="factsTitle">Did you know?</div>
+          <ul id="factsList"></ul>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+
+  // ---------------- translations (full English, placeholders for others) ----------------
+  const strings = {
+    en:{
+      navHome:"Home",navMeasure:"Measure",navMap:"Map",navFarm:"Farmers Assistance",navCare:"Care",navChart:"Chart",navDetails:"Details",
+      pageTitle:"Water care & actions",
+      intro:"See what your latest reading means, get a simple care plan for your water, and learn how to protect wells, tanks, ponds, and community water bodies.",
+      leftHeading:"Care for my water",
+      lastReadingTitle:"1. My latest reading",
+      loadLast:"Load latest from history",
+      clearChecks:"Clear care checklist",
+      noReadingNote:"Load the latest reading from the Measure page to see a care plan based on its index and pH.",
+      bandGood:"Good quality",
+      bandMed:"Moderate quality",
+      bandPoor:"Poor quality",
+      bandUnknown:"No index",
+      detailsIndex:"Index",
+      detailsPH:"pH",
+      detailsTemp:"Temp",
+      detailsTurb:"Turbidity",
+      carePlanTitle:"2. Care plan for this band",
+      safetyTitle:"Health & safety first",
+      improveTitle:"Improve water quality",
+      expertTitle:"When to seek expert help",
+      checklistTitle:"My care checklist",
+      symptomTitle:"3. What does your water look like?",
+      symptomLabel:"Choose a symptom",
+      symptomCauseTitle:"Likely causes",
+      symptomActionTitle:"What you can do now",
+      reminderTitle:"4. Reminders",
+      reminderLabel:"Check water every",
+      saveReminder:"Save reminder",
+      rightHeading:"Care library",
+      homeCareTitle:"At home (drinking & cooking)",
+      farmCareTitle:"For farms & ponds",
+      communityCareTitle:"Community water bodies",
+      factsTitle:"Did you know?",
+
+      // care plan bullets by band
+      safetyGood:[
+        "Water is generally safe if source is protected; still boil for babies and people with weak immunity.",
+        "Use clean, covered storage containers and avoid dipping cups or hands directly into stored water."
+      ],
+      improveGood:[
+        "Clean storage tanks and household filters at least once every 1–3 months.",
+        "Keep runoff, detergents and oils away from wells and tanks to avoid sudden deterioration."
+      ],
+      expertGood:[
+        "If you notice sudden colour, smell or taste changes, repeat the test and contact local health workers.",
+        "Share good results with neighbours to encourage regular testing and protection of the source."
+      ],
+
+      safetyMed:[
+        "Avoid drinking directly; boil or use proper filters before consumption.",
+        "Do not use moderately polluted water for infant formula or people with serious illness."
+      ],
+      improveMed:[
+        "Clean storage tanks, pipelines and taps; remove settled sludge where possible.",
+        "Improve drainage around wells and handpumps so that waste water does not flow back.",
+        "Promote household filters (ceramic, RO, or UV) depending on local recommendations."
+      ],
+      expertMed:[
+        "If index remains moderate for 3 or more tests, request a detailed test from local authorities.",
+        "Form a small community group to track readings and coordinate cleaning days."
+      ],
+
+      safetyPoor:[
+        "Do not use this water for drinking or cooking until quality improves.",
+        "Use an alternative safe source (bottled, tanker, public tap) for all direct consumption."
+      ],
+      improvePoor:[
+        "Identify and stop direct pollution sources such as sewage leakage, dumping, or industrial discharge.",
+        "Use this water only for non‑contact uses (cleaning floors, flushing) until tests show recovery.",
+        "Plan for medium‑term solutions like new wells, treatment plants or source protection measures."
+      ],
+      expertPoor:[
+        "Inform local panchayat, water board or health department with your test results.",
+        "If animals or fish are dying near the source, treat it as an emergency and restrict access."
+      ],
+
+      checklistItems:[
+        "I cleaned or inspected my storage tank or main container this month.",
+        "I checked for smells, colour changes or visible oil/foam in my regular water source.",
+        "I keep drinking water covered and use a ladle or tap instead of dipping cups.",
+        "I avoid throwing chemicals, oil, medicine or plastic into drains or nearby water bodies.",
+        "I plan to re‑test water using strips or the camera tool within the reminder period."
+      ],
+
+      // symptom helper
+      symptomOptions:{
+        muddy:{
+          causes:[
+            "Heavy rain or upstream soil erosion has added a lot of suspended mud.",
+            "Pump or well is drawing water from near the bottom where sediment is high."
+          ],
+          actions:[
+            "Let water settle in a clean bucket and pour off the clear upper layer before use.",
+            "Use cloth or cartridge filters to remove fine particles before boiling or disinfection.",
+            "On farms, maintain vegetative strips and bunds to reduce soil erosion into ponds and canals."
+          ]
+        },
+        green:{
+          causes:[
+            "Excess nutrients (fertilisers, detergents, sewage) are feeding algal growth.",
+            "Slow‑moving or stagnant water with high sunlight encourages algal blooms."
+          ],
+          actions:[
+            "Avoid using strongly green, smelly water for drinking or bathing.",
+            "Reduce fertiliser and detergent runoff into tanks and ponds; repair leaks from toilets or drains.",
+            "Increase shade or partial mixing of ponds where feasible, and consult fisheries experts if fish are present."
+          ]
+        },
+        smell:{
+          causes:[
+            "Rotten‑egg smell often indicates hydrogen sulphide from decaying organic matter with low oxygen.",
+            "Sewage or industrial discharge may be mixing into the water source."
+          ],
+          actions:[
+            "Do not drink foul‑smelling water even after boiling; find a safer source.",
+            "Check for nearby leaking toilets, drains or sewer lines and report them to local authorities.",
+            "Increase ventilation of storage tanks and avoid leaving organic waste near wells."
+          ]
+        },
+        scale:{
+          causes:[
+            "White scale on taps and utensils usually means hard water with high calcium and magnesium.",
+            "Very hard water may also carry more dissolved salts and give a different taste."
+          ],
+          actions:[
+            "Descale kettles and taps with mild vinegar or citric acid solutions.",
+            "Consider softening options (RO units or softeners) if hardness is very high.",
+            "Use hard water mainly for washing or cleaning, and save softer sources for drinking."
+          ]
+        },
+        foam:{
+          causes:[
+            "Detergents, soaps or surfactants are entering the water body.",
+            "Grey‑water or sewage outlets may be directly connected to drains or streams."
+          ],
+          actions:[
+            "Avoid washing clothes or dishes directly in rivers, ponds or wells.",
+            "Route grey‑water through soak pits or simple treatment beds instead of open drains.",
+            "Report persistent foaming in public water bodies to local authorities."
+          ]
+        }
+      },
+
+      // reminders & care library
+      reminderSaved(days){return "Reminder saved: check water about every " + days + " days.";},
+      reminderDue(daysAgo){return "It has been about " + daysAgo + " days since your last saved reading. Time to test again if you can.";},
+      reminderOK(daysAgo){return "Last reading is fairly recent (" + daysAgo + " days ago). You are on track with monitoring.";},
+
+      homeCareList:[
+        "Boil drinking water for at least 1 minute (rolling boil) if quality is uncertain.",
+        "Store safe water in clean, covered containers away from sunlight and pets.",
+        "Clean filters and storage vessels regularly according to manufacturer or local guidance.",
+        "Do not dip used cups or hands into storage containers; use a tap or ladle.",
+        "Keep soaps, detergents, fuel and pesticides away from wells and tanks."
+      ],
+      farmCareList:[
+        "Avoid over‑use of fertilisers and pesticides; follow recommended doses and timings.",
+        "Maintain grassed bunds and buffer strips so soil and chemicals do not wash directly into canals or ponds.",
+        "Do not allow animals to stand and defecate directly in irrigation tanks or streams.",
+        "Desilt farm ponds periodically to maintain storage and reduce sudden turbidity spikes.",
+        "Use tail‑end water and wastewater carefully, and avoid using it for leafy vegetables eaten raw."
+      ],
+      communityCareList:[
+        "Never dump solid waste, plastics, used oil or construction debris into lakes, rivers or drains.",
+        "Support community clean‑up days around ponds, wells and riverbanks.",
+        "Report sewage leaks, broken manholes or illegal discharge points to local authorities.",
+        "Plant native trees and grasses along water bodies to stabilise banks and filter runoff.",
+        "Share water quality information with neighbours so everyone helps protect the source."
+      ],
+      factsList:[
+        "Very muddy water is harder to disinfect; germs hide inside particles that chlorine or boiling cannot easily reach.",
+        "pH that stays far from neutral for a long time can slowly damage pipes, pumps and household filters.",
+        "Even small household actions, like cleaning tanks and not dumping waste oil, make a big difference over years.",
+        "Many problems start upstream: protecting catchments and drains can be more effective than only treating water at the end."
+      ]
+    },
+
+    hi:{/* later: Hindi translation keys mirroring en */},
+    bn:{/* Bengali */},
+    es:{/* Spanish */},
+    fr:{/* French */},
+    ru:{/* Russian */},
+    ja:{/* Japanese */},
+    zh:{/* Chinese */}
+  };
+
+  // ---------------- language wiring ----------------
+  const langSelect = document.getElementById('langsel');
+  let lang = localStorage.getItem('whilang') || 'en';
+  langSelect.value = lang;
+
+  function t(){ return strings[lang] || strings.en; }
+
+  function applyLang(){
+    const s = t();
+    document.getElementById('navHome').textContent    = s.navHome;
+    document.getElementById('navMeasure').textContent = s.navMeasure;
+    document.getElementById('navMap').textContent     = s.navMap;
+    document.getElementById('navFarm').textContent    = s.navFarm;
+    document.getElementById('navCare').textContent    = s.navCare;
+    document.getElementById('navChart').textContent   = s.navChart;
+    document.getElementById('navDetails').textContent = s.navDetails;
+
+    document.getElementById('pageTitle').textContent  = s.pageTitle;
+    document.getElementById('introText').textContent  = s.intro;
+    document.getElementById('leftHeading').textContent= s.leftHeading;
+    document.getElementById('lastReadingTitle').textContent = s.lastReadingTitle;
+    document.getElementById('loadLast').textContent   = s.loadLast;
+    document.getElementById('clearChecks').textContent= s.clearChecks;
+    document.getElementById('noReadingNote').textContent = s.noReadingNote;
+    document.getElementById('carePlanTitle').textContent = s.carePlanTitle;
+    document.getElementById('safetyTitle').textContent = s.safetyTitle;
+    document.getElementById('improveTitle').textContent= s.improveTitle;
+    document.getElementById('expertTitle').textContent = s.expertTitle;
+    document.getElementById('checklistTitle').textContent = s.checklistTitle;
+    document.getElementById('symptomTitle').textContent = s.symptomTitle;
+    document.getElementById('symptomLabel').textContent = s.symptomLabel;
+    document.getElementById('symptomCauseTitle').textContent = s.symptomCauseTitle;
+    document.getElementById('symptomActionTitle').textContent = s.symptomActionTitle;
+    document.getElementById('reminderTitle').textContent = s.reminderTitle;
+    document.getElementById('reminderLabel').textContent = s.reminderLabel;
+    document.getElementById('saveReminder').textContent = s.saveReminder;
+    document.getElementById('rightHeading').textContent = s.rightHeading;
+    document.getElementById('homeCareTitle').textContent = s.homeCareTitle;
+    document.getElementById('farmCareTitle').textContent = s.farmCareTitle;
+    document.getElementById('communityCareTitle').textContent = s.communityCareTitle;
+    document.getElementById('factsTitle').textContent = s.factsTitle;
+
+    // static lists (right column)
+    function fillList(id,arr){
+      const ul = document.getElementById(id);
+      ul.innerHTML="";
+      arr.forEach(text=>{
+        const li=document.createElement('li');
+        li.textContent=text;
+        ul.appendChild(li);
+      });
+    }
+    fillList('homeCareList',s.homeCareList);
+    fillList('farmCareList',s.farmCareList);
+    fillList('communityCareList',s.communityCareList);
+    fillList('factsList',s.factsList);
+  }
+  applyLang();
+
+  langSelect.addEventListener('change',()=>{
+    lang = langSelect.value;
+    localStorage.setItem('whilang',lang);
+    applyLang();
+    if(currentBand) renderCarePlan(currentBand);
+    updateReminderBanner();
+  });
+
+  // ---------------- reading + band classification ----------------
+  let currentBand = "";
+  let lastReading = null;
+
+  function classifyBand(index){
+    if(typeof index!=="number" || isNaN(index)) return "unknown";
+    if(index >= 70) return "good";
+    if(index >= 40) return "med";
+    return "poor";
+  }
+
+  function renderReading(){
+    const s = t();
+    const box = document.getElementById('readingBox');
+    const details = document.getElementById('readingDetails');
+    const whenEl = document.getElementById('readingWhen');
+    const placeEl= document.getElementById('readingPlace');
+    const bandEl = document.getElementById('bandLabel');
+
+    if(!lastReading){
+      box.style.display="none";
+      document.getElementById('carePlanSection').style.display="none";
+      document.getElementById('noReadingNote').style.display="block";
+      return;
+    }
+    box.style.display="block";
+    document.getElementById('noReadingNote').style.display="none";
+
+    whenEl.textContent = "Last saved: " + (lastReading.when || "–");
+    placeEl.textContent = lastReading.place ? ("Location: " + lastReading.place) : "";
+
+    const index = Number(lastReading.index);
+    const band = classifyBand(index);
+    currentBand = band;
+
+    let bandText = s.bandUnknown;
+    let bandClass = "band-unknown";
+    if(band==="good"){bandText=s.bandGood;bandClass="band-good";}
+    else if(band==="med"){bandText=s.bandMed;bandClass="band-med";}
+    else if(band==="poor"){bandText=s.bandPoor;bandClass="band-poor";}
+
+    bandEl.textContent = bandText;
+    bandEl.className = "badge-band " + bandClass;
+
+    details.innerHTML="";
+    function addChip(label,value){
+      if(!value && value!==0) return;
+      const span=document.createElement('span');
+      span.textContent = label + ": " + value;
+      details.appendChild(span);
+    }
+    addChip(s.detailsIndex,index||"–");
+    addChip(s.detailsPH,lastReading.ph || "–");
+    addChip(s.detailsTemp,lastReading.temp || "–");
+    addChip(s.detailsTurb,lastReading.turb || "–");
+
+    renderCarePlan(band);
+  }
+
+  function renderCarePlan(band){
+    const s = t();
+    const sec = document.getElementById('carePlanSection');
+    if(!band || band==="unknown"){
+      sec.style.display="none";
+      return;
+    }
+    sec.style.display="block";
+
+    const safetyList = document.getElementById('safetyList');
+    const improveList = document.getElementById('improveList');
+    const expertList  = document.getElementById('expertList');
+    safetyList.innerHTML = "";
+    improveList.innerHTML = "";
+    expertList.innerHTML  = "";
+
+    let sSafety=[],sImprove=[],sExpert=[];
+    if(band==="good"){
+      sSafety  = s.safetyGood;
+      sImprove = s.improveGood;
+      sExpert  = s.expertGood;
+    }else if(band==="med"){
+      sSafety  = s.safetyMed;
+      sImprove = s.improveMed;
+      sExpert  = s.expertMed;
+    }else{
+      sSafety  = s.safetyPoor;
+      sImprove = s.improvePoor;
+      sExpert  = s.expertPoor;
+    }
+    function fillUl(ul,arr){
+      arr.forEach(text=>{
+        const li=document.createElement('li');li.textContent=text;ul.appendChild(li);
+      });
+    }
+    fillUl(safetyList,sSafety);
+    fillUl(improveList,sImprove);
+    fillUl(expertList,sExpert);
+
+    renderChecklist();
+  }
+
+  // ---------------- load latest reading ----------------
+  document.getElementById('loadLast').addEventListener('click',()=>{
+    let data=[];
+    try{
+      data = JSON.parse(localStorage.getItem('whi_readings') || "[]");
+    }catch(e){data=[];}
+    if(!Array.isArray(data) || data.length===0){
+      alert("No saved readings found. Go to the Measure page and save at least one reading.");
+      return;
+    }
+    lastReading = data[data.length-1];
+    renderReading();
+    updateReminderBanner(true);
+  });
+
+  // ---------------- checklist with localStorage ----------------
+  const checklistEl = document.getElementById('checklist');
+  const CHECK_KEY = "whi_care_checks";
+
+  function loadChecks(){
+    try{
+      const obj = JSON.parse(localStorage.getItem(CHECK_KEY) || "{}");
+      return (typeof obj==="object" && obj) ? obj : {};
+    }catch(e){return {};}
+  }
+  function saveChecks(obj){
+    localStorage.setItem(CHECK_KEY,JSON.stringify(obj||{}));
+  }
+
+  function renderChecklist(){
+    const s = t();
+    const state = loadChecks();
+    checklistEl.innerHTML="";
+    s.checklistItems.forEach((text,idx)=>{
+      const id = "check_"+idx;
+      const li=document.createElement('li');
+      const cb=document.createElement('input');
+      cb.type="checkbox";
+      cb.id=id;
+      cb.checked = !!state[id];
+      cb.addEventListener('change',()=>{
+        const st=loadChecks();
+        st[id]=cb.checked;
+        saveChecks(st);
+      });
+      const lbl=document.createElement('label');
+      lbl.setAttribute('for',id);
+      lbl.textContent = text;
+      li.appendChild(cb);
+      li.appendChild(lbl);
+      checklistEl.appendChild(li);
+    });
+  }
+  renderChecklist();
+
+  document.getElementById('clearChecks').addEventListener('click',()=>{
+    saveChecks({});
+    renderChecklist();
+  });
+
+  // ---------------- symptom helper ----------------
+  const symptomSelect = document.getElementById('symptomSelect');
+  const symptomCards  = document.getElementById('symptomCards');
+  const symptomCauseList   = document.getElementById('symptomCauseList');
+  const symptomActionList  = document.getElementById('symptomActionList');
+
+  function renderSymptom(){
+    const s = t();
+    const val = symptomSelect.value;
+    if(!s.symptomOptions || val==="none" || !s.symptomOptions[val]){
+      symptomCards.style.display="none";
+      return;
+    }
+    const info = s.symptomOptions[val];
+    symptomCauseList.innerHTML="";
+    symptomActionList.innerHTML="";
+    info.causes.forEach(text=>{
+      const li=document.createElement('li');li.textContent=text;symptomCauseList.appendChild(li);
+    });
+    info.actions.forEach(text=>{
+      const li=document.createElement('li');li.textContent=text;symptomActionList.appendChild(li);
+    });
+    symptomCards.style.display="block";
+  }
+
+  symptomSelect.addEventListener('change',renderSymptom);
+
+  // ---------------- reminder widget ----------------
+  const REM_KEY = "whi_care_reminder";
+  const reminderSelect = document.getElementById('reminderSelect');
+  const reminderBanner = document.getElementById('reminderBanner');
+
+  function loadReminder(){
+    try{
+      const obj = JSON.parse(localStorage.getItem(REM_KEY) || "{}");
+      return (typeof obj==="object" && obj) ? obj : {};
+    }catch(e){return {};}
+  }
+  function saveReminder(obj){
+    localStorage.setItem(REM_KEY,JSON.stringify(obj||{}));
+  }
+
+  function updateReminderBanner(forceLastUpdate){
+    const s = t();
+    const rem = loadReminder();
+    if(forceLastUpdate && lastReading){
+      rem.last = lastReading.when || new Date().toISOString();
+      saveReminder(rem);
+    }
+    reminderBanner.style.display="none";
+    if(!rem.days || !rem.last) return;
+
+    let daysAgo = 0;
+    try{
+      const tLast = new Date(rem.last).getTime();
+      if(!isNaN(tLast)){
+        const now = Date.now();
+        daysAgo = Math.round((now - tLast)/(1000*60*60*24));
+      }
+    }catch(e){daysAgo=0;}
+
+    if(daysAgo >= rem.days){
+      reminderBanner.textContent = s.reminderDue(daysAgo);
+      reminderBanner.style.display="block";
+    }else if(daysAgo>0){
+      reminderBanner.textContent = s.reminderOK(daysAgo);
+      reminderBanner.style.display="block";
+    }
+  }
+
+  const rem = loadReminder();
+  if(rem.days) reminderSelect.value = String(rem.days);
+
+  document.getElementById('saveReminder').addEventListener('click',()=>{
+    const days = parseInt(reminderSelect.value,10) || 0;
+    const obj = loadReminder();
+    obj.days = days;
+    if(lastReading) obj.last = lastReading.when;
+    saveReminder(obj);
+    const s = t();
+    if(days>0){
+      reminderBanner.textContent = s.reminderSaved(days);
+      reminderBanner.style.display="block";
+    }else{
+      reminderBanner.style.display="none";
+    }
+  });
+
+  updateReminderBanner();
+
+});
+</script>
+
+</body>
+</html>
