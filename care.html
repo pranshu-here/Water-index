@@ -1822,173 +1822,194 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
   // ---------------- language wiring ----------------
-  
-    const langSelect = document.getElementById('langsel');
-  let lang = localStorage.getItem('whilang') || 'en';
-  langSelect.value = lang;
+const langSelect = document.getElementById("langsel");
 
-  function t(){ return strings[lang] || strings.en; }
+// current language from storage, or English
+let lang = localStorage.getItem("whilang") || "en";
+langSelect.value = lang;
 
-  function applyLang(){
-    const s = t();
-    document.getElementById('navHome').textContent    = s.navHome;
-    document.getElementById('navMeasure').textContent = s.navMeasure;
-    document.getElementById('navMap').textContent     = s.navMap;
-    document.getElementById('navFarm').textContent    = s.navFarm;
-    document.getElementById('navCare').textContent    = s.navCare;
-    document.getElementById('navChart').textContent   = s.navChart;
-    document.getElementById('navDetails').textContent = s.navDetails;
+// return the strings object for current language, with English fallback
+function t() {
+  return strings[lang] || strings.en;
+}
 
-    document.getElementById('pageTitle').textContent  = s.pageTitle;
-    document.getElementById('introText').textContent  = s.intro;
-    document.getElementById('leftHeading').textContent= s.leftHeading;
-    document.getElementById('lastReadingTitle').textContent = s.lastReadingTitle;
-    document.getElementById('loadLast').textContent   = s.loadLast;
-    document.getElementById('clearChecks').textContent= s.clearChecks;
-    document.getElementById('noReadingNote').textContent = s.noReadingNote;
-    document.getElementById('carePlanTitle').textContent = s.carePlanTitle;
-    document.getElementById('safetyTitle').textContent = s.safetyTitle;
-    document.getElementById('improveTitle').textContent= s.improveTitle;
-    document.getElementById('expertTitle').textContent = s.expertTitle;
-    document.getElementById('checklistTitle').textContent = s.checklistTitle;
-    document.getElementById('symptomTitle').textContent = s.symptomTitle;
-    document.getElementById('symptomLabel').textContent = s.symptomLabel;
-    document.getElementById('symptomCauseTitle').textContent = s.symptomCauseTitle;
-    document.getElementById('symptomActionTitle').textContent = s.symptomActionTitle;
-    document.getElementById('reminderTitle').textContent = s.reminderTitle;
-    document.getElementById('reminderLabel').textContent = s.reminderLabel;
-    document.getElementById('saveReminder').textContent = s.saveReminder;
-    document.getElementById('rightHeading').textContent = s.rightHeading;
-    document.getElementById('homeCareTitle').textContent = s.homeCareTitle;
-    document.getElementById('farmCareTitle').textContent = s.farmCareTitle;
-    document.getElementById('communityCareTitle').textContent = s.communityCareTitle;
-    document.getElementById('factsTitle').textContent = s.factsTitle;
+function applyLang() {
+  const s = t();
 
-    // static lists (right column)
-    function fillList(id,arr){
-      const ul = document.getElementById(id);
-      ul.innerHTML="";
-      arr.forEach(text=>{
-        const li=document.createElement('li');
-        li.textContent=text;
-        ul.appendChild(li);
-      });
-    }
-    fillList('homeCareList',s.homeCareList);
-    fillList('farmCareList',s.farmCareList);
-    fillList('communityCareList',s.communityCareList);
-    fillList('factsList',s.factsList);
+  // nav
+  document.getElementById("navHome").textContent    = s.navHome;
+  document.getElementById("navMeasure").textContent = s.navMeasure;
+  document.getElementById("navMap").textContent     = s.navMap;
+  document.getElementById("navFarm").textContent    = s.navFarm;
+  document.getElementById("navCare").textContent    = s.navCare;
+  document.getElementById("navChart").textContent   = s.navChart;
+  document.getElementById("navDetails").textContent = s.navDetails;
+
+  // headings and buttons
+  document.getElementById("pageTitle").textContent        = s.pageTitle;
+  document.getElementById("introText").textContent        = s.intro;
+  document.getElementById("leftHeading").textContent      = s.leftHeading;
+  document.getElementById("lastReadingTitle").textContent = s.lastReadingTitle;
+  document.getElementById("loadLast").textContent         = s.loadLast;
+  document.getElementById("clearChecks").textContent      = s.clearChecks;
+  document.getElementById("noReadingNote").textContent    = s.noReadingNote;
+  document.getElementById("carePlanTitle").textContent    = s.carePlanTitle;
+  document.getElementById("safetyTitle").textContent      = s.safetyTitle;
+  document.getElementById("improveTitle").textContent     = s.improveTitle;
+  document.getElementById("expertTitle").textContent      = s.expertTitle;
+  document.getElementById("checklistTitle").textContent   = s.checklistTitle;
+  document.getElementById("symptomTitle").textContent     = s.symptomTitle;
+  document.getElementById("symptomLabel").textContent     = s.symptomLabel;
+  document.getElementById("symptomCauseTitle").textContent   = s.symptomCauseTitle;
+  document.getElementById("symptomActionTitle").textContent  = s.symptomActionTitle;
+  document.getElementById("reminderTitle").textContent    = s.reminderTitle;
+  document.getElementById("reminderLabel").textContent    = s.reminderLabel;
+  document.getElementById("saveReminder").textContent     = s.saveReminder;
+  document.getElementById("rightHeading").textContent     = s.rightHeading;
+  document.getElementById("homeCareTitle").textContent    = s.homeCareTitle;
+  document.getElementById("farmCareTitle").textContent    = s.farmCareTitle;
+  document.getElementById("communityCareTitle").textContent = s.communityCareTitle;
+  document.getElementById("factsTitle").textContent       = s.factsTitle;
+
+  // static lists (right column)
+  function fillList(id, arr) {
+    const ul = document.getElementById(id);
+    ul.innerHTML = "";
+    arr.forEach(text => {
+      const li = document.createElement("li");
+      li.textContent = text;
+      ul.appendChild(li);
+    });
   }
+
+  fillList("homeCareList",      s.homeCareList);
+  fillList("farmCareList",      s.farmCareList);
+  fillList("communityCareList", s.communityCareList);
+  fillList("factsList",         s.factsList);
+}
+
+// initial text
+applyLang();
+
+// update when user changes language
+langSelect.addEventListener("change", () => {
+  lang = langSelect.value;
+  localStorage.setItem("whilang", lang);
   applyLang();
+  if (currentBand) {
+    renderCarePlan(currentBand);
+  }
+  updateReminderBanner();
+});
 
-  langSelect.addEventListener('change',()=>{
-    lang = langSelect.value;
-    localStorage.setItem('whilang',lang);
-    applyLang();
-    if(currentBand) renderCarePlan(currentBand);
-    updateReminderBanner();
-  });
+// ---------------- reading + band classification ----------------
+let currentBand = "";
+let lastReading = null;
 
-  // ---------------- reading + band classification ----------------
-  let currentBand = "";
-  let lastReading = null;
+function classifyBand(index) {
+  if (typeof index !== "number" || isNaN(index)) return "unknown";
+  if (index >= 70) return "good";
+  if (index >= 40) return "med";
+  return "poor";
+}
 
-  function classifyBand(index){
-    if(typeof index!=="number" || isNaN(index)) return "unknown";
-    if(index >= 70) return "good";
-    if(index >= 40) return "med";
-    return "poor";
+function renderReading() {
+  const s = t();
+  const box     = document.getElementById("readingBox");
+  const details = document.getElementById("readingDetails");
+  const whenEl  = document.getElementById("readingWhen");
+  const placeEl = document.getElementById("readingPlace");
+  const bandEl  = document.getElementById("bandLabel");
+
+  if (!lastReading) {
+    box.style.display = "none";
+    document.getElementById("carePlanSection").style.display = "none";
+    document.getElementById("noReadingNote").style.display = "block";
+    return;
   }
 
-  function renderReading(){
-    const s = t();
-    const box = document.getElementById('readingBox');
-    const details = document.getElementById('readingDetails');
-    const whenEl = document.getElementById('readingWhen');
-    const placeEl= document.getElementById('readingPlace');
-    const bandEl = document.getElementById('bandLabel');
+  box.style.display = "block";
+  document.getElementById("noReadingNote").style.display = "none";
 
-    if(!lastReading){
-      box.style.display="none";
-      document.getElementById('carePlanSection').style.display="none";
-      document.getElementById('noReadingNote').style.display="block";
-      return;
-    }
-    box.style.display="block";
-    document.getElementById('noReadingNote').style.display="none";
+  whenEl.textContent  = "Last saved: " + (lastReading.when || "–");
+  placeEl.textContent = lastReading.place ? ("Location: " + lastReading.place) : "";
 
-    whenEl.textContent = "Last saved: " + (lastReading.when || "–");
-    placeEl.textContent = lastReading.place ? ("Location: " + lastReading.place) : "";
+  const index = Number(lastReading.index);
+  const band  = classifyBand(index);
+  currentBand = band;
 
-    const index = Number(lastReading.index);
-    const band = classifyBand(index);
-    currentBand = band;
+  let bandText  = s.bandUnknown;
+  let bandClass = "band-unknown";
+  if (band === "good") { bandText = s.bandGood; bandClass = "band-good"; }
+  else if (band === "med") { bandText = s.bandMed; bandClass = "band-med"; }
+  else if (band === "poor") { bandText = s.bandPoor; bandClass = "band-poor"; }
 
-    let bandText = s.bandUnknown;
-    let bandClass = "band-unknown";
-    if(band==="good"){bandText=s.bandGood;bandClass="band-good";}
-    else if(band==="med"){bandText=s.bandMed;bandClass="band-med";}
-    else if(band==="poor"){bandText=s.bandPoor;bandClass="band-poor";}
+  bandEl.textContent = bandText;
+  bandEl.className   = "badge-band " + bandClass;
 
-    bandEl.textContent = bandText;
-    bandEl.className = "badge-band " + bandClass;
-
-    details.innerHTML="";
-    function addChip(label,value){
-      if(!value && value!==0) return;
-      const span=document.createElement('span');
-      span.textContent = label + ": " + value;
-      details.appendChild(span);
-    }
-    addChip(s.detailsIndex,index||"–");
-    addChip(s.detailsPH,lastReading.ph || "–");
-    addChip(s.detailsTemp,lastReading.temp || "–");
-    addChip(s.detailsTurb,lastReading.turb || "–");
-
-    renderCarePlan(band);
+  details.innerHTML = "";
+  function addChip(label, value) {
+    if (!value && value !== 0) return;
+    const span = document.createElement("span");
+    span.textContent = label + ": " + value;
+    details.appendChild(span);
   }
 
-  function renderCarePlan(band){
-    const s = t();
-    const sec = document.getElementById('carePlanSection');
-    if(!band || band==="unknown"){
-      sec.style.display="none";
-      return;
-    }
-    sec.style.display="block";
+  addChip(s.detailsIndex, index || "–");
+  addChip(s.detailsPH,    lastReading.ph   || "–");
+  addChip(s.detailsTemp,  lastReading.temp || "–");
+  addChip(s.detailsTurb,  lastReading.turb || "–");
 
-    const safetyList = document.getElementById('safetyList');
-    const improveList = document.getElementById('improveList');
-    const expertList  = document.getElementById('expertList');
-    safetyList.innerHTML = "";
-    improveList.innerHTML = "";
-    expertList.innerHTML  = "";
+  renderCarePlan(band);
+}
 
-    let sSafety=[],sImprove=[],sExpert=[];
-    if(band==="good"){
-      sSafety  = s.safetyGood;
-      sImprove = s.improveGood;
-      sExpert  = s.expertGood;
-    }else if(band==="med"){
-      sSafety  = s.safetyMed;
-      sImprove = s.improveMed;
-      sExpert  = s.expertMed;
-    }else{
-      sSafety  = s.safetyPoor;
-      sImprove = s.improvePoor;
-      sExpert  = s.expertPoor;
-    }
-    function fillUl(ul,arr){
-      arr.forEach(text=>{
-        const li=document.createElement('li');li.textContent=text;ul.appendChild(li);
-      });
-    }
-    fillUl(safetyList,sSafety);
-    fillUl(improveList,sImprove);
-    fillUl(expertList,sExpert);
+function renderCarePlan(band) {
+  const s = t();
+  const sec = document.getElementById("carePlanSection");
 
-    renderChecklist();
+  if (!band || band === "unknown") {
+    sec.style.display = "none";
+    return;
   }
+  sec.style.display = "block";
+
+  const safetyList = document.getElementById("safetyList");
+  const improveList = document.getElementById("improveList");
+  const expertList  = document.getElementById("expertList");
+  safetyList.innerHTML = "";
+  improveList.innerHTML = "";
+  expertList.innerHTML  = "";
+
+  let sSafety = [], sImprove = [], sExpert = [];
+  if (band === "good") {
+    sSafety  = s.safetyGood;
+    sImprove = s.improveGood;
+    sExpert  = s.expertGood;
+  } else if (band === "med") {
+    sSafety  = s.safetyMed;
+    sImprove = s.improveMed;
+    sExpert  = s.expertMed;
+  } else {
+    sSafety  = s.safetyPoor;
+    sImprove = s.improvePoor;
+    sExpert  = s.expertPoor;
+  }
+
+  function fillUl(ul, arr) {
+    arr.forEach(text => {
+      const li = document.createElement("li");
+      li.textContent = text;
+      ul.appendChild(li);
+    });
+  }
+
+  fillUl(safetyList,  sSafety);
+  fillUl(improveList, sImprove);
+  fillUl(expertList,  sExpert);
+
+  // will call your existing renderChecklist() function
+  renderChecklist();
+}
 
   // ---------------- load latest reading ----------------
 document.getElementById('loadLast').addEventListener('click',()=>{
