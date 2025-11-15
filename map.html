@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Water Health Index – Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    :root{
+      --bg1:#215871;
+      --bg2:#184757;
+      --card:#213a4a;
+      --card2:#253c4d;
+      --text:#e3fbfa;
+      --accent:#55ebca;
+      --accent2:#39bbe9;
+      --btn:#2cb5d6;
+      --btn-hover:#168eaf;
+      --good:#26c96a;
+      --med:#f1c644;
+      --poor:#e0526a;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:"Times New Roman",Times,serif;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
+    }
+    nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:1.1rem 2.2rem 0.3rem 2.2rem;
+    }
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:0.7rem;
+      font-weight:bold;
+      font-size:2.2rem;
+    }
+    .logo span{font-size:2.6rem;}
+    .nav-links{
+      display:flex;
+      gap:2rem;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      color:var(--text);
+      text-decoration:none;
+      font-weight:bold;
+      padding-bottom:2px;
+      border-bottom:2px solid transparent;
+    }
+    .nav-links a.active,
+    .nav-links a:hover{
+      color:var(--accent);
+      border-bottom-color:var(--accent);
+    }
+    .langbar select{
+      font-family:inherit;
+      font-size:1.05rem;
+      border-radius:7px;
+      padding:0.32rem 0.9rem;
+      border:1.3px solid #74c6e0;
+      background:#15313e;
+      color:var(--accent2);
+      font-weight:bold;
+    }
+    main{
+      max-width:1200px;
+      margin:3vw auto 2.5vw auto;
+      background:var(--card);
+      border-radius:17px;
+      padding:2.3rem 1.7rem 2.5rem;
+      box-shadow:0 8px 28px rgba(0,0,0,0.25);
+    }
+    h1{
+      margin:0 0 .4rem 0;
+      text-align:left;
+      color:var(--accent);
+      font-size:2.2rem;
+    }
+    .intro{
+      font-size:.96rem;
+      color:#bfe9f4;
+      margin-bottom:1.4rem;
+    }
+    .layout{
+      display:grid;
+      grid-template-columns:1.6fr 1.1fr;
+      gap:1.4rem;
+    }
+    @media(max-width:1024px){
+      .layout{grid-template-columns:1fr;}
+    }
+    .panel{
+      background:#233845;
+      border-radius:15px;
+      padding:1rem 1rem 1.2rem;
+    }
+    .filters{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.7rem;
+      align-items:center;
+      margin-bottom:.6rem;
+    }
+    label{
+      font-weight:bold;
+      color:var(--accent2);
+      font-size:.94rem;
+    }
+    select{
+      padding:.35rem .7rem;
+      border-radius:7px;
+      border:1px solid #28526c;
+      background:#182b35;
+      color:#e7fbff;
+      font-family:"Times New Roman",Times,serif;
+      font-size:.94rem;
+    }
+    #mapAll{
+      width:100%;
+      height:430px;
+      border-radius:14px;
+      overflow:hidden;
+    }
+    .legend{
+      position:absolute;
+      right:1.4rem;
+      bottom:1.4rem;
+      background:#1b2e3aee;
+      border-radius:10px;
+      padding:.4rem .7rem;
+      font-size:.85rem;
+      color:#d5f4ff;
+    }
+    .legend-row{
+      display:flex;
+      align-items:center;
+      gap:.35rem;
+      margin:.08rem 0;
+    }
+    .dot{
+      width:11px;
+      height:11px;
+      border-radius:50%;
+    }
+    .dot.good{background:var(--good);}
+    .dot.med{background:var(--med);}
+    .dot.poor{background:var(--poor);}
+    .dot.none{background:#78909c;}
+    .map-wrapper{position:relative;}
+
+    .section-title{
+      font-weight:bold;
+      color:var(--accent2);
+      margin-bottom:.3rem;
+    }
+    .details-box{
+      background:#1b3241;
+      border-radius:12px;
+      padding:.7rem .8rem;
+      font-size:.9rem;
+      color:#e5fbff;
+      min-height:80px;
+    }
+    .details-main{
+      font-size:.92rem;
+      margin-bottom:.25rem;
+    }
+    .band-badge{
+      display:inline-block;
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:.78rem;
+      color:#fff;
+      margin-left:.4rem;
+    }
+    .band-good{background:var(--good);}
+    .band-med{background:var(--med);color:#333;}
+    .band-poor{background:var(--poor);}
+    .band-unknown{background:#607d8b;}
+    .details-sub{
+      font-size:.86rem;
+      color:#c4edff;
+    }
+    .details-sub span{
+      margin-right:.5rem;
+    }
+    .details-note{
+      margin-top:.35rem;
+      font-size:.84rem;
+      color:#b8e3ff;
+    }
+    .recent{
+      margin-top:1rem;
+    }
+    .recent-list{
+      max-height:230px;
+      overflow-y:auto;
+      margin-top:.2rem;
+      border-radius:10px;
+      background:#1b2f3b;
+    }
+    .recent-item{
+      display:flex;
+      align-items:center;
+      gap:.45rem;
+      padding:.42rem .55rem;
+      font-size:.86rem;
+      border-bottom:1px solid #213c47;
+      cursor:pointer;
+    }
+    .recent-item:hover{
+      background:#234152;
+    }
+    .recent-item.active{
+      background:#28556a;
+    }
+    .recent-dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+    }
+    .recent-main{
+      flex:1;
+    }
+    .recent-when{
+      color:#d4f4ff;
+    }
+    .recent-index{
+      font-size:.8rem;
+      color:#a7d7f3;
+    }
+    .recent-empty{
+      padding:.5rem .6rem;
+      font-size:.86rem;
+      color:#9ec7dc;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <span aria-hidden="true">🗺️</span>
+    Water Health Index
+  </div>
+  <div class="nav-links">
+    <a href="index.html" id="navHome">Home</a>
+    <a href="measure.html" id="navMeasure">Measure</a>
+    <a href="map.html" class="active" id="navMap">Map</a>
+    <a href="farmers.html" id="navFarm">Farmers Assistance</a>
+    <a href="care.html" id="navCare">Care</a>
+    <a href="phchart.html" id="navChart">Chart</a>
+    <a href="details.html" id="navDetails">Details</a>
+    <span class="langbar">
+      <select id="langsel">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="ru">Русский</option>
+        <option value="ja">日本語</option>
+        <option value="zh">中文</option>
+      </select>
+    </span>
+  </div>
+</nav>
+
+<main>
+  <h1 id="pageTitle">Water quality map</h1>
+  <p class="intro" id="introText">
+    Explore all your saved readings on an interactive map. Tap markers to see pH, temperature and turbidity, and quickly jump to care and farming advice.
+  </p>
+
+  <div class="layout">
+    <!-- LEFT: MAP -->
+    <section class="panel">
+      <div class="filters">
+        <label for="bandFilter" id="filterLabel">Show band</label>
+        <select id="bandFilter">
+          <option value="all" id="filterAll">All readings</option>
+          <option value="good" id="filterGood">Good (≥ 70)</option>
+          <option value="med" id="filterMed">Moderate (40–69)</option>
+          <option value="poor" id="filterPoor">Poor (&lt; 40)</option>
+        </select>
+      </div>
+      <div class="map-wrapper">
+        <div id="mapAll"></div>
+        <div class="legend" id="legendBox">
+          <div class="legend-row"><span class="dot good"></span><span id="legGood">Good (index ≥ 70)</span></div>
+          <div class="legend-row"><span class="dot med"></span><span id="legMed">Moderate (40–69)</span></div>
+          <div class="legend-row"><span class="dot poor"></span><span id="legPoor">Poor (&lt; 40)</span></div>
+          <div class="legend-row"><span class="dot none"></span><span id="legNoLoc">Saved without location</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: DETAILS + RECENT -->
+    <aside class="panel">
+      <div class="section-title" id="detailsTitle">Reading details</div>
+      <div class="details-box" id="detailsBox">
+        <div class="details-main" id="detailsMain">
+          Tap a marker on the map or pick a reading from the list to see its details here.
+        </div>
+        <div class="details-sub" id="detailsSub"></div>
+        <div class="details-note" id="detailsNote"></div>
+      </div>
+
+      <div class="recent">
+        <div class="section-title" id="recentTitle">Recent readings</div>
+        <div class="recent-list" id="recentList">
+          <div class="recent-empty" id="recentEmpty">
+            No readings saved yet. Use the Measure page to add some, then come back here.
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+
+  // -------------- translations --------------
+  const strings = {
+    en:{
+      navHome:"Home",navMeasure:"Measure",navMap:"Map",navFarm:"Farmers Assistance",navCare:"Care",navChart:"Chart",navDetails:"Details",
+      pageTitle:"Water quality map",
+      intro:"Explore all your saved readings on an interactive map. Tap markers to see pH, temperature and turbidity, and quickly jump to care and farming advice.",
+      filterLabel:"Show band",
+      filterAll:"All readings",
+      filterGood:"Good (≥ 70)",
+      filterMed:"Moderate (40–69)",
+      filterPoor:"Poor (< 40)",
+      legGood:"Good (index ≥ 70)",
+      legMed:"Moderate (40–69)",
+      legPoor:"Poor (< 40)",
+      legNoLoc:"Saved without location",
+      detailsTitle:"Reading details",
+      detailsEmpty:"Tap a marker on the map or pick a reading from the list to see its details here.",
+      recentTitle:"Recent readings",
+      recentEmpty:"No readings saved yet. Use the Measure page to add some, then come back here.",
+      bandGood:"Good quality",
+      bandMed:"Moderate quality",
+      bandPoor:"Poor quality",
+      bandUnknown:"No index",
+      noLocation:"This reading has no location saved. You can still use it for care or crop advice.",
+      detailsLine(when,place){
+        let txt = "Saved at " + when;
+        if(place) txt += " • " + place;
+        return txt;
+      },
+      detailsSub(ph,temp,turb,index){
+        return "Index " + index + " • pH " + ph + " • Temp " + temp + "°C • Turbidity " + turb;
+      }
+    },
+
+    hi:{
+      navHome:"होम",navMeasure:"मापन",navMap:"मानचित्र",navFarm:"किसान सहायता",navCare:"देखभाल",navChart:"चार्ट",navDetails:"विवरण",
+      pageTitle:"जल गुणवत्ता मानचित्र",
+      intro:"आपकी सभी सहेजी गई रीडिंग्स इस इंटरैक्टिव मानचित्र पर दिखती हैं। मार्कर पर टैप करके pH, तापमान और अस्पष्टता देखें और सीधे देखभाल व किसान सलाह पेज पर जाएँ।",
+      filterLabel:"बैंड दिखाएँ",
+      filterAll:"सभी रीडिंग्स",
+      filterGood:"अच्छा (≥ 70)",
+      filterMed:"मध्यम (40–69)",
+      filterPoor:"खराब (< 40)",
+      legGood:"अच्छा (सूचकांक ≥ 70)",
+      legMed:"मध्यम (40–69)",
+      legPoor:"खराब (< 40)",
+      legNoLoc:"स्थान बिना सहेजी गई रीडिंग",
+      detailsTitle:"रीडिंग विवरण",
+      detailsEmpty:"मानचित्र पर किसी मार्कर पर टैप करें या सूची से रीडिंग चुनें, यहाँ विवरण देखने के लिए।",
+      recentTitle:"हाल की रीडिंग्स",
+      recentEmpty:"अभी कोई रीडिंग सेव नहीं है। मापन पेज से रीडिंग जोड़ें और फिर यहाँ वापस आएँ।",
+      bandGood:"अच्छी गुणवत्ता",
+      bandMed:"मध्यम गुणवत्ता",
+      bandPoor:"खराब गुणवत्ता",
+      bandUnknown:"कोई सूचकांक नहीं",
+      noLocation:"इस रीडिंग के साथ स्थान सेव नहीं है, लेकिन आप इसे देखभाल या फसल सलाह के लिए उपयोग कर सकते हैं।",
+      detailsLine(when,place){
+        let txt = "सहेजा गया समय: " + when;
+        if(place) txt += " • " + place;
+        return txt;
+      },
+      detailsSub(ph,temp,turb,index){
+        return "सूचकांक " + index + " • pH " + ph + " • ताप " + temp + "°C • अस्पष्टता " + turb;
+      }
+    },
+
+    bn:{
+      navHome:"হোম",navMeasure:"মাপ",navMap:"মানচিত্র",navFarm:"কৃষক সহায়তা",navCare:"যত্ন",navChart:"চার্ট",navDetails:"বিস্তারিত",
+      pageTitle:"জল মান মানচিত্র",
+      intro:"আপনার সব সংরক্ষিত রিডিং এক জায়গায় মানচিত্রে দেখুন। মার্কারে ট্যাপ করে pH, তাপমাত্রা ও ঘোলাভাব দেখুন এবং সহজে যত্ন ও কৃষক সহায়তা পেজে যান।",
+      filterLabel:"ব্যান্ড দেখান",
+      filterAll:"সব রিডিং",
+      filterGood:"ভাল (≥ 70)",
+      filterMed:"মাঝারি (40–69)",
+      filterPoor:"খারাপ (< 40)",
+      legGood:"ভাল (সূচক ≥ 70)",
+      legMed:"মাঝারি (40–69)",
+      legPoor:"খারাপ (< 40)",
+      legNoLoc:"স্থান ছাড়া সংরক্ষিত রিডিং",
+      detailsTitle:"রিডিংয়ের বিস্তারিত",
+      detailsEmpty:"মানচিত্রে কোনও মার্কারে ট্যাপ করুন বা তালিকা থেকে রিডিং বেছে নিন, এখানে বিস্তারিত দেখতে।",
+      recentTitle:"সাম্প্রতিক রিডিং",
+      recentEmpty:"এখনো কোনো রিডিং সংরক্ষিত নেই। মাপ পেজ থেকে রিডিং যোগ করে আবার এখানে আসুন।",
+      bandGood:"ভাল মানের পানি",
+      bandMed:"মাঝারি মানের পানি",
+      bandPoor:"খারাপ মানের পানি",
+      bandUnknown:"সূচক নেই",
+      noLocation:"এই রিডিং‑এর সাথে কোনো অবস্থান নেই, তবুও যত্ন বা ফসল পরামর্শের জন্য ব্যবহার করা যাবে।",
+      detailsLine(when,place){
+        let txt = "সংরক্ষণের সময়: " + when;
+        if(place) txt += " • " + place;
+        return txt;
+      },
+      detailsSub(ph,temp,turb,index){
+        return "সূচক " + index + " • pH " + ph + " • তাপমাত্রা " + temp + "°C • ঘোলাভাব " + turb;
+      }
+    },
+
+    es:{
+      navHome:"Inicio",navMeasure:"Medir",navMap:"Mapa",navFarm:"Ayuda a agricultores",navCare:"Cuidado",navChart:"Gráfico",navDetails:"Detalles",
+      pageTitle:"Mapa de calidad del agua",
+      intro:"Explora todas tus lecturas guardadas en un mapa interactivo. Toca los marcadores para ver pH, temperatura y turbidez, y salta rápido a las páginas de cuidado y ayuda agrícola.",
+      filterLabel:"Mostrar banda",
+      filterAll:"Todas las lecturas",
+      filterGood:"Buena (≥ 70)",
+      filterMed:"Moderada (40–69)",
+      filterPoor:"Mala (< 40)",
+      legGood:"Buena (índice ≥ 70)",
+      legMed:"Moderada (40–69)",
+      legPoor:"Mala (< 40)",
+      legNoLoc:"Lectura sin ubicación guardada",
+      detailsTitle:"Detalles de la lectura",
+      detailsEmpty:"Toca un marcador en el mapa o elige una lectura de la lista para ver sus detalles aquí.",
+      recentTitle:"Lecturas recientes",
+      recentEmpty:"Aún no hay lecturas guardadas. Ve a la página Medir para añadir algunas y luego vuelve aquí.",
+      bandGood:"Calidad buena",
+      bandMed:"Calidad moderada",
+      bandPoor:"Calidad mala",
+      bandUnknown:"Sin índice",
+      noLocation:"Esta lectura no tiene ubicación guardada, pero igual puedes usarla para consejos de cuidado y cultivos.",
+      detailsLine(when,place){
+        let txt = "Guardada en: " + when;
+        if(place) txt += " • " + place;
+        return txt;
+      },
+      detailsSub(ph,temp,turb,index){
+        return "Índice " + index + " • pH " + ph + " • Temp " + temp + "°C • Turbidez " + turb;
+      }
+    },
+
+    fr:{
+      navHome:"Accueil",navMeasure:"Mesure",navMap:"Carte",navFarm:"Aide aux agriculteurs",navCare:"Soins",navChart:"Courbe",navDetails:"Détails",
+      pageTitle:"Carte de qualité de l’eau",
+      intro:"Affichez toutes vos mesures enregistrées sur une carte interactive. Touchez un marqueur pour voir le pH, la température et la turbidité, puis accédez rapidement aux pages de soins et d’aide aux agriculteurs.",
+      filterLabel:"Afficher la bande",
+      filterAll:"Toutes les mesures",
+      filterGood:"Bonne (≥ 70)",
+      filterMed:"Moyenne (40–69)",
+      filterPoor:"Mauvaise (< 40)",
+      legGood:"Bonne (indice ≥ 70)",
+      legMed:"Moyenne (40–69)",
+      legPoor:"Mauvaise (< 40)",
+      legNoLoc:"Mesure sans position enregistrée",
+      detailsTitle:"Détails de la mesure",
+      detailsEmpty:"Touchez un marqueur sur la carte ou choisissez une mesure dans la liste pour voir les détails ici.",
+      recentTitle:"Mesures récentes",
+      recentEmpty:"Aucune mesure enregistrée pour l’instant. Utilisez la page Mesure puis revenez ici.",
+      bandGood:"Bonne qualité",
+      bandMed:"Qualité moyenne",
+      bandPoor:"Mauvaise qualité",
+      bandUnknown:"Aucun indice",
+      noLocation:"Cette mesure n’a pas de position enregistrée, mais vous pouvez tout de même l’utiliser pour les conseils de soin et de culture.",
+      detailsLine(when,place){
+        let txt = "Enregistrée le : " + when;
+        if(place) txt += " • " + place;
+        return txt;
+      },
+      detailsSub(ph,temp,turb,index){
+        return "Indice " + index + " • pH " + ph + " • Temp. " + temp + "°C • Turbidité " + turb;
+      }
+    },
+
+    ru:{
+      navHome:"Главная",navMeasure:"Измерение",navMap:"Карта",navFarm:"Помощь фермерам",navCare:"Уход",navChart:"График",navDetails:"Подробно",
+      pageTitle:"Карта качества воды",
+      intro:"Просматривайте все сохранённые измерения на интерактивной карте. Нажимайте на маркеры, чтобы увидеть pH, температуру и мутность, и быстро переходить к страницам рекомендаций и помощи фермерам.",
+      filterLabel:"Показать диапазон",
+      filterAll:"Все измерения",
+      filterGood:"Хороший (≥ 70)",
+      filterMed:"Средний (40–69)",
+      filterPoor:"Плохой (< 40)",
+      legGood:"Хороший (индекс ≥ 70)",
+      legMed:"Средний (40–69)",
+      legPoor:"Плохой (< 40)",
+      legNoLoc:"Запись без координат",
+      detailsTitle:"Подробности измерения",
+      detailsEmpty:"Выберите маркер на карте или строку в списке, чтобы увидеть детали здесь.",
+      recentTitle:"Недавние измерения",
+      recentEmpty:"Пока нет сохранённых измерений. Сделайте их на странице Измерение и вернитесь сюда.",
+      bandGood:"Хорошее качество",
+      bandMed:"Удовлетворительное качество",
+      bandPoor:"Плохое качество",
+      bandUnknown:"Нет индекса",
+      noLocation:"Для этой записи не сохранены координаты, но её можно использовать для советов по уходу и выбору культур.",
+      detailsLine(when,place){
+        let txt = "Сохранено: " + when;
+        if(place) txt += " • " + place;
+        return txt;
+      },
+      detailsSub(ph,temp,turb,index){
+        return "Индекс " + index + " • pH " + ph + " • Темп. " + temp + "°C • Мутность " + turb;
+      }
+    },
+
+    ja:{
+      navHome:"ホーム",navMeasure:"計測",navMap:"地図",navFarm:"農家サポート",navCare:"ケア",navChart:"チャート",navDetails:"詳細",
+      pageTitle:"水質マップ",
+      intro:"保存したすべての測定結果をインタラクティブな地図上で確認できます。マーカーをタップすると pH・温度・濁度が表示され、ケアや農家向けアドバイスのページにも簡単に移動できます。",
+      filterLabel:"表示するランク",
+      filterAll:"すべての測定",
+      filterGood:"良好 (≥ 70)",
+      filterMed:"普通 (40–69)",
+      filterPoor:"悪い (< 40)",
+      legGood:"良好 (指数 ≥ 70)",
+      legMed:"普通 (40–69)",
+      legPoor:"悪い (< 40)",
+      legNoLoc:"位置情報なしで保存された測定値",
+      detailsTitle:"測定の詳細",
+      detailsEmpty:"地図上のマーカーか、右側の一覧から測定を選ぶと、ここに詳細が表示されます。",
+      recentTitle:"最近の測定",
+      recentEmpty:"まだ測定が保存されていません。計測ページで測定してから、このページを開いてください。",
+      bandGood:"水質：良好",
+      bandMed:"水質：普通",
+      bandPoor:"水質：悪い",
+      bandUnknown:"指数なし",
+      noLocation:"この測定には位置情報がありませんが、ケアや作物アドバイスには利用できます。",
+      detailsLine(when,place){
+        let txt = "保存日時: " + when;
+        if(place) txt += " • " + place;
+        return txt;
+      },
+      detailsSub(ph,temp,turb,index){
+        return "指数 " + index + " • pH " + ph + " • 温度 " + temp + "°C • 濁度 " + turb;
+      }
+    },
+
+    zh:{
+      navHome:"主页",navMeasure:"测量",navMap:"地图",navFarm:"农户助手",navCare:"养护",navChart:"图表",navDetails:"详情",
+      pageTitle:"水质地图",
+      intro:"在交互式地图上查看你保存的所有水质读数。点击标记即可查看 pH、温度和浑浊度，并快速跳转到养护和农户助手页面。",
+      filterLabel:"显示等级",
+      filterAll:"全部读数",
+      filterGood:"良好 (≥ 70)",
+      filterMed:"中等 (40–69)",
+      filterPoor:"较差 (< 40)",
+      legGood:"良好 (指数 ≥ 70)",
+      legMed:"中等 (40–69)",
+      legPoor:"较差 (< 40)",
+      legNoLoc:"未保存位置的读数",
+      detailsTitle:"读数详情",
+      detailsEmpty:"点击地图上的标记或右侧列表中的一条记录，在这里查看详细信息。",
+      recentTitle:"最近读数",
+      recentEmpty:"还没有保存任何读数。请先在“测量”页面保存读数，然后再回来查看。",
+      bandGood:"水质：良好",
+      bandMed:"水质：中等",
+      bandPoor:"水质：较差",
+      bandUnknown:"无指数",
+      noLocation:"这条读数没有保存位置，但仍可以用于养护和作物建议。",
+      detailsLine(when,place){
+        let txt = "保存时间：" + when;
+        if(place) txt += " • " + place;
+        return txt;
+      },
+      detailsSub(ph,temp,turb,index){
+        return "指数 " + index + " • pH " + ph + " • 温度 " + temp + "°C • 浑浊度 " + turb;
+      }
+    }
+  };
+
+  const langSel = document.getElementById('langsel');
+  let lang = localStorage.getItem('whilang') || 'en';
+  langSel.value = lang;
+
+  function t(){ return strings[lang] || strings.en; }
+
+  function applyLang(){
+    const s = t();
+    document.getElementById('navHome').textContent    = s.navHome;
+    document.getElementById('navMeasure').textContent = s.navMeasure;
+    document.getElementById('navMap').textContent     = s.navMap;
+    document.getElementById('navFarm').textContent    = s.navFarm;
+    document.getElementById('navCare').textContent    = s.navCare;
+    document.getElementById('navChart').textContent   = s.navChart;
+    document.getElementById('navDetails').textContent = s.navDetails;
+
+    document.getElementById('pageTitle').textContent  = s.pageTitle;
+    document.getElementById('introText').textContent  = s.intro;
+    document.getElementById('filterLabel').textContent= s.filterLabel;
+    document.getElementById('filterAll').textContent  = s.filterAll;
+    document.getElementById('filterGood').textContent = s.filterGood;
+    document.getElementById('filterMed').textContent  = s.filterMed;
+    document.getElementById('filterPoor').textContent = s.filterPoor;
+    document.getElementById('legGood').textContent    = s.legGood;
+    document.getElementById('legMed').textContent     = s.legMed;
+    document.getElementById('legPoor').textContent    = s.legPoor;
+    document.getElementById('legNoLoc').textContent   = s.legNoLoc;
+    document.getElementById('detailsTitle').textContent = s.detailsTitle;
+    document.getElementById('recentTitle').textContent  = s.recentTitle;
+    document.getElementById('recentEmpty').textContent  = s.recentEmpty;
+    document.getElementById('detailsMain').textContent  = s.detailsEmpty;
+  }
+  applyLang();
+
+  langSel.addEventListener('change',()=>{
+    lang = langSel.value;
+    localStorage.setItem('whilang',lang);
+    applyLang();
+    renderRecentList();
+    if(selectedId!=null) showDetailsById(selectedId);
+  });
+
+  // -------------- map + data --------------
+  const map = L.map('mapAll',{zoomControl:true,scrollWheelZoom:false}).setView([23,80],4.5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    maxZoom:14,
+    attribution:'© OpenStreetMap'
+  }).addTo(map);
+
+  let readings = [];
+  try{
+    readings = JSON.parse(localStorage.getItem('whReadings') || "[]");
+    if(!Array.isArray(readings)) readings = [];
+  }catch(e){readings=[];}
+
+  // add ids to readings
+  readings.forEach((r,i)=>{ if(r.id==null) r.id = i; });
+
+  // classify band
+  function bandForIndex(idx){
+    idx = Number(idx);
+    if(isNaN(idx)) return "unknown";
+    if(idx>=70) return "good";
+    if(idx>=40) return "med";
+    return "poor";
+  }
+
+  // marker layer
+  const markers = [];
+  const markerLayer = L.layerGroup().addTo(map);
+
+  function markerColor(band){
+    if(band==="good") return "#26c96a";
+    if(band==="med")  return "#f1c644";
+    if(band==="poor") return "#e0526a";
+    return "#78909c";
+  }
+
+  function createMarker(r){
+    if(typeof r.lat!=="number" || typeof r.lng!=="number") return null;
+    const band = bandForIndex(r.index);
+    const color = markerColor(band);
+    const marker = L.circleMarker([r.lat,r.lng],{
+      radius:7,
+      color:"#0a141a",
+      weight:1.5,
+      fillColor:color,
+      fillOpacity:0.9
+    });
+    const popupHtml = `
+      <div style="font-size:12px;">
+        <div><strong>Index ${r.index ?? "–"} (${band.toUpperCase()})</strong></div>
+        <div style="margin-top:2px;">pH ${r.ph ?? "–"} • Temp ${r.temp ?? "–"}°C</div>
+        <div style="margin-top:2px;">Turbidity: ${r.turb ?? "–"}</div>
+      </div>
+    `;
+    marker.bindPopup(popupHtml);
+    marker.on('click',()=>{
+      selectedId = r.id;
+      showDetails(r);
+      highlightRecent(r.id);
+    });
+    return marker;
+  }
+
+  function rebuildMarkers(){
+    markerLayer.clearLayers();
+    markers.length = 0;
+    const filter = document.getElementById('bandFilter').value;
+    readings.forEach(r=>{
+      const band = bandForIndex(r.index);
+      if(filter!=="all" && band!==filter) return;
+      const m = createMarker(r);
+      if(m){
+        m.addTo(markerLayer);
+        markers.push({id:r.id,marker:m,band});
+      }
+    });
+    if(markers.length){
+      const group = L.featureGroup(markers.map(m=>m.marker));
+      map.fitBounds(group.getBounds().pad(0.15));
+    }
+  }
+
+  document.getElementById('bandFilter').addEventListener('change',rebuildMarkers);
+  rebuildMarkers();
+
+  // -------------- details + recent list --------------
+  const recentList   = document.getElementById('recentList');
+  const recentEmpty  = document.getElementById('recentEmpty');
+  let selectedId = null;
+
+  function renderRecentList(){
+    const s = t();
+    recentList.innerHTML = "";
+    const list = readings.slice().reverse(); // newest first
+    if(!list.length){
+      const div=document.createElement('div');
+      div.className="recent-empty";
+      div.textContent=s.recentEmpty;
+      recentList.appendChild(div);
+      return;
+    }
+    list.forEach(r=>{
+      const div=document.createElement('div');
+      div.className="recent-item";
+      div.dataset.id = r.id;
+      const dot=document.createElement('div');
+      dot.className="recent-dot";
+      dot.style.background=markerColor(bandForIndex(r.index));
+      const main=document.createElement('div');
+      main.className="recent-main";
+      const when=document.createElement('div');
+      when.className="recent-when";
+      when.textContent=r.when || "";
+      const idx=document.createElement('div');
+      idx.className="recent-index";
+      idx.textContent="Index " + (r.index ?? "–") + ", pH " + (r.ph ?? "–");
+      main.appendChild(when);
+      main.appendChild(idx);
+      div.appendChild(dot);
+      div.appendChild(main);
+      div.addEventListener('click',()=>{
+        selectedId = r.id;
+        showDetails(r);
+        highlightRecent(r.id);
+        if(typeof r.lat==="number" && typeof r.lng==="number"){
+          map.setView([r.lat,r.lng], 12);
+        }
+      });
+      recentList.appendChild(div);
+    });
+  }
+
+  function highlightRecent(id){
+    const items = recentList.querySelectorAll('.recent-item');
+    items.forEach(it=>{
+      if(Number(it.dataset.id)===id) it.classList.add('active');
+      else it.classList.remove('active');
+    });
+  }
+
+  function showDetails(r){
+    const s = t();
+    const main = document.getElementById('detailsMain');
+    const sub  = document.getElementById('detailsSub');
+    const note = document.getElementById('detailsNote');
+
+    main.textContent = s.detailsLine(r.when || "–", r.place || "");
+    sub.textContent  = s.detailsSub(r.ph ?? "–", r.temp ?? "–", r.turb ?? "–", r.index ?? "–");
+
+    note.textContent = "";
+    if(typeof r.lat!=="number" || typeof r.lng!=="number"){
+      note.textContent = s.noLocation;
+    }
+
+    // band badge
+    const band = bandForIndex(r.index);
+    let bandText=s.bandUnknown, bandClass="band-unknown";
+    if(band==="good"){bandText=s.bandGood; bandClass="band-good";}
+    else if(band==="med"){bandText=s.bandMed; bandClass="band-med";}
+    else if(band==="poor"){bandText=s.bandPoor; bandClass="band-poor";}
+    // append badge into main
+    main.innerHTML = main.textContent + " ";
+    const span=document.createElement('span');
+    span.className="band-badge "+bandClass;
+    span.textContent=bandText;
+    document.getElementById('detailsMain').innerHTML="";
+    document.getElementById('detailsMain').appendChild(document.createTextNode(s.detailsLine(r.when || "–", r.place || "")));
+    document.getElementById('detailsMain').appendChild(document.createTextNode(" "));
+    document.getElementById('detailsMain').appendChild(span);
+    document.getElementById('detailsSub').textContent = s.detailsSub(r.ph ?? "–", r.temp ?? "–", r.turb ?? "–", r.index ?? "–");
+    document.getElementById('detailsNote').textContent = (typeof r.lat!=="number" || typeof r.lng!=="number") ? s.noLocation : "";
+  }
+
+  function showDetailsById(id){
+    const r = readings.find(x=>x.id===id);
+    if(r) showDetails(r);
+  }
+
+  renderRecentList();
+
+});
+</script>
+
+</body>
+</html>
