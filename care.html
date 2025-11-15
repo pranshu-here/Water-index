@@ -778,64 +778,65 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   // ---------------- load latest reading ----------------
-  document.getElementById('loadLast').addEventListener('click',()=>{
-    let data=[];
-    try{
-      data = JSON.parse(localStorage.getItem('whi_readings') || "[]");
-    }catch(e){data=[];}
-    if(!Array.isArray(data) || data.length===0){
-      alert("No saved readings found. Go to the Measure page and save at least one reading.");
-      return;
-    }
-    lastReading = data[data.length-1];
-    renderReading();
-    updateReminderBanner(true);
-  });
-
-  // ---------------- checklist with localStorage ----------------
-  const checklistEl = document.getElementById('checklist');
-  const CHECK_KEY = "whi_care_checks";
-
-  function loadChecks(){
-    try{
-      const obj = JSON.parse(localStorage.getItem(CHECK_KEY) || "{}");
-      return (typeof obj==="object" && obj) ? obj : {};
-    }catch(e){return {};}
+document.getElementById('loadLast').addEventListener('click',()=>{
+  let data=[];
+  try{
+    // IMPORTANT: use the same key as measure.html
+    data = JSON.parse(localStorage.getItem('whReadings') || "[]");
+  }catch(e){data=[];}
+  if(!Array.isArray(data) || data.length===0){
+    alert("No saved readings found. Go to the Measure page and save at least one reading.");
+    return;
   }
-  function saveChecks(obj){
-    localStorage.setItem(CHECK_KEY,JSON.stringify(obj||{}));
-  }
+  lastReading = data[data.length-1];
+  renderReading();
+  updateReminderBanner(true);
+});
 
-  function renderChecklist(){
-    const s = t();
-    const state = loadChecks();
-    checklistEl.innerHTML="";
-    s.checklistItems.forEach((text,idx)=>{
-      const id = "check_"+idx;
-      const li=document.createElement('li');
-      const cb=document.createElement('input');
-      cb.type="checkbox";
-      cb.id=id;
-      cb.checked = !!state[id];
-      cb.addEventListener('change',()=>{
-        const st=loadChecks();
-        st[id]=cb.checked;
-        saveChecks(st);
-      });
-      const lbl=document.createElement('label');
-      lbl.setAttribute('for',id);
-      lbl.textContent = text;
-      li.appendChild(cb);
-      li.appendChild(lbl);
-      checklistEl.appendChild(li);
+// ---------------- checklist with localStorage ----------------
+const checklistEl = document.getElementById('checklist');
+const CHECK_KEY = "whi_care_checks";
+
+function loadChecks(){
+  try{
+    const obj = JSON.parse(localStorage.getItem(CHECK_KEY) || "{}");
+    return (typeof obj==="object" && obj) ? obj : {};
+  }catch(e){return {};}
+}
+function saveChecks(obj){
+  localStorage.setItem(CHECK_KEY,JSON.stringify(obj||{}));
+}
+
+function renderChecklist(){
+  const s = t();
+  const state = loadChecks();
+  checklistEl.innerHTML="";
+  s.checklistItems.forEach((text,idx)=>{
+    const id = "check_"+idx;
+    const li=document.createElement('li');
+    const cb=document.createElement('input');
+    cb.type="checkbox";
+    cb.id=id;
+    cb.checked = !!state[id];
+    cb.addEventListener('change',()=>{
+      const st=loadChecks();
+      st[id]=cb.checked;
+      saveChecks(st);
     });
-  }
-  renderChecklist();
-
-  document.getElementById('clearChecks').addEventListener('click',()=>{
-    saveChecks({});
-    renderChecklist();
+    const lbl=document.createElement('label');
+    lbl.setAttribute('for',id);
+    lbl.textContent = text;
+    li.appendChild(cb);
+    li.appendChild(lbl);
+    checklistEl.appendChild(li);
   });
+}
+renderChecklist();
+
+document.getElementById('clearChecks').addEventListener('click',()=>{
+  saveChecks({});
+  renderChecklist();
+});
 
   // ---------------- symptom helper ----------------
   const symptomSelect = document.getElementById('symptomSelect');
