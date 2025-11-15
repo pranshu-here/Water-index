@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Water Health Index – Farmers Assistance</title>
+  <style>
+    :root{
+      --bg1:#215871;
+      --bg2:#184757;
+      --card:#213a4a;
+      --card2:#253c4d;
+      --text:#e3fbfa;
+      --accent:#55ebca;
+      --accent2:#39bbe9;
+      --btn:#2cb5d6;
+      --btn-hover:#168eaf;
+      --rowHighlight:#294f63;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:"Times New Roman",Times,serif;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
+    }
+    nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:1.1rem 2.2rem 0.3rem 2.2rem;
+    }
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:0.7rem;
+      font-weight:bold;
+      font-size:2.2rem;
+    }
+    .logo span{font-size:2.6rem;}
+    .nav-links{
+      display:flex;
+      gap:2rem;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      color:var(--text);
+      text-decoration:none;
+      font-weight:bold;
+      padding-bottom:2px;
+      border-bottom:2px solid transparent;
+    }
+    .nav-links a.active,
+    .nav-links a:hover{
+      color:var(--accent);
+      border-bottom-color:var(--accent);
+    }
+    .langbar select{
+      font-family:inherit;
+      font-size:1.05rem;
+      border-radius:7px;
+      padding:0.32rem 0.9rem;
+      border:1.3px solid #74c6e0;
+      background:#15313e;
+      color:var(--accent2);
+      font-weight:bold;
+    }
+    main{
+      max-width:1200px;
+      margin:3vw auto 2.5vw auto;
+      background:var(--card);
+      border-radius:17px;
+      padding:2.3rem 1.7rem 2.5rem;
+      box-shadow:0 8px 28px rgba(0,0,0,0.25);
+    }
+    h1{
+      margin:0 0 .4rem 0;
+      text-align:left;
+      color:var(--accent);
+      font-size:2.2rem;
+    }
+    .intro{
+      font-size:.96rem;
+      color:#bfe9f4;
+      margin-bottom:1.4rem;
+    }
+    .layout{
+      display:grid;
+      grid-template-columns:1.6fr 1.2fr;
+      gap:1.5rem;
+    }
+    @media(max-width:1024px){
+      .layout{grid-template-columns:1fr;}
+    }
+    .panel{
+      background:var(--card2);
+      border-radius:15px;
+      padding:1.3rem 1.2rem 1.4rem;
+    }
+    .panel h2{
+      margin:.1rem 0 .7rem 0;
+      font-size:1.25rem;
+      color:var(--accent2);
+    }
+    .section{
+      margin-top:1.1rem;
+      padding-top:.5rem;
+      border-top:1px solid rgba(160,220,240,0.28);
+    }
+    .section-title{
+      font-weight:bold;
+      color:var(--accent2);
+      margin-bottom:.3rem;
+    }
+    .controls-row{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:.6rem;
+      margin:.4rem 0 .8rem;
+    }
+    label{
+      font-weight:bold;
+      color:var(--accent2);
+    }
+    input[type=number],select{
+      padding:.4rem .6rem;
+      border-radius:7px;
+      border:1px solid #27536b;
+      background:#182b35;
+      color:#e7fbff;
+      font-family:"Times New Roman",Times,serif;
+    }
+    select{min-width:180px;}
+    button{
+      border:none;
+      border-radius:8px;
+      padding:.45rem .9rem;
+      font-family:"Times New Roman",Times,serif;
+      font-size:.95rem;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    .btn-main{background:var(--btn);color:#fff;}
+    .btn-main:hover{background:var(--btn-hover);}
+    .btn-ghost{
+      background:transparent;
+      border:1px solid #3b7b95;
+      color:#cdefff;
+    }
+    .status-chip{
+      display:inline-block;
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:.8rem;
+      font-weight:bold;
+      margin-left:.4rem;
+    }
+    .ok{background:#225f36;color:#e7ffe9;}
+    .warn{background:#735616;color:#fff2c0;}
+    .bad{background:#7b1f1f;color:#ffe3e3;}
+    .cards{
+      display:flex;
+      flex-direction:column;
+      gap:.7rem;
+      margin-top:.4rem;
+    }
+    .card{
+      background:#1b3441;
+      border-radius:10px;
+      padding:.6rem .7rem .7rem;
+      font-size:.9rem;
+      color:#e5fbff;
+    }
+    .card-title{
+      font-weight:bold;
+      color:var(--accent2);
+      margin-bottom:.2rem;
+    }
+    .card ul{
+      margin:.2rem 0 0 1.1rem;
+      padding:0;
+      list-style:disc;
+      font-size:.88rem;
+    }
+    .pill-list{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.35rem;
+      margin-top:.3rem;
+    }
+    .pill{
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:.82rem;
+      background:#16323f;
+      border:1px solid #3f7f97;
+      color:#d2f6ff;
+    }
+    .note{
+      font-size:.86rem;
+      color:#b9e3ff;
+      margin-top:.3rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <span aria-hidden="true">🌾</span>
+    Water Health Index
+  </div>
+  <div class="nav-links">
+    <a href="index.html" id="navHome">Home</a>
+    <a href="measure.html" id="navMeasure">Measure</a>
+    <a href="map.html" id="navMap">Map</a>
+    <a href="farmers.html" class="active" id="navFarm">Farmers Assistance</a>
+    <a href="care.html" id="navCare">Care</a>
+    <a href="phchart.html" id="navChart">Chart</a>
+    <a href="details.html" id="navDetails">Details</a>
+    <span class="langbar">
+      <select id="langsel">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="ru">Русский</option>
+        <option value="ja">日本語</option>
+        <option value="zh">中文</option>
+      </select>
+    </span>
+  </div>
+</nav>
+
+<main>
+  <h1 id="pageTitle">Farmers Assistance</h1>
+  <p class="intro" id="introText">
+    Use your water pH and crop choice to get simple, practical advice on what to grow, how to correct pH towards 7.0, and how to manage irrigation and soil health.
+  </p>
+
+  <div class="layout">
+    <!-- LEFT: pH-based helper -->
+    <section class="panel">
+      <h2 id="leftHeading">Smart pH helper</h2>
+
+      <div class="section">
+        <div class="section-title" id="phSectionTitle">1. Choose or enter pH</div>
+        <div class="controls-row">
+          <label for="phFarmer" id="phLabel">pH</label>
+          <input id="phFarmer" type="number" step="0.01" min="0" max="14" placeholder="7.00">
+          <button id="useLatest" class="btn-ghost">Use latest reading</button>
+          <button id="checkPH" class="btn-main">Check pH for crops</button>
+        </div>
+        <p class="note" id="phNote">
+          You can type pH directly or pull the most recent reading saved on the Measure page.
+        </p>
+        <div id="phStatus"></div>
+        <div class="cards" id="bestCropsBox" style="display:none;">
+          <div class="card">
+            <div class="card-title" id="bestCropsTitle">Best crops at this pH</div>
+            <div id="bestCropsPills" class="pill-list"></div>
+            <div class="note" id="bestCropsNote"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title" id="improveTitle">2. Improve pH towards 7.0</div>
+        <div class="controls-row">
+          <label for="phImprove" id="improveLabel">Current pH</label>
+          <input id="phImprove" type="number" step="0.01" min="0" max="14" placeholder="6.20">
+          <button id="improveBtn" class="btn-main">Improvement tips</button>
+        </div>
+        <div class="cards" id="improveCards" style="display:none;">
+          <div class="card">
+            <div class="card-title" id="shortTermTitle">Short‑term steps</div>
+            <ul id="shortTermList"></ul>
+          </div>
+          <div class="card">
+            <div class="card-title" id="longTermTitle">Long‑term soil health</div>
+            <ul id="longTermList"></ul>
+          </div>
+          <p class="note" id="improveNote">
+            Always combine pH correction with regular testing and advice from local extension officers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: crop selector helper -->
+    <aside class="panel">
+      <h2 id="rightHeading">Crop‑based advice</h2>
+
+      <div class="section">
+        <div class="section-title" id="cropSelectTitle">3. Select a crop</div>
+        <div class="controls-row">
+          <label for="cropSelect" id="cropLabel">Crop</label>
+          <select id="cropSelect">
+            <option value="">Choose crop…</option>
+          </select>
+        </div>
+        <p class="note" id="cropNote">
+          Use the same pH value from the left side to see how well it matches this crop.
+        </p>
+      </div>
+
+      <div class="section">
+        <div class="cards" id="cropCards" style="display:none;">
+          <div class="card">
+            <div class="card-title" id="cropRangeTitle">Ideal pH range</div>
+            <div id="cropRangeText"></div>
+          </div>
+          <div class="card">
+            <div class="card-title" id="cropImproveTitle">pH improvement for this crop</div>
+            <ul id="cropImproveList"></ul>
+          </div>
+          <div class="card">
+            <div class="card-title" id="irrigationTitle">Irrigation tips</div>
+            <ul id="irrigationList"></ul>
+          </div>
+          <div class="card">
+            <div class="card-title" id="managementTitle">Fertiliser & management</div>
+            <ul id="managementList"></ul>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+
+  // ---------- language wiring (English only for now, but structured for 8 languages) ----------
+  const strings = {
+    en:{
+      navHome:"Home",navMeasure:"Measure",navMap:"Map",navFarm:"Farmers Assistance",navCare:"Care",navChart:"Chart",navDetails:"Details",
+      pageTitle:"Farmers Assistance",
+      intro:"Use your water pH and crop choice to get simple, practical advice on what to grow, how to correct pH towards 7.0, and how to manage irrigation and soil health.",
+      leftHeading:"Smart pH helper",
+      phSectionTitle:"1. Choose or enter pH",
+      phLabel:"pH",
+      useLatest:"Use latest reading",
+      checkPH:"Check pH for crops",
+      phNote:"You can type pH directly or pull the most recent reading saved on the Measure page.",
+      bestCropsTitle:"Best crops at this pH",
+      bestCropsNoteGood:"This pH supports a wide range of crops. Choose based on climate and market price.",
+      bestCropsNoteLimited:"Only some crops are comfortable at this pH; others may need pH correction first.",
+      improveTitle:"2. Improve pH towards 7.0",
+      improveLabel:"Current pH",
+      improveBtn:"Improvement tips",
+      shortTermTitle:"Short‑term steps",
+      longTermTitle:"Long‑term soil health",
+      improveNote:"Always combine pH correction with regular testing and advice from local extension officers.",
+      rightHeading:"Crop‑based advice",
+      cropSelectTitle:"3. Select a crop",
+      cropLabel:"Crop",
+      cropNote:"Use the same pH value from the left side to see how well it matches this crop.",
+      cropRangeTitle:"Ideal pH range",
+      cropImproveTitle:"pH improvement for this crop",
+      irrigationTitle:"Irrigation tips",
+      managementTitle:"Fertiliser & management",
+      statusOK:"Inside ideal range",
+      statusSlightLow:"Slightly below ideal",
+      statusLow:"Well below ideal",
+      statusSlightHigh:"Slightly above ideal",
+      statusHigh:"Well above ideal",
+
+      // dynamic sentences
+      phStatusText(p,desc){return "At pH " + p + ", water is " + desc + " for most crops.";},
+      cropRangeSentence(cropName,min,max,p,statusText){
+        let s = cropName + " grows best between pH " + min.toFixed(1) + " and " + max.toFixed(1) + ".";
+        if(!isNaN(p)) s += " Your pH " + p.toFixed(2) + " is " + statusText + " this range.";
+        return s;
+      },
+      phClassDesc(acid){
+        if(acid==="veryLow") return "strongly acidic and can damage roots and dissolve metals";
+        if(acid==="low")     return "acidic and may stress sensitive crops";
+        if(acid==="slightLow") return "slightly acidic, fine for many crops but some may need liming";
+        if(acid==="neutral") return "near neutral and friendly for most crops";
+        if(acid==="slightHigh") return "slightly alkaline; watch nutrient lock‑up for some crops";
+        if(acid==="high")    return "alkaline and may cause nutrient deficiencies and scaling";
+        return "extreme alkaline and unsuitable without strong correction";
+      }
+    }
+    // later: hi, bn, es, fr, ru, ja, zh with the same keys
+  };
+
+  const langSelect = document.getElementById('langsel');
+  let lang = localStorage.getItem('whilang') || 'en';
+  langSelect.value = lang;
+
+  function t(){ return strings[lang] || strings.en; }
+
+  function applyLang(){
+    const s = t();
+    document.getElementById('navHome').textContent    = s.navHome;
+    document.getElementById('navMeasure').textContent = s.navMeasure;
+    document.getElementById('navMap').textContent     = s.navMap;
+    document.getElementById('navFarm').textContent    = s.navFarm;
+    document.getElementById('navCare').textContent    = s.navCare;
+    document.getElementById('navChart').textContent   = s.navChart;
+    document.getElementById('navDetails').textContent = s.navDetails;
+
+    document.getElementById('pageTitle').textContent  = s.pageTitle;
+    document.getElementById('introText').textContent  = s.intro;
+    document.getElementById('leftHeading').textContent= s.leftHeading;
+    document.getElementById('phSectionTitle').textContent = s.phSectionTitle;
+    document.getElementById('phLabel').textContent    = s.phLabel;
+    document.getElementById('useLatest').textContent  = s.useLatest;
+    document.getElementById('checkPH').textContent    = s.checkPH;
+    document.getElementById('phNote').textContent     = s.phNote;
+    document.getElementById('bestCropsTitle').textContent = s.bestCropsTitle;
+    document.getElementById('improveTitle').textContent = s.improveTitle;
+    document.getElementById('improveLabel').textContent = s.improveLabel;
+    document.getElementById('improveBtn').textContent = s.improveBtn;
+    document.getElementById('shortTermTitle').textContent = s.shortTermTitle;
+    document.getElementById('longTermTitle').textContent = s.longTermTitle;
+    document.getElementById('improveNote').textContent = s.improveNote;
+    document.getElementById('rightHeading').textContent = s.rightHeading;
+    document.getElementById('cropSelectTitle').textContent = s.cropSelectTitle;
+    document.getElementById('cropLabel').textContent = s.cropLabel;
+    document.getElementById('cropNote').textContent = s.cropNote;
+    document.getElementById('cropRangeTitle').textContent = s.cropRangeTitle;
+    document.getElementById('cropImproveTitle').textContent = s.cropImproveTitle;
+    document.getElementById('irrigationTitle').textContent = s.irrigationTitle;
+    document.getElementById('managementTitle').textContent = s.managementTitle;
+  }
+  applyLang();
+
+  langSelect.addEventListener('change',()=>{
+    lang = langSelect.value;
+    localStorage.setItem('whilang',lang);
+    applyLang();
+    if(!isNaN(currentPH)) updatePHStatus(currentPH);
+    if(currentCropId) showCropAdvice(currentCropId,currentPH);
+  });
+
+  // ---------- crop database (15 popular Indian crops) ----------
+  const crops = [
+    {
+      id:"rice",
+      name:"Rice (paddy)",
+      phMin:5.5, phMax:7.0,
+      tags:["kharif","flood‑tolerant","staple"],
+      improveLow:[
+        "Very acidic water below pH 5.0 can stunt seedlings; apply agricultural lime to soil a few months before transplanting.",
+        "Use more farmyard manure and compost to buffer acidity and improve root zone conditions."
+      ],
+      improveHigh:[
+        "If pH exceeds 7.5, avoid long‑term stagnation and mix with neutral canal water where possible.",
+        "Add organic manures and green manuring (dhaincha, sunn hemp) to slowly pull pH towards neutral."
+      ],
+      irrigationTips:[
+        "Maintain shallow standing water during tillering, but drain the field before harvest to avoid lodging.",
+        "Use levelling to keep water depth uniform and reduce nutrient loss.",
+        "Avoid using highly alkaline water for seedling nurseries."
+      ],
+      managementTips:[
+        "Split nitrogen doses (basal, tillering, panicle initiation) instead of one heavy application.",
+        "On acidic soils, prefer balanced NPK and add zinc sulphate where deficiency is common.",
+        "Rotate rice with a pulse crop to recover soil structure and biological activity."
+      ]
+    },
+    {
+      id:"wheat",
+      name:"Wheat",
+      phMin:6.0, phMax:7.5,
+      tags:["rabi","cool‑season","cereal"],
+      improveLow:[
+        "If pH is below 6.0, apply lime based on soil test before sowing to avoid aluminium toxicity.",
+        "Use well‑decomposed FYM to reduce acidity and improve tilth."
+      ],
+      improveHigh:[
+        "Above pH 7.8, check for zinc and iron deficiency; apply micronutrient mixtures or foliar sprays.",
+        "Avoid excessive irrigation which brings up salts and pushes pH higher."
+      ],
+      irrigationTips:[
+        "Critical irrigations are crown‑root initiation, tillering, jointing and grain filling.",
+        "Avoid waterlogging; wheat prefers well‑drained loam with moderate moisture."
+      ],
+      managementTips:[
+        "Balance nitrogen with phosphorus and potassium to prevent lodging.",
+        "Use residue retention or mulching to conserve moisture and support soil microbes."
+      ]
+    },
+    {
+      id:"maize",
+      name:"Maize (corn)",
+      phMin:6.0, phMax:7.5,
+      tags:["kharif/rabi","cereal","fodder"],
+      improveLow:[
+        "On soils below pH 5.8, lime the field to prevent nutrient lock‑up and root damage.",
+        "Combine lime with organic manures rather than only chemical fertilisers."
+      ],
+      improveHigh:[
+        "At pH above 7.5, watch for zinc and manganese deficiency; use chelated forms if needed.",
+        "Incorporate crop residues and green manures to slowly moderate alkalinity."
+      ],
+      irrigationTips:[
+        "Irrigate well at tasseling and grain filling stages; moisture stress here cuts yield sharply.",
+        "Avoid ponding; maize is sensitive to waterlogging."
+      ],
+      managementTips:[
+        "Use band placement of fertilisers near the root zone for efficient uptake.",
+        "Intercrop with legumes where possible to improve nitrogen and soil structure."
+      ]
+    },
+    {
+      id:"sugarcane",
+      name:"Sugarcane",
+      phMin:5.5, phMax:8.0,
+      tags:["long‑duration","cash crop"],
+      improveLow:[
+        "Very acidic water and soil reduce ratoon longevity; apply lime and organic matter.",
+        "Add filter cake or press mud from sugar factories where available."
+      ],
+      improveHigh:[
+        "Under high pH and sodic conditions, apply gypsum as per soil test to reclaim structure.",
+        "Increase organic mulching to buffer high pH and reduce evaporation."
+      ],
+      irrigationTips:[
+        "Provide frequent, light irrigations in sandy soils and furrow irrigation in heavier soils.",
+        "Avoid standing water around ratoons for long periods to prevent root rot."
+      ],
+      managementTips:[
+        "Adopt trash mulching between rows to conserve moisture and suppress weeds.",
+        "Apply split nitrogen and adequate potassium to support high biomass."
+      ]
+    },
+    {
+      id:"cotton",
+      name:"Cotton",
+      phMin:5.5, phMax:7.5,
+      tags:["kharif","cash crop"],
+      improveLow:[
+        "At pH below 5.5, add lime and FYM to avoid shedding of squares and bolls.",
+        "Avoid over‑use of ammonium fertilisers which further acidify the root zone."
+      ],
+      improveHigh:[
+        "In alkaline soils, apply farmyard manure and gypsum to improve structure.",
+        "Choose tolerant varieties if pH stays high even after treatment."
+      ],
+      irrigationTips:[
+        "Provide irrigations at flowering and boll development; avoid both drought and waterlogging.",
+        "Use furrow irrigation or drip to keep root zone aerated."
+      ],
+      managementTips:[
+        "Balanced fertilisation with sufficient potassium improves boll retention.",
+        "Adopt integrated pest management to reduce sprays and protect beneficial insects."
+      ]
+    },
+    {
+      id:"groundnut",
+      name:"Groundnut (peanut)",
+      phMin:6.0, phMax:6.8,
+      tags:["kharif/rabi","oilseed","legume"],
+      improveLow:[
+        "Highly acidic soils reduce pegging; apply lime in bands where pods develop.",
+        "Avoid waterlogging which worsens acidity effects and causes rots."
+      ],
+      improveHigh:[
+        "Above pH 7.5, watch for micronutrient deficiencies and poor pod filling.",
+        "Apply gypsum at flowering to supply calcium and sulphur for pod development."
+      ],
+      irrigationTips:[
+        "Maintain moderate moisture; critical stages are pegging and pod filling.",
+        "Do not flood the field; groundnut prefers well‑drained sandy loam."
+      ],
+      managementTips:[
+        "Inoculate seed with Rhizobium to fix nitrogen and reduce fertiliser needs.",
+        "Rotate with cereals to break disease and pest cycles."
+      ]
+    },
+    {
+      id:"soybean",
+      name:"Soybean",
+      phMin:6.0, phMax:7.5,
+      tags:["kharif","legume","oilseed"],
+      improveLow:[
+        "Below pH 5.8, nodulation suffers; use lime and high‑quality inoculant.",
+        "Avoid strong acid‑forming fertilisers; prefer balanced NPK with phosphorus."
+      ],
+      improveHigh:[
+        "Over pH 7.5, iron chlorosis may appear; apply Fe chelate or foliar sprays.",
+        "Use organic manures and cover crops to slowly move pH towards neutral."
+      ],
+      irrigationTips:[
+        "Soybean is sensitive to waterlogging; ensure quick drainage after heavy rains.",
+        "Irrigate at flowering and pod filling if rainfall is low."
+      ],
+      managementTips:[
+        "Maintain good seedbed structure for early root growth.",
+        "Control weeds early; soybean competes poorly in the first month."
+      ]
+    },
+    {
+      id:"mustard",
+      name:"Mustard",
+      phMin:6.0, phMax:7.5,
+      tags:["rabi","oilseed"],
+      improveLow:[
+        "On strongly acidic soils, apply lime to improve root growth and oil yield.",
+        "Add FYM or compost at land preparation to buffer pH."
+      ],
+      improveHigh:[
+        "In alkaline soils, avoid over‑use of urea; use split applications and organic sources.",
+        "Check for boron and sulphur deficiency and correct if needed."
+      ],
+      irrigationTips:[
+        "Provide light irrigation at flowering and pod filling to avoid moisture stress.",
+        "Avoid waterlogging; mustard prefers well‑drained soils."
+      ],
+      managementTips:[
+        "Use balanced fertiliser with adequate sulphur for good oil content.",
+        "Rotate with cereals and pulses to manage soil‑borne diseases."
+      ]
+    },
+    {
+      id:"potato",
+      name:"Potato",
+      phMin:4.8, phMax:5.8,
+      tags:["cool‑season","vegetable"],
+      improveLow:[
+        "Extremely low pH below 4.5 can reduce tuber size; light liming can raise pH slightly.",
+        "Avoid fresh manure just before planting; use well‑decomposed compost."
+      ],
+      improveHigh:[
+        "Above pH 6.0, risk of common scab increases; avoid liming immediately before potato.",
+        "Use acid‑forming fertilisers like ammonium sulphate if soil is strongly alkaline."
+      ],
+      irrigationTips:[
+        "Keep soil moist but not waterlogged; uneven moisture causes cracking and scab.",
+        "Stop irrigation 10–15 days before harvest to harden tuber skin."
+      ],
+      managementTips:[
+        "Use seed treatment and crop rotation to manage late blight and other diseases.",
+        "Provide adequate potassium for tuber quality and storage life."
+      ]
+    },
+    {
+      id:"tomato",
+      name:"Tomato",
+      phMin:6.0, phMax:7.5,
+      tags:["vegetable","high value"],
+      improveLow:[
+        "Below pH 5.5, apply lime and organic matter to avoid blossom‑end rot and poor growth.",
+        "Mulch with compost to stabilise moisture and pH around roots."
+      ],
+      improveHigh:[
+        "In alkaline soils, chelated Fe and Zn may be needed to avoid chlorosis.",
+        "Use drip irrigation and fertigation to keep nutrients available."
+      ],
+      irrigationTips:[
+        "Keep moisture fairly uniform; large swings in wet/dry cause cracking.",
+        "Avoid wetting foliage late in the day to reduce disease."
+      ],
+      managementTips:[
+        "Use stake or trellis to keep fruits off the soil and improve air flow.",
+        "Apply calcium along with nitrogen to prevent blossom‑end rot."
+      ]
+    },
+    {
+      id:"onion",
+      name:"Onion",
+      phMin:5.5, phMax:6.5,
+      tags:["bulb vegetable"],
+      improveLow:[
+        "Very low pH burns roots; apply lime and increase organic matter.",
+        "Avoid high rates of ammonium nitrogen which further acidify the soil."
+      ],
+      improveHigh:[
+        "At high pH, zinc and iron deficiency may reduce bulb size; foliar sprays help.",
+        "Use organic mulches to moderate pH and temperature swings."
+      ],
+      irrigationTips:[
+        "Frequent light irrigations support bulb formation, but stop before harvest for curing.",
+        "Do not allow standing water, which causes rot."
+      ],
+      managementTips:[
+        "Balanced fertilisation with adequate phosphorus improves bulb development.",
+        "Practice proper crop rotation to reduce onion maggot and disease pressure."
+      ]
+    },
+    {
+      id:"chilli",
+      name:"Chilli / Capsicum",
+      phMin:6.0, phMax:7.5,
+      tags:["vegetable","spice"],
+      improveLow:[
+        "On acidic soils, mild liming and FYM promote better flowering.",
+        "Avoid continuous use of acid‑forming fertilisers."
+      ],
+      improveHigh:[
+        "High pH reduces micronutrient availability; use foliar sprays for Fe, Zn, Mn when needed.",
+        "Apply plenty of compost to buffer alkalinity."
+      ],
+      irrigationTips:[
+        "Maintain moderate moisture; both drought and waterlogging cause flower drop.",
+        "Drip irrigation with mulching gives best yield and quality."
+      ],
+      managementTips:[
+        "Apply basal FYM and split nitrogen; avoid heavy nitrogen late in the season.",
+        "Monitor regularly for sucking pests and use IPM tools."
+      ]
+    },
+    {
+      id:"banana",
+      name:"Banana",
+      phMin:5.5, phMax:7.5,
+      tags:["perennial","fruit"],
+      improveLow:[
+        "Strongly acidic conditions hinder root spread; apply lime and organic manures.",
+        "Use thick mulch around plants to stabilise moisture and pH."
+      ],
+      improveHigh:[
+        "High pH may cause iron deficiency; use chelated iron and organic amendments.",
+        "Avoid saline‑alkaline irrigation water if possible."
+      ],
+      irrigationTips:[
+        "Requires regular, abundant water; drip with mulching is ideal.",
+        "Avoid water stagnation near pseudostems to reduce disease."
+      ],
+      managementTips:[
+        "Apply heavy organic manures and balanced NPK for bunch size.",
+        "Propping and windbreaks reduce lodging in high winds."
+      ]
+    },
+    {
+      id:"mango",
+      name:"Mango",
+      phMin:5.5, phMax:7.5,
+      tags:["tree","fruit"],
+      improveLow:[
+        "Very acidic soils restrict root zone; apply lime before planting and in basins.",
+        "Use organic mulches in basins to maintain stable pH and moisture."
+      ],
+      improveHigh:[
+        "On alkaline soils, incorporate plenty of FYM and green manure.",
+        "Apply micronutrient sprays (Zn, Fe, B) if deficiency symptoms appear."
+      ],
+      irrigationTips:[
+        "Young trees need regular irrigation; bearing trees require moisture at flowering and fruit set.",
+        "Avoid heavy irrigation close to harvest to maintain fruit quality."
+      ],
+      managementTips:[
+        "Prune to maintain an open canopy for light and air.",
+        "Apply fertilisers in split doses based on tree age and crop load."
+      ]
+    },
+    {
+      id:"pulses",
+      name:"Pulses (general)",
+      phMin:5.5, phMax:7.0,
+      tags:["legume","soil‑improving"],
+      improveLow:[
+        "Very acidic conditions reduce nodulation; apply lime and inoculate seed with Rhizobium.",
+        "Avoid waterlogging which limits oxygen and nodule function."
+      ],
+      improveHigh:[
+        "At high pH, some micronutrients become limiting; use balanced micro‑mix.",
+        "Maintain good organic matter to buffer pH swings."
+      ],
+      irrigationTips:[
+        "Most pulses prefer moderate moisture and cannot tolerate long waterlogging.",
+        "Critical stages are flowering and pod filling."
+      ],
+      managementTips:[
+        "Use proper seed rate and spacing to reduce disease.",
+        "Leave root residues in soil to benefit following crops."
+      ]
+    }
+  ];
+
+  // populate crop dropdown
+  const cropSelect = document.getElementById('cropSelect');
+  crops.forEach(c=>{
+    const opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = c.name;
+    cropSelect.appendChild(opt);
+  });
+
+  // ---------- pH helper ----------
+  let currentPH = NaN;
+  let currentCropId = "";
+
+  const phStatusEl = document.getElementById('phStatus');
+  const bestCropsBox = document.getElementById('bestCropsBox');
+  const bestCropsPills = document.getElementById('bestCropsPills');
+  const bestCropsNote = document.getElementById('bestCropsNote');
+
+  function classifyAcidity(p){
+    if(p < 4.5) return "veryLow";
+    if(p < 5.5) return "low";
+    if(p < 6.5) return "slightLow";
+    if(p <= 7.5) return "neutral";
+    if(p <= 8.5) return "slightHigh";
+    if(p <= 9.5) return "high";
+    return "veryHigh";
+  }
+
+  function statusForCrop(p,min,max){
+    if(isNaN(p)) return {code:"none",text:""};
+    if(p >= min && p <= max) return {code:"ok",text:t().statusOK};
+    if(p < min){
+      if(p > min-0.5) return {code:"warn",text:t().statusSlightLow};
+      return {code:"bad",text:t().statusLow};
+    }
+    if(p > max){
+      if(p < max+0.5) return {code:"warn",text:t().statusSlightHigh};
+      return {code:"bad",text:t().statusHigh};
+    }
+    return {code:"warn",text:""};
+  }
+
+  function updatePHStatus(p){
+    const s = t();
+    const cls = classifyAcidity(p);
+    const desc = s.phClassDesc(cls);
+    phStatusEl.innerHTML = "";
+    const line = document.createElement('div');
+    line.textContent = s.phStatusText(p.toFixed(2),desc);
+    phStatusEl.appendChild(line);
+
+    // find best crops at this pH
+    bestCropsPills.innerHTML = "";
+    const suitable = crops.filter(c=>p >= c.phMin && p <= c.phMax);
+    if(suitable.length===0){
+      bestCropsBox.style.display = "none";
+      return;
+    }
+    suitable.forEach(c=>{
+      const pill = document.createElement('span');
+      pill.className = "pill";
+      pill.textContent = c.name;
+      bestCropsPills.appendChild(pill);
+    });
+    bestCropsBox.style.display = "block";
+    bestCropsNote.textContent = (cls==="neutral" || cls==="slightLow" || cls==="slightHigh")
+      ? s.bestCropsNoteGood
+      : s.bestCropsNoteLimited;
+  }
+
+  document.getElementById('checkPH').addEventListener('click',()=>{
+    const v = parseFloat(document.getElementById('phFarmer').value);
+    if(isNaN(v) || v<0 || v>14){
+      alert("Enter a pH between 0 and 14");
+      return;
+    }
+    currentPH = v;
+    updatePHStatus(v);
+    if(currentCropId) showCropAdvice(currentCropId,currentPH);
+  });
+
+  // use latest reading from localStorage (same structure as measure.html saves)
+  document.getElementById('useLatest').addEventListener('click',()=>{
+    let data = [];
+    try{
+      data = JSON.parse(localStorage.getItem('whi_readings') || "[]");
+    }catch(e){data=[];}
+    if(!Array.isArray(data) || data.length===0){
+      alert("No saved readings found. Go to Measure page and save at least one reading.");
+      return;
+    }
+    const last = data[data.length-1];
+    const p = parseFloat(last.ph);
+    if(isNaN(p)){
+      alert("Latest reading has no valid pH.");
+      return;
+    }
+    document.getElementById('phFarmer').value = p.toFixed(2);
+    document.getElementById('phImprove').value = p.toFixed(2);
+    currentPH = p;
+    updatePHStatus(p);
+    if(currentCropId) showCropAdvice(currentCropId,currentPH);
+  });
+
+  // ---------- pH improvement tips ----------
+  const shortTermList = document.getElementById('shortTermList');
+  const longTermList  = document.getElementById('longTermList');
+  const improveCards  = document.getElementById('improveCards');
+
+  document.getElementById('improveBtn').addEventListener('click',()=>{
+    const v = parseFloat(document.getElementById('phImprove').value);
+    if(isNaN(v) || v<0 || v>14){
+      alert("Enter a pH between 0 and 14");
+      return;
+    }
+    currentPH = v;
+    showImprovementTips(v);
+    if(currentCropId) showCropAdvice(currentCropId,currentPH);
+  });
+
+  function showImprovementTips(p){
+    shortTermList.innerHTML = "";
+    longTermList.innerHTML  = "";
+    const itemsShort = [];
+    const itemsLong  = [];
+    if(p < 6.5){
+      itemsShort.push(
+        "Apply agricultural lime or dolomite as per soil test to raise pH gradually.",
+        "Prefer neutral or slightly alkaline irrigation sources over very acidic ones, if you have a choice.",
+        "Avoid excessive ammonium‑based fertilisers that push pH further down."
+      );
+      itemsLong.push(
+        "Incorporate plenty of farmyard manure, compost and crop residues every season to buffer acidity.",
+        "Adopt crop rotations that include deep‑rooted legumes to improve soil structure.",
+        "Check soil pH every 2–3 years and adjust lime doses rather than doing one very heavy application."
+      );
+    }else if(p <= 7.5){
+      itemsShort.push(
+        "Your pH is already close to neutral; focus on maintaining good organic matter and balanced fertiliser use.",
+        "Avoid sudden big changes by over‑liming or heavy use of acid‑forming fertilisers."
+      );
+      itemsLong.push(
+        "Keep at least one green‑manure or legume crop in rotation to stabilise pH over time.",
+        "Add compost or FYM regularly to keep soil biology active and resilient.",
+        "Monitor pH alongside electrical conductivity (salinity) where irrigation water is marginal."
+      );
+    }else if(p <= 9){
+      itemsShort.push(
+        "Use gypsum where soils are sodic or strongly alkaline, as recommended by a soil test.",
+        "Apply acid‑forming fertilisers (like ammonium sulphate) in split doses rather than only neutral ones.",
+        "Mix high‑pH water with rainwater or canal water if available to lower overall pH."
+      );
+      itemsLong.push(
+        "Increase organic matter through green manuring, crop residues and manures to buffer excess alkalinity.",
+        "Avoid over‑irrigation which brings salts to the surface and pushes pH higher.",
+        "Plant tolerant crops and rootstocks while longer‑term reclamation is in progress."
+      );
+    }else{
+      itemsShort.push(
+        "This pH is extremely alkaline; avoid using this water directly for sensitive crops.",
+        "Seek local soil‑testing and water‑testing services before large investments.",
+        "If possible, blend with better‑quality water or use for non‑sensitive uses only."
+      );
+      itemsLong.push(
+        "Plan a gradual reclamation program with gypsum, organic amendments and improved drainage.",
+        "Switch to highly tolerant crops until pH is brought closer to neutral.",
+        "Monitor both pH and sodium hazard (SAR/ESP) with professional support."
+      );
+    }
+    itemsShort.forEach(text=>{
+      const li=document.createElement('li');li.textContent=text;shortTermList.appendChild(li);
+    });
+    itemsLong.forEach(text=>{
+      const li=document.createElement('li');li.textContent=text;longTermList.appendChild(li);
+    });
+    improveCards.style.display = "block";
+  }
+
+  // ---------- crop‑specific advice ----------
+  const cropCards        = document.getElementById('cropCards');
+  const cropRangeText    = document.getElementById('cropRangeText');
+  const cropImproveList  = document.getElementById('cropImproveList');
+  const irrigationList   = document.getElementById('irrigationList');
+  const managementList   = document.getElementById('managementList');
+
+  function showCropAdvice(cropId,p){
+    const crop = crops.find(c=>c.id===cropId);
+    if(!crop) return;
+    currentCropId = cropId;
+    const s = t();
+
+    cropImproveList.innerHTML = "";
+    irrigationList.innerHTML  = "";
+    managementList.innerHTML  = "";
+
+    const status = statusForCrop(p,crop.phMin,crop.phMax);
+    let chipClass = "";
+    if(status.code==="ok") chipClass="ok";
+    else if(status.code==="warn") chipClass="warn";
+    else if(status.code==="bad") chipClass="bad";
+
+    const line = s.cropRangeSentence(crop.name,crop.phMin,crop.phMax,isNaN(p)?NaN:p,status.text || "");
+    cropRangeText.innerHTML = "";
+    const span = document.createElement('span');
+    span.textContent = line + " ";
+    cropRangeText.appendChild(span);
+    if(status.code!=="none"){
+      const chip = document.createElement('span');
+      chip.className = "status-chip " + chipClass;
+      chip.textContent = status.text;
+      cropRangeText.appendChild(chip);
+    }
+
+    let improveArray = [];
+    if(isNaN(p)) improveArray = crop.improveLow.concat(crop.improveHigh);
+    else if(p < crop.phMin) improveArray = crop.improveLow;
+    else if(p > crop.phMax) improveArray = crop.improveHigh;
+    else improveArray = ["pH is suitable. Focus on maintaining it with organic matter and balanced fertiliser use."];
+
+    improveArray.forEach(text=>{
+      const li=document.createElement('li');li.textContent=text;cropImproveList.appendChild(li);
+    });
+    crop.irrigationTips.forEach(text=>{
+      const li=document.createElement('li');li.textContent=text;irrigationList.appendChild(li);
+    });
+    crop.managementTips.forEach(text=>{
+      const li=document.createElement('li');li.textContent=text;managementList.appendChild(li);
+    });
+
+    cropCards.style.display = "block";
+  }
+
+  cropSelect.addEventListener('change',()=>{
+    const id = cropSelect.value;
+    currentCropId = id;
+    if(!id){
+      cropCards.style.display="none";
+      return;
+    }
+    showCropAdvice(id,currentPH);
+  });
+
+  // initialise
+  applyLang();
+});
+</script>
+
+</body>
+</html>
