@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Water Health Index – Details</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<style>
+:root{
+  --bg1:#215871;
+  --bg2:#184757;
+  --card:#213a4a;
+  --card2:#253c4d;
+  --text:#e3fbfa;
+  --accent:#55ebca;
+  --accent2:#39bbe9;
+  --btn:#2cb5d6;
+  --btn-hover:#168eaf;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:"Times New Roman",Times,serif;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  color:var(--text);
+}
+nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1.1rem 2.2rem 0.3rem 2.2rem;
+  background:linear-gradient(90deg,#00688f,#008fb8);
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:0.7rem;
+  font-weight:bold;
+  font-size:2.0rem;
+}
+.logo span{font-size:2.2rem;}
+.nav-links{
+  display:flex;
+  gap:2rem;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.nav-links a{
+  color:var(--text);
+  text-decoration:none;
+  font-weight:bold;
+  padding-bottom:2px;
+  border-bottom:2px solid transparent;
+}
+.nav-links a.active,
+.nav-links a:hover{
+  color:var(--accent);
+  border-bottom-color:var(--accent);
+}
+.langbar select{
+  font-family:inherit;
+  font-size:1.05rem;
+  border-radius:7px;
+  padding:0.32rem 0.9rem;
+  border:1.3px solid #74c6e0;
+  background:#15313e;
+  color:var(--accent2);
+  font-weight:bold;
+}
+
+/* hero */
+.hero{
+  position:relative;
+  height:260px;
+  overflow:hidden;
+}
+.hero-img{
+  position:absolute;
+  inset:0;
+  background:url('https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat;
+  filter:brightness(0.6);
+}
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#f9ffff;
+  padding:0 1rem;
+}
+.hero-title{
+  font-size:2.4rem;
+  font-weight:bold;
+  margin-bottom:0.5rem;
+}
+.hero-sub{
+  font-size:1.05rem;
+  max-width:640px;
+}
+.hero-btn{
+  margin-top:1.1rem;
+  background:var(--btn);
+  color:#fff;
+  border:none;
+  border-radius:999px;
+  padding:0.55rem 1.4rem;
+  font-weight:bold;
+  cursor:pointer;
+}
+.hero-btn:hover{background:var(--btn-hover);}
+
+/* content */
+main{
+  max-width:1100px;
+  margin:2.3rem auto 2.7rem;
+  padding:0 1.2rem 0.3rem;
+}
+.section{
+  background:var(--card);
+  border-radius:18px;
+  padding:1.6rem 1.5rem 1.7rem;
+  margin-bottom:1.3rem;
+  box-shadow:0 8px 26px rgba(0,0,0,0.25);
+}
+.section-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:0.6rem;
+}
+.section-title{
+  font-size:1.35rem;
+  font-weight:bold;
+  color:var(--accent);
+}
+.section-tag{
+  font-size:.85rem;
+  padding:0.14rem 0.6rem;
+  border-radius:999px;
+  border:1px solid #3a7b95;
+  color:#b8ecff;
+}
+.section p{
+  margin:.3rem 0 .65rem;
+  font-size:.96rem;
+  color:#d9fbff;
+}
+.two-column{
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+  gap:1.1rem;
+}
+@media(max-width:900px){
+  .two-column{grid-template-columns:1fr;}
+}
+h3{
+  margin:0 0 .4rem 0;
+  font-size:1.05rem;
+  color:var(--accent2);
+}
+ul{
+  padding-left:1.1rem;
+  margin:.25rem 0 .4rem;
+}
+li{
+  margin:.2rem 0;
+  font-size:.94rem;
+}
+
+/* team cards */
+.team-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:1.1rem;
+}
+@media(max-width:1000px){
+  .team-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:600px){
+  .team-grid{grid-template-columns:1fr;}
+}
+.team-card{
+  background:var(--card2);
+  border-radius:14px;
+  padding:1rem 1rem 1.1rem;
+  text-align:left;
+}
+.team-name{
+  font-weight:bold;
+  color:#f5ffff;
+  font-size:1.02rem;
+}
+.team-role{
+  font-size:.86rem;
+  color:#a9ebff;
+  margin-bottom:.25rem;
+}
+.team-text{
+  font-size:.9rem;
+  color:#d9f6ff;
+}
+
+/* roadmap */
+.roadmap-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1.1rem;
+}
+@media(max-width:900px){
+  .roadmap-grid{grid-template-columns:1fr;}
+}
+.pill{
+  display:inline-block;
+  padding:.12rem .55rem;
+  border-radius:999px;
+  font-size:.8rem;
+  background:#17475a;
+  color:#bfefff;
+  margin-bottom:.3rem;
+}
+
+/* feedback */
+.feedback-inputs{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(0,1fr);
+  gap:.7rem;
+  margin-top:.6rem;
+}
+@media(max-width:800px){
+  .feedback-inputs{grid-template-columns:1fr;}
+}
+.feedback-inputs textarea,
+.feedback-inputs input{
+  width:100%;
+  border-radius:9px;
+  border:none;
+  padding:.55rem .7rem;
+  font-family:"Times New Roman",Times,serif;
+  font-size:.95rem;
+  background:#1c3543;
+  color:#e9ffff;
+}
+.copy-btn{
+  margin-top:.4rem;
+  background:var(--btn);
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  padding:.45rem 1.1rem;
+  font-size:.95rem;
+  font-weight:bold;
+  cursor:pointer;
+}
+.copy-btn:hover{background:var(--btn-hover);}
+.small-note{
+  font-size:.84rem;
+  color:#a5d5ec;
+  margin-top:.35rem;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <span aria-hidden="true">💧</span>
+    <span id="navLogo">Water Health Index</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html" id="navHome">Home</a>
+    <a href="measure.html" id="navMeasure">Measure</a>
+    <a href="map.html" id="navMap">Map</a>
+    <a href="farmers.html" id="navFarm">Farmers Assistance</a>
+    <a href="care.html" id="navCare">Care</a>
+    <a href="phchart.html" id="navChart">Chart</a>
+    <a href="details.html" class="active" id="navDetails">Details</a>
+    <span class="langbar">
+      <select id="langsel">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="ru">Русский</option>
+        <option value="ja">日本語</option>
+        <option value="zh">中文</option>
+      </select>
+    </span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay">
+    <div class="hero-title" id="heroTitle">About Water Health Index</div>
+    <div class="hero-sub" id="heroSub">
+      Because every drop deserves balance – this page explains why we built this tool, how it works, and where it is going next.
+    </div>
+    <button class="hero-btn" id="heroBtn">Start measuring</button>
+  </div>
+</section>
+
+<main>
+  <!-- WHY -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title" id="whyTitle">Why we built this</div>
+      <div class="section-tag" id="whyTag">Story</div>
+    </div>
+    <p id="whyPara1">
+      In many villages, farms and small towns, people still judge water only by how clear it looks, not by simple numbers they can track over time.
+    </p>
+    <p id="whyPara2">
+      Most professional tools need lab reports, strong internet, or advanced English, which can make basic water checks feel distant and complicated.
+    </p>
+    <p id="whyPara3">
+      Water Health Index was created to give students, families and farmers a friendly 0–100 score, clear Good/Moderate/Poor bands and practical care advice in multiple languages – all inside one small website.
+    </p>
+    <p id="whyPara4">
+      Readings stay in your own browser using local storage, so the tool can keep working with low connectivity once it has loaded on your device.
+    </p>
+  </section>
+
+  <!-- HOW TO USE -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title" id="howTitle">How to use this tool</div>
+      <div class="section-tag" id="howTag">3‑step guide</div>
+    </div>
+    <div class="two-column">
+      <div>
+        <h3 id="howStep1Title">1. Measure</h3>
+        <p id="howStep1Text">
+          Go to the Measure page, enter pH, temperature and turbidity, or use the camera helper to estimate pH, then save the reading into your history.
+        </p>
+        <h3 id="howStep2Title">2. Explore</h3>
+        <p id="howStep2Text">
+          Open the Map to see where each reading was taken, and use the Care and Farmers pages to turn the index into clear actions for health and crops.
+        </p>
+        <h3 id="howStep3Title">3. Track</h3>
+        <p id="howStep3Text">
+          Turn on reminders, repeat tests at the same source and watch whether your water is improving, staying steady or slowly drifting into risk.
+        </p>
+      </div>
+      <div>
+        <h3 id="howLimitTitle">What this tool is / is not</h3>
+        <ul id="howList">
+          <li>It is a learning and early‑warning tool to start conversations about safe water.</li>
+          <li>It is not an official certificate or full chemical analysis – heavy metals and germs still need laboratory testing.</li>
+          <li>It cannot replace doctors or health services; if people are already sick, always follow medical advice first.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECOMMENDATIONS -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title" id="whoTitle">Who can use this</div>
+      <div class="section-tag" id="whoTag">Recommendations</div>
+    </div>
+    <div class="two-column">
+      <div>
+        <h3 id="whoGoodTitle">A good fit for</h3>
+        <ul id="whoGoodList">
+          <li>School and college projects that want a simple but realistic water‑quality index.</li>
+          <li>Farmers comparing ponds, canals or wells before choosing irrigation or fish culture.</li>
+          <li>Community volunteers monitoring handpumps, stand‑posts or village tanks over the seasons.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 id="whoCareTitle">Using results carefully</h3>
+        <ul id="whoCareList">
+          <li>Use the index to decide which sources need priority cleaning, not to declare any source “perfect forever”.</li>
+          <li>Combine measurements with local knowledge – smell, colour, nearby pollution sources and recent rainfall.</li>
+          <li>Share worrying trends with local leaders, teachers or health workers so action can be taken together.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title" id="teamTitle">Meet the team</div>
+      <div class="section-tag" id="teamTag">People</div>
+    </div>
+    <p id="teamIntro">
+      Water Health Index is a small project with a big goal, built by students who care about safe water and clear explanations.
+    </p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-name" id="teamPName">Pranshu</div>
+        <div class="team-role" id="teamPRole">Lead developer & designer</div>
+        <div class="team-text" id="teamPText">
+          Built the site structure, water‑index scoring, interactive pages and the overall visual theme that connects every section.
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-name" id="teamSName">Shibam Mondal</div>
+        <div class="team-role" id="teamSRole">Data & testing</div>
+        <div class="team-text" id="teamSText">
+          Helped calibrate the scoring, tested edge cases across pages and tuned how messages change between Good, Moderate and Poor water.
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-name" id="teamDName">Dipanjan</div>
+        <div class="team-role" id="teamDRole">Content & languages</div>
+        <div class="team-text" id="teamDText">
+          Drafted care tips, farmer‑friendly explanations and assisted with multi‑language support so that more people can use the tool comfortably.
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-name" id="teamEName">Debojyoti</div>
+        <div class="team-role" id="teamERole">Research & outreach</div>
+        <div class="team-text" id="teamEText">
+          Looked at real‑world water‑quality guidelines, spoke to potential users and suggested features like reminders, maps and practical checklists.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUTURE ROADMAP -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title" id="futureTitle">Future plans</div>
+      <div class="section-tag" id="futureTag">Roadmap</div>
+    </div>
+    <div class="roadmap-grid">
+      <div>
+        <span class="pill" id="futureNearTag">Next steps</span>
+        <ul id="futureNearList">
+          <li>Turn the website into an installable offline‑friendly app so it works better in low‑connectivity areas.</li>
+          <li>Add easy export and backup for readings, so data can be shared as CSV or simple reports.</li>
+          <li>Expand the language set and deepen farmer‑specific advice for more crops and regions.</li>
+        </ul>
+      </div>
+      <div>
+        <span class="pill" id="futureLongTag">Long‑term ideas</span>
+        <ul id="futureLongList">
+          <li>Integrate AI helpers that explain results in child‑friendly language and suggest personalised care steps.</li>
+          <li>Connect with low‑cost sensors for pH, temperature or turbidity, so readings can stream directly into the index.</li>
+          <li>Offer an opt‑in community map where villages can share anonymous water‑health trends for planning and awareness.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEEDBACK -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title" id="feedbackTitle">Share your ideas</div>
+      <div class="section-tag" id="feedbackTag">Feedback</div>
+    </div>
+    <p id="feedbackIntro">
+      Every new reading, story and suggestion helps improve this project. Use the template below to collect feedback or to email your project team or teacher.
+    </p>
+    <div class="feedback-inputs">
+      <div>
+        <textarea id="feedbackText" rows="5" placeholder="Paste this into email or chat and fill it in..."></textarea>
+      </div>
+      <div>
+        <input id="feedbackName" type="text" placeholder="Your name or school (optional)"/>
+        <input id="feedbackContact" type="text" placeholder="Contact or class section (optional)"/>
+        <button class="copy-btn" id="copyBtn">Copy feedback template</button>
+        <div class="small-note" id="feedbackNote">
+          No automatic sending happens from this page – it only prepares text you can share with your teacher, mentor or local officials.
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const langSel = document.getElementById('langsel');
+  let lang = localStorage.getItem('whilang') || 'en';
+  langSel.value = lang;
+
+  const strings = {
+    en:{
+      navLogo:"Water Health Index",
+      navHome:"Home",navMeasure:"Measure",navMap:"Map",navFarm:"Farmers Assistance",navCare:"Care",navChart:"Chart",navDetails:"Details",
+
+      heroTitle:"About Water Health Index",
+      heroSub:"Because every drop deserves balance – this page explains why we built this tool, how it works, and where it is going next.",
+      heroBtn:"Start measuring",
+
+      whyTitle:"Why we built this",
+      whyTag:"Story",
+      why1:"In many villages, farms and small towns, people still judge water only by how clear it looks, not by simple numbers they can track over time.",
+      why2:"Most professional tools need lab reports, strong internet, or advanced English, which can make basic water checks feel distant and complicated.",
+      why3:"Water Health Index was created to give students, families and farmers a friendly 0–100 score, clear Good/Moderate/Poor bands and practical care advice in multiple languages – all inside one small website.",
+      why4:"Readings stay in your own browser using local storage, so the tool can keep working with low connectivity once it has loaded on your device.",
+
+      howTitle:"How to use this tool",
+      howTag:"3‑step guide",
+      howStep1Title:"1. Measure",
+      howStep1Text:"Go to the Measure page, enter pH, temperature and turbidity, or use the camera helper to estimate pH, then save the reading into your history.",
+      howStep2Title:"2. Explore",
+      howStep2Text:"Open the Map to see where each reading was taken, and use the Care and Farmers pages to turn the index into clear actions for health and crops.",
+      howStep3Title:"3. Track",
+      howStep3Text:"Turn on reminders, repeat tests at the same source and watch whether your water is improving, staying steady or slowly drifting into risk.",
+      howLimitTitle:"What this tool is / is not",
+      howList:[
+        "It is a learning and early‑warning tool to start conversations about safe water.",
+        "It is not an official certificate or full chemical analysis – heavy metals and germs still need laboratory testing.",
+        "It cannot replace doctors or health services; if people are already sick, always follow medical advice first."
+      ],
+
+      whoTitle:"Who can use this",
+      whoTag:"Recommendations",
+      whoGoodTitle:"A good fit for",
+      whoGoodList:[
+        "School and college projects that want a simple but realistic water‑quality index.",
+        "Farmers comparing ponds, canals or wells before choosing irrigation or fish culture.",
+        "Community volunteers monitoring handpumps, stand‑posts or village tanks over the seasons."
+      ],
+      whoCareTitle:"Using results carefully",
+      whoCareList:[
+        "Use the index to decide which sources need priority cleaning, not to declare any source “perfect forever”.",
+        "Combine measurements with local knowledge – smell, colour, nearby pollution sources and recent rainfall.",
+        "Share worrying trends with local leaders, teachers or health workers so action can be taken together."
+      ],
+
+      teamTitle:"Meet the team",
+      teamTag:"People",
+      teamIntro:"Water Health Index is a small project with a big goal, built by students who care about safe water and clear explanations.",
+      teamPName:"Pranshu",
+      teamPRole:"Lead developer & designer",
+      teamPText:"Built the site structure, water‑index scoring, interactive pages and the overall visual theme that connects every section.",
+      teamSName:"Shibam Mondal",
+      teamSRole:"Data & testing",
+      teamSText:"Helped calibrate the scoring, tested edge cases across pages and tuned how messages change between Good, Moderate and Poor water.",
+      teamDName:"Dipanjan",
+      teamDRole:"Content & languages",
+      teamDText:"Drafted care tips, farmer‑friendly explanations and assisted with multi‑language support so that more people can use the tool comfortably.",
+      teamEName:"Debojyoti",
+      teamERole:"Research & outreach",
+      teamEText:"Looked at real‑world water‑quality guidelines, spoke to potential users and suggested features like reminders, maps and practical checklists.",
+
+      futureTitle:"Future plans",
+      futureTag:"Roadmap",
+      futureNearTag:"Next steps",
+      futureNearList:[
+        "Turn the website into an installable offline‑friendly app so it works better in low‑connectivity areas.",
+        "Add easy export and backup for readings, so data can be shared as CSV or simple reports.",
+        "Expand the language set and deepen farmer‑specific advice for more crops and regions."
+      ],
+      futureLongTag:"Long‑term ideas",
+      futureLongList:[
+        "Integrate AI helpers that explain results in child‑friendly language and suggest personalised care steps.",
+        "Connect with low‑cost sensors for pH, temperature or turbidity, so readings can stream directly into the index.",
+        "Offer an opt‑in community map where villages can share anonymous water‑health trends for planning and awareness."
+      ],
+
+      feedbackTitle:"Share your ideas",
+      feedbackTag:"Feedback",
+      feedbackIntro:"Every new reading, story and suggestion helps improve this project. Use the template below to collect feedback or to email your project team or teacher.",
+      feedbackNote:"No automatic sending happens from this page – it only prepares text you can share with your teacher, mentor or local officials.",
+      feedbackTemplate(name,contact){
+        return [
+          "Water Health Index feedback",
+          "",
+          "Name / school (optional): " + (name||"________"),
+          "Contact / class (optional): " + (contact||"________"),
+          "",
+          "1) Where did you test the water? (well / pond / tap / other) : ____________",
+          "2) What index / pH did you see most often? : ____________",
+          "3) What problems or questions do you have about using the tool? : ____________",
+          "4) What new features or languages would help your community the most? : ____________"
+        ].join("\\n");
+      }
+    },
+
+    hi:{/* TODO: Hindi translations mirroring English keys */},
+    bn:{/* TODO: Bengali translations mirroring English keys */},
+    es:{/* TODO: Spanish translations mirroring English keys */},
+    fr:{/* TODO: French translations mirroring English keys */},
+    ru:{/* TODO: Russian translations mirroring English keys */},
+    ja:{/* TODO: Japanese translations mirroring English keys */},
+    zh:{/* TODO: Chinese translations mirroring English keys */}
+  };
+
+  function t(){ return strings[lang] || strings.en; }
+
+  function renderStatic(){
+    const s = t();
+    document.getElementById('navLogo').textContent   = s.navLogo || "Water Health Index";
+    document.getElementById('navHome').textContent   = s.navHome;
+    document.getElementById('navMeasure').textContent= s.navMeasure;
+    document.getElementById('navMap').textContent    = s.navMap;
+    document.getElementById('navFarm').textContent   = s.navFarm;
+    document.getElementById('navCare').textContent   = s.navCare;
+    document.getElementById('navChart').textContent  = s.navChart;
+    document.getElementById('navDetails').textContent= s.navDetails;
+
+    document.getElementById('heroTitle').textContent = s.heroTitle;
+    document.getElementById('heroSub').textContent   = s.heroSub;
+    document.getElementById('heroBtn').textContent   = s.heroBtn;
+
+    document.getElementById('whyTitle').textContent  = s.whyTitle;
+    document.getElementById('whyTag').textContent    = s.whyTag;
+    document.getElementById('whyPara1').textContent  = s.why1;
+    document.getElementById('whyPara2').textContent  = s.why2;
+    document.getElementById('whyPara3').textContent  = s.why3;
+    document.getElementById('whyPara4').textContent  = s.why4;
+
+    document.getElementById('howTitle').textContent  = s.howTitle;
+    document.getElementById('howTag').textContent    = s.howTag;
+    document.getElementById('howStep1Title').textContent = s.howStep1Title;
+    document.getElementById('howStep1Text').textContent  = s.howStep1Text;
+    document.getElementById('howStep2Title').textContent = s.howStep2Title;
+    document.getElementById('howStep2Text').textContent  = s.howStep2Text;
+    document.getElementById('howStep3Title').textContent = s.howStep3Title;
+    document.getElementById('howStep3Text').textContent  = s.howStep3Text;
+    document.getElementById('howLimitTitle').textContent = s.howLimitTitle;
+    const hl = document.getElementById('howList');
+    hl.innerHTML="";
+    (s.howList||[]).forEach(txt=>{
+      const li=document.createElement('li');
+      li.textContent=txt;
+      hl.appendChild(li);
+    });
+
+    document.getElementById('whoTitle').textContent     = s.whoTitle;
+    document.getElementById('whoTag').textContent       = s.whoTag;
+    document.getElementById('whoGoodTitle').textContent = s.whoGoodTitle;
+    const wg = document.getElementById('whoGoodList'); wg.innerHTML="";
+    (s.whoGoodList||[]).forEach(txt=>{const li=document.createElement('li');li.textContent=txt;wg.appendChild(li);});
+    document.getElementById('whoCareTitle').textContent = s.whoCareTitle;
+    const wc = document.getElementById('whoCareList'); wc.innerHTML="";
+    (s.whoCareList||[]).forEach(txt=>{const li=document.createElement('li');li.textContent=txt;wc.appendChild(li);});
+
+    document.getElementById('teamTitle').textContent   = s.teamTitle;
+    document.getElementById('teamTag').textContent     = s.teamTag;
+    document.getElementById('teamIntro').textContent   = s.teamIntro;
+    document.getElementById('teamPName').textContent   = s.teamPName;
+    document.getElementById('teamPRole').textContent   = s.teamPRole;
+    document.getElementById('teamPText').textContent   = s.teamPText;
+    document.getElementById('teamSName').textContent   = s.teamSName;
+    document.getElementById('teamSRole').textContent   = s.teamSRole;
+    document.getElementById('teamSText').textContent   = s.teamSText;
+    document.getElementById('teamDName').textContent   = s.teamDName;
+    document.getElementById('teamDRole').textContent   = s.teamDRole;
+    document.getElementById('teamDText').textContent   = s.teamDText;
+    document.getElementById('teamEName').textContent   = s.teamEName;
+    document.getElementById('teamERole').textContent   = s.teamERole;
+    document.getElementById('teamEText').textContent   = s.teamEText;
+
+    document.getElementById('futureTitle').textContent   = s.futureTitle;
+    document.getElementById('futureTag').textContent     = s.futureTag;
+    document.getElementById('futureNearTag').textContent = s.futureNearTag;
+    const fn = document.getElementById('futureNearList'); fn.innerHTML="";
+    (s.futureNearList||[]).forEach(txt=>{const li=document.createElement('li');li.textContent=txt;fn.appendChild(li);});
+    document.getElementById('futureLongTag').textContent = s.futureLongTag;
+    const fl = document.getElementById('futureLongList'); fl.innerHTML="";
+    (s.futureLongList||[]).forEach(txt=>{const li=document.createElement('li');li.textContent=txt;fl.appendChild(li);});
+
+    document.getElementById('feedbackTitle').textContent = s.feedbackTitle;
+    document.getElementById('feedbackTag').textContent   = s.feedbackTag;
+    document.getElementById('feedbackIntro').textContent = s.feedbackIntro;
+    document.getElementById('feedbackNote').textContent  = s.feedbackNote;
+  }
+
+  renderStatic();
+
+  langSel.addEventListener('change',()=>{
+    lang = langSel.value;
+    localStorage.setItem('whilang',lang);
+    renderStatic();
+  });
+
+  document.getElementById('heroBtn').addEventListener('click',()=>{
+    window.location.href="measure.html";
+  });
+
+  const fbText = document.getElementById('feedbackText');
+  const fbName = document.getElementById('feedbackName');
+  const fbContact = document.getElementById('feedbackContact');
+  document.getElementById('copyBtn').addEventListener('click',()=>{
+    const s = t();
+    const tpl = (s.feedbackTemplate ? s.feedbackTemplate(fbName.value,fbContact.value) :
+      strings.en.feedbackTemplate(fbName.value,fbContact.value));
+    fbText.value = tpl;
+    fbText.select();
+    try{ document.execCommand('copy'); }catch(e){}
+  });
+
+});
+</script>
+
+</body>
+</html>
