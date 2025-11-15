@@ -336,58 +336,406 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // ---------- language wiring (English only for now, but structured for 8 languages) ----------
   const strings = {
-    en:{
-      navHome:"Home",navMeasure:"Measure",navMap:"Map",navFarm:"Farmers Assistance",navCare:"Care",navChart:"Chart",navDetails:"Details",
-      pageTitle:"Farmers Assistance",
-      intro:"Use your water pH and crop choice to get simple, practical advice on what to grow, how to correct pH towards 7.0, and how to manage irrigation and soil health.",
-      leftHeading:"Smart pH helper",
-      phSectionTitle:"1. Choose or enter pH",
-      phLabel:"pH",
-      useLatest:"Use latest reading",
-      checkPH:"Check pH for crops",
-      phNote:"You can type pH directly or pull the most recent reading saved on the Measure page.",
-      bestCropsTitle:"Best crops at this pH",
-      bestCropsNoteGood:"This pH supports a wide range of crops. Choose based on climate and market price.",
-      bestCropsNoteLimited:"Only some crops are comfortable at this pH; others may need pH correction first.",
-      improveTitle:"2. Improve pH towards 7.0",
-      improveLabel:"Current pH",
-      improveBtn:"Improvement tips",
-      shortTermTitle:"Short‑term steps",
-      longTermTitle:"Long‑term soil health",
-      improveNote:"Always combine pH correction with regular testing and advice from local extension officers.",
-      rightHeading:"Crop‑based advice",
-      cropSelectTitle:"3. Select a crop",
-      cropLabel:"Crop",
-      cropNote:"Use the same pH value from the left side to see how well it matches this crop.",
-      cropRangeTitle:"Ideal pH range",
-      cropImproveTitle:"pH improvement for this crop",
-      irrigationTitle:"Irrigation tips",
-      managementTitle:"Fertiliser & management",
-      statusOK:"Inside ideal range",
-      statusSlightLow:"Slightly below ideal",
-      statusLow:"Well below ideal",
-      statusSlightHigh:"Slightly above ideal",
-      statusHigh:"Well above ideal",
+  en:{
+    navHome:"Home",navMeasure:"Measure",navMap:"Map",navFarm:"Farmers Assistance",navCare:"Care",navChart:"Chart",navDetails:"Details",
+    pageTitle:"Farmers Assistance",
+    intro:"Use your water pH and crop choice to get simple, practical advice on what to grow, how to correct pH towards 7.0, and how to manage irrigation and soil health.",
+    leftHeading:"Smart pH helper",
+    phSectionTitle:"1. Choose or enter pH",
+    phLabel:"pH",
+    useLatest:"Use latest reading",
+    checkPH:"Check pH for crops",
+    phNote:"You can type pH directly or pull the most recent reading saved on the Measure page.",
+    bestCropsTitle:"Best crops at this pH",
+    bestCropsNoteGood:"This pH supports a wide range of crops. Choose based on climate and market price.",
+    bestCropsNoteLimited:"Only some crops are comfortable at this pH; others may need pH correction first.",
+    improveTitle:"2. Improve pH towards 7.0",
+    improveLabel:"Current pH",
+    improveBtn:"Improvement tips",
+    shortTermTitle:"Short‑term steps",
+    longTermTitle:"Long‑term soil health",
+    improveNote:"Always combine pH correction with regular testing and advice from local extension officers.",
+    rightHeading:"Crop‑based advice",
+    cropSelectTitle:"3. Select a crop",
+    cropLabel:"Crop",
+    cropNote:"Use the same pH value from the left side to see how well it matches this crop.",
+    cropRangeTitle:"Ideal pH range",
+    cropImproveTitle:"pH improvement for this crop",
+    irrigationTitle:"Irrigation tips",
+    managementTitle:"Fertiliser & management",
+    statusOK:"Inside ideal range",
+    statusSlightLow:"Slightly below ideal",
+    statusLow:"Well below ideal",
+    statusSlightHigh:"Slightly above ideal",
+    statusHigh:"Well above ideal",
 
-      // dynamic sentences
-      phStatusText(p,desc){return "At pH " + p + ", water is " + desc + " for most crops.";},
-      cropRangeSentence(cropName,min,max,p,statusText){
-        let s = cropName + " grows best between pH " + min.toFixed(1) + " and " + max.toFixed(1) + ".";
-        if(!isNaN(p)) s += " Your pH " + p.toFixed(2) + " is " + statusText + " this range.";
-        return s;
-      },
-      phClassDesc(acid){
-        if(acid==="veryLow") return "strongly acidic and can damage roots and dissolve metals";
-        if(acid==="low")     return "acidic and may stress sensitive crops";
-        if(acid==="slightLow") return "slightly acidic, fine for many crops but some may need liming";
-        if(acid==="neutral") return "near neutral and friendly for most crops";
-        if(acid==="slightHigh") return "slightly alkaline; watch nutrient lock‑up for some crops";
-        if(acid==="high")    return "alkaline and may cause nutrient deficiencies and scaling";
-        return "extreme alkaline and unsuitable without strong correction";
-      }
+    phStatusText(p,desc){return "At pH " + p + ", water is " + desc + " for most crops.";},
+    cropRangeSentence(cropName,min,max,p,statusText){
+      let s = cropName + " grows best between pH " + min.toFixed(1) + " and " + max.toFixed(1) + ".";
+      if(!isNaN(p)) s += " Your pH " + p.toFixed(2) + " is " + statusText + " this range.";
+      return s;
+    },
+    phClassDesc(acid){
+      if(acid==="veryLow")   return "strongly acidic and can damage roots and dissolve metals";
+      if(acid==="low")       return "acidic and may stress sensitive crops";
+      if(acid==="slightLow") return "slightly acidic, fine for many crops but some may need liming";
+      if(acid==="neutral")   return "near neutral and friendly for most crops";
+      if(acid==="slightHigh")return "slightly alkaline; watch nutrient lock‑up for some crops";
+      if(acid==="high")      return "alkaline and may cause nutrient deficiencies and scaling";
+      return "extreme alkaline and unsuitable without strong correction";
     }
-    // later: hi, bn, es, fr, ru, ja, zh with the same keys
-  };
+  },
+
+  hi:{
+    navHome:"होम",navMeasure:"मापन",navMap:"मानचित्र",navFarm:"किसान सहायता",navCare:"देखभाल",navChart:"चार्ट",navDetails:"विवरण",
+    pageTitle:"किसान सहायता",
+    intro:"अपने पानी के pH और फसल के चुनाव के आधार पर यह पेज आपको सरल और व्यावहारिक सलाह देता है — कौन‑सी फसल बोनी है, pH को 7.0 के आसपास कैसे लाना है और सिंचाई व मिट्टी की देखभाल कैसे करनी है।",
+    leftHeading:"स्मार्ट pH सहायक",
+    phSectionTitle:"1. pH चुनें या दर्ज करें",
+    phLabel:"pH",
+    useLatest:"आखिरी रीडिंग लें",
+    checkPH:"फसलों के लिए pH जाँचें",
+    phNote:"आप सीधे pH लिख सकते हैं या मापन पेज पर सेव की गई सबसे नई रीडिंग उठा सकते हैं।",
+    bestCropsTitle:"इस pH पर उपयुक्त फसलें",
+    bestCropsNoteGood:"यह pH कई तरह की फसलों के लिए अच्छा है। मौसम और बाजार भाव देखकर फसल चुनें।",
+    bestCropsNoteLimited:"केवल कुछ फसलें ही इस pH पर आराम से उगती हैं; बाकी के लिए पहले pH सुधारना अच्छा रहेगा।",
+    improveTitle:"2. pH को 7.0 के पास सुधारें",
+    improveLabel:"वर्तमान pH",
+    improveBtn:"सुधार सुझाव",
+    shortTermTitle:"तुरंत किए जाने वाले उपाय",
+    longTermTitle:"लंबी अवधि की मिट्टी सुधार",
+    improveNote:"pH में बदलाव हमेशा मिट्टी परीक्षण और नज़दीकी कृषि विशेषज्ञों की सलाह के साथ ही करें।",
+    rightHeading:"फसल‑आधारित सलाह",
+    cropSelectTitle:"3. फसल चुनें",
+    cropLabel:"फसल",
+    cropNote:"बायीं तरफ़ लिखा हुआ pH ही यहाँ इस्तेमाल करें, ताकि पता चले यह फसल के लिए कितना सही है।",
+    cropRangeTitle:"आदर्श pH सीमा",
+    cropImproveTitle:"इस फसल के लिए pH सुधार",
+    irrigationTitle:"सिंचाई सुझाव",
+    managementTitle:"खाद और प्रबंधन",
+    statusOK:"आदर्श सीमा के अंदर",
+    statusSlightLow:"आदर्श से थोड़ा कम",
+    statusLow:"आदर्श से काफी कम",
+    statusSlightHigh:"आदर्श से थोड़ा ज़्यादा",
+    statusHigh:"आदर्श से काफी ज़्यादा",
+
+    phStatusText(p,desc){return "pH " + p + " पर पानी अधिकतर फसलों के लिए " + desc + " माना जाता है।";},
+    cropRangeSentence(cropName,min,max,p,statusText){
+      let s = cropName + " के लिए उपयुक्त pH लगभग " + min.toFixed(1) + " से " + max.toFixed(1) + " के बीच है।";
+      if(!isNaN(p)) s += " आपका pH " + p.toFixed(2) + " इस सीमा के लिए " + statusText + " है।";
+      return s;
+    },
+    phClassDesc(acid){
+      if(acid==="veryLow")   return "बहुत अधिक अम्लीय, जड़ों को नुकसान पहुँच सकता है और धातु घुल सकती है";
+      if(acid==="low")       return "अम्लीय और संवेदनशील फसलों को तनाव दे सकता है";
+      if(acid==="slightLow") return "हल्का अम्लीय, कई फसलों के लिए ठीक लेकिन कुछ को चुना हुआ चूना देना पड़ सकता है";
+      if(acid==="neutral")   return "लगभग न्यूट्रल और ज़्यादातर फसलों के लिए अनुकूल";
+      if(acid==="slightHigh")return "हल्का क्षारीय; कुछ पोषक तत्व बंद हो सकते हैं, ध्यान रखें";
+      if(acid==="high")      return "क्षारीय, पोषक तत्वों की कमी और परत जमने जैसी दिक्कतें ला सकता है";
+      return "अत्यधिक क्षारीय, बिना मजबूत सुधार कार्यक्रम के उपयोग के लिए उपयुक्त नहीं";
+    }
+  },
+
+  bn:{
+    navHome:"হোম",navMeasure:"মাপ",navMap:"মানচিত্র",navFarm:"কৃষক সহায়তা",navCare:"যত্ন",navChart:"চার্ট",navDetails:"বিস্তারিত",
+    pageTitle:"কৃষক সহায়তা",
+    intro:"আপনার পানির pH আর ফসলের ধরন অনুযায়ী এই পেজ সহজ ভাষায় বলে দেয় কোন ফসল ভালো, pH কিভাবে ৭.০ এর কাছে আনবেন আর সেচ ও মাটির যত্ন কীভাবে করবেন।",
+    leftHeading:"স্মার্ট pH সহকারী",
+    phSectionTitle:"১. pH নির্বাচন বা লিখুন",
+    phLabel:"pH",
+    useLatest:"সর্বশেষ রিডিং নিন",
+    checkPH:"ফসলের জন্য pH পরীক্ষা",
+    phNote:"আপনি সরাসরি pH লিখতে পারেন, অথবা মাপ পেজে সংরক্ষিত সর্বশেষ রিডিং থেকে নিতে পারেন।",
+    bestCropsTitle:"এই pH‑তে উপযোগী ফসল",
+    bestCropsNoteGood:"এই pH অনেক ধরনের ফসলের জন্য ভালো। জলবায়ু আর বাজারদর দেখে ফসল বেছে নিন।",
+    bestCropsNoteLimited:"এই pH‑তে মাত্র কিছু ফসল স্বাভাবিক থাকে; অন্যগুলোর জন্য আগে pH ঠিক করা ভালো।",
+    improveTitle:"২. pH কে ৭.০ এর দিকে আনুন",
+    improveLabel:"বর্তমান pH",
+    improveBtn:"উন্নয়ন পরামর্শ",
+    shortTermTitle:"তাৎক্ষণিক করণীয়",
+    longTermTitle:"দীর্ঘমেয়াদি মাটি উন্নয়ন",
+    improveNote:"pH পরিবর্তন করার আগে নিয়মিত মাটি পরীক্ষা আর স্থানীয় কৃষি অফিসারের পরামর্শ নেওয়া উচিত।",
+    rightHeading:"ফসলভিত্তিক পরামর্শ",
+    cropSelectTitle:"৩. ফসল নির্বাচন করুন",
+    cropLabel:"ফসল",
+    cropNote:"বাম পাশের একই pH মান ব্যবহার করলে বোঝা যায় এই ফসলের জন্য তা কতটা ঠিক।",
+    cropRangeTitle:"আদর্শ pH সীমা",
+    cropImproveTitle:"এই ফসলের জন্য pH উন্নয়ন",
+    irrigationTitle:"সেচের টিপস",
+    managementTitle:"সার ও ব্যবস্থাপনা",
+    statusOK:"আদর্শ সীমার মধ্যে",
+    statusSlightLow:"আদর্শের থেকে সামান্য কম",
+    statusLow:"আদর্শের থেকে অনেক কম",
+    statusSlightHigh:"আদর্শের থেকে সামান্য বেশি",
+    statusHigh:"আদর্শের থেকে অনেক বেশি",
+
+    phStatusText(p,desc){return "pH " + p + " এ এই পানি অধিকাংশ ফসলের জন্য " + desc + " ধরা হয়।";},
+    cropRangeSentence(cropName,min,max,p,statusText){
+      let s = cropName + " সাধারণত pH " + min.toFixed(1) + " থেকে " + max.toFixed(1) + " সীমায় ভালো হয়।";
+      if(!isNaN(p)) s += " আপনার pH " + p.toFixed(2) + " এই সীমার তুলনায় " + statusText + "।";
+      return s;
+    },
+    phClassDesc(acid){
+      if(acid==="veryLow")   return "খুব বেশি অম্লীয়, শিকড় নষ্ট হতে পারে এবং ধাতু সহজে গলে যায়";
+      if(acid==="low")       return "অম্লীয় এবং সংবেদনশীল ফসলকে চাপ দিতে পারে";
+      if(acid==="slightLow") return "হালকা অম্লীয়, অনেক ফসলের জন্য ঠিক কিন্তু কিছু ক্ষেত্রে চুন প্রয়োজন";
+      if(acid==="neutral")   return "প্রায় নিরপেক্ষ এবং বেশিরভাগ ফসলের জন্য অনুকূল";
+      if(acid==="slightHigh")return "হালকা ক্ষারীয়; কিছু পুষ্টি স্থির হয়ে যেতে পারে, খেয়াল রাখতে হবে";
+      if(acid==="high")      return "ক্ষারীয়, অনেক পুষ্টি উপাদানের ঘাটতি আর লবণ জমাট বাঁধার ঝুঁকি বাড়ায়";
+      return "অত্যন্ত ক্ষারীয়, শক্তিশালী সংশোধন ছাড়া চাষের জন্য উপযুক্ত নয়";
+    }
+  },
+
+  es:{
+    navHome:"Inicio",navMeasure:"Medir",navMap:"Mapa",navFarm:"Ayuda a agricultores",navCare:"Cuidado",navChart:"Gráfico",navDetails:"Detalles",
+    pageTitle:"Ayuda para agricultores",
+    intro:"Con el pH del agua y tu elección de cultivo, obtienes consejos sencillos y prácticos sobre qué sembrar, cómo corregir el pH hacia 7.0 y cómo manejar el riego y la salud del suelo.",
+    leftHeading:"Asistente inteligente de pH",
+    phSectionTitle:"1. Elige o escribe el pH",
+    phLabel:"pH",
+    useLatest:"Usar última lectura",
+    checkPH:"Comprobar pH para cultivos",
+    phNote:"Puedes escribir el pH directamente o tomar la lectura más reciente guardada en la página Medir.",
+    bestCropsTitle:"Mejores cultivos con este pH",
+    bestCropsNoteGood:"Este pH admite una amplia gama de cultivos. Elige según clima y precio de mercado.",
+    bestCropsNoteLimited:"Solo algunos cultivos toleran bien este pH; otros necesitarán corregir el pH primero.",
+    improveTitle:"2. Mejorar el pH hacia 7.0",
+    improveLabel:"pH actual",
+    improveBtn:"Consejos de mejora",
+    shortTermTitle:"Medidas a corto plazo",
+    longTermTitle:"Salud del suelo a largo plazo",
+    improveNote:"Combina siempre la corrección del pH con análisis de suelo periódicos y el apoyo de técnicos locales.",
+    rightHeading:"Consejos según cultivo",
+    cropSelectTitle:"3. Selecciona un cultivo",
+    cropLabel:"Cultivo",
+    cropNote:"Usa el mismo valor de pH del lado izquierdo para ver qué tan bien se adapta a este cultivo.",
+    cropRangeTitle:"Rango ideal de pH",
+    cropImproveTitle:"Mejora del pH para este cultivo",
+    irrigationTitle:"Consejos de riego",
+    managementTitle:"Fertilizantes y manejo",
+    statusOK:"Dentro del rango ideal",
+    statusSlightLow:"Un poco por debajo del ideal",
+    statusLow:"Muy por debajo del ideal",
+    statusSlightHigh:"Un poco por encima del ideal",
+    statusHigh:"Muy por encima del ideal",
+
+    phStatusText(p,desc){return "Con pH " + p + ", el agua se considera " + desc + " para la mayoría de los cultivos.";},
+    cropRangeSentence(cropName,min,max,p,statusText){
+      let s = cropName + " crece mejor entre pH " + min.toFixed(1) + " y " + max.toFixed(1) + ".";
+      if(!isNaN(p)) s += " Tu pH " + p.toFixed(2) + " está " + statusText + " de este rango.";
+      return s;
+    },
+    phClassDesc(acid){
+      if(acid==="veryLow")   return "fuertemente ácido y puede dañar raíces y disolver metales";
+      if(acid==="low")       return "ácido y puede estresar cultivos sensibles";
+      if(acid==="slightLow") return "ligeramente ácido, aceptable para muchos cultivos pero algunos pueden requerir encalado";
+      if(acid==="neutral")   return "cerca de neutro y favorable para la mayoría de los cultivos";
+      if(acid==="slightHigh")return "ligeramente alcalino; vigila el bloqueo de nutrientes en algunos cultivos";
+      if(acid==="high")      return "alcalino y puede causar deficiencias de nutrientes y formación de sales";
+      return "extremadamente alcalino y poco apto sin una fuerte corrección";
+    }
+  },
+
+  fr:{
+    navHome:"Accueil",navMeasure:"Mesure",navMap:"Carte",navFarm:"Aide aux agriculteurs",navCare:"Soins",navChart:"Courbe",navDetails:"Détails",
+    pageTitle:"Aide aux agriculteurs",
+    intro:"En utilisant le pH de l’eau et le choix de culture, cette page fournit des conseils simples et pratiques sur les cultures à implanter, la façon de corriger le pH vers 7,0 et la gestion de l’irrigation et de la fertilité du sol.",
+    leftHeading:"Assistant pH intelligent",
+    phSectionTitle:"1. Choisir ou saisir le pH",
+    phLabel:"pH",
+    useLatest:"Utiliser la dernière mesure",
+    checkPH:"Vérifier le pH pour les cultures",
+    phNote:"Vous pouvez saisir le pH directement ou reprendre la dernière mesure enregistrée sur la page Mesure.",
+    bestCropsTitle:"Meilleures cultures à ce pH",
+    bestCropsNoteGood:"Ce pH convient à un large éventail de cultures. Choisissez en fonction du climat et du prix du marché.",
+    bestCropsNoteLimited:"Seules certaines cultures tolèrent bien ce pH ; les autres exigent d’abord une correction du pH.",
+    improveTitle:"2. Corriger le pH vers 7,0",
+    improveLabel:"pH actuel",
+    improveBtn:"Conseils de correction",
+    shortTermTitle:"Actions à court terme",
+    longTermTitle:"Santé du sol à long terme",
+    improveNote:"Associez toujours la correction du pH à des analyses régulières de sol et aux conseils des services techniques locaux.",
+    rightHeading:"Conseils par culture",
+    cropSelectTitle:"3. Sélectionner une culture",
+    cropLabel:"Culture",
+    cropNote:"Utilisez la même valeur de pH que sur la partie gauche pour voir si elle convient à cette culture.",
+    cropRangeTitle:"Plage de pH idéale",
+    cropImproveTitle:"Correction du pH pour cette culture",
+    irrigationTitle:"Conseils d’irrigation",
+    managementTitle:"Fertilisation et gestion",
+    statusOK:"Dans la plage idéale",
+    statusSlightLow:"Légèrement en dessous de l’idéal",
+    statusLow:"Bien en dessous de l’idéal",
+    statusSlightHigh:"Légèrement au‑dessus de l’idéal",
+    statusHigh:"Bien au‑dessus de l’idéal",
+
+    phStatusText(p,desc){return "À pH " + p + ", l’eau est considérée comme " + desc + " pour la plupart des cultures.";},
+    cropRangeSentence(cropName,min,max,p,statusText){
+      let s = cropName + " se développe le mieux entre pH " + min.toFixed(1) + " et " + max.toFixed(1) + ".";
+      if(!isNaN(p)) s += " Votre pH " + p.toFixed(2) + " est " + statusText + " de cette plage.";
+      return s;
+    },
+    phClassDesc(acid){
+      if(acid==="veryLow")   return "très acide et peut endommager les racines et dissoudre les métaux";
+      if(acid==="low")       return "acide et peut stresser les cultures sensibles";
+      if(acid==="slightLow") return "légèrement acide, correct pour beaucoup de cultures mais un apport de chaux peut être utile";
+      if(acid==="neutral")   return "proche du neutre et favorable à la plupart des cultures";
+      if(acid==="slightHigh")return "légèrement alcalin ; surveiller le blocage de certains éléments nutritifs";
+      if(acid==="high")      return "alcalin et peut provoquer des carences et des dépôts de sels";
+      return "extrêmement alcalin et inadapté sans corrections importantes";
+    }
+  },
+
+  ru:{
+    navHome:"Главная",navMeasure:"Измерение",navMap:"Карта",navFarm:"Помощь фермерам",navCare:"Уход",navChart:"График",navDetails:"Подробно",
+    pageTitle:"Помощь фермерам",
+    intro:"Используйте pH воды и выбранную культуру, чтобы получить простые практические рекомендации: что лучше выращивать, как скорректировать pH к 7,0 и как управлять поливом и плодородием почвы.",
+    leftHeading:"Умный помощник pH",
+    phSectionTitle:"1. Выберите или введите pH",
+    phLabel:"pH",
+    useLatest:"Взять последнюю запись",
+    checkPH:"Проверить pH для культур",
+    phNote:"Можно ввести pH вручную или взять последнюю сохранённую запись со страницы измерений.",
+    bestCropsTitle:"Подходящие культуры при таком pH",
+    bestCropsNoteGood:"При таком pH могут расти многие культуры. Выбирайте с учётом климата и рыночной цены.",
+    bestCropsNoteLimited:"Лишь некоторые культуры чувствуют себя хорошо при таком pH; для остальных желательно сначала откорректировать pH.",
+    improveTitle:"2. Исправить pH в сторону 7,0",
+    improveLabel:"Текущий pH",
+    improveBtn:"Советы по исправлению",
+    shortTermTitle:"Краткосрочные действия",
+    longTermTitle:"Долгосрочное здоровье почвы",
+    improveNote:"Коррекцию pH всегда лучше сочетать с регулярным анализом почвы и рекомендациями местных агрономов.",
+    rightHeading:"Рекомендации по культурам",
+    cropSelectTitle:"3. Выберите культуру",
+    cropLabel:"Культура",
+    cropNote:"Используйте то же значение pH, что и слева, чтобы оценить, насколько оно подходит выбранной культуре.",
+    cropRangeTitle:"Идеальный диапазон pH",
+    cropImproveTitle:"Коррекция pH для этой культуры",
+    irrigationTitle:"Советы по поливу",
+    managementTitle:"Удобрения и агротехника",
+    statusOK:"В пределах идеального диапазона",
+    statusSlightLow:"Немного ниже идеала",
+    statusLow:"Сильно ниже идеала",
+    statusSlightHigh:"Немного выше идеала",
+    statusHigh:"Сильно выше идеала",
+
+    phStatusText(p,desc){return "При pH " + p + " вода считается " + desc + " для большинства культур.";},
+    cropRangeSentence(cropName,min,max,p,statusText){
+      let s = cropName + " лучше всего растёт при pH " + min.toFixed(1) + "–" + max.toFixed(1) + ".";
+      if(!isNaN(p)) s += " Ваш pH " + p.toFixed(2) + " находится " + statusText + " этого диапазона.";
+      return s;
+    },
+    phClassDesc(acid){
+      if(acid==="veryLow")   return "сильно кислой, повреждает корни и усиливает растворение металлов";
+      if(acid==="low")       return "кислой и может вызывать стресс у чувствительных культур";
+      if(acid==="slightLow") return "слегка кислой; большинству культур подходит, но некоторым требуется известкование";
+      if(acid==="neutral")   return "близкой к нейтральной и благоприятной для большинства культур";
+      if(acid==="slightHigh")return "слегка щёлочной; возможно блокирование отдельных элементов питания";
+      if(acid==="high")      return "щёлочной, может вызывать дефицит элементов и образование налёта солей";
+      return "крайне щёлочной и непригодной без серьёзной мелиорации";
+    }
+  },
+
+  ja:{
+    navHome:"ホーム",navMeasure:"計測",navMap:"地図",navFarm:"農家サポート",navCare:"ケア",navChart:"チャート",navDetails:"詳細",
+    pageTitle:"農家向けアシスタント",
+    intro:"水の pH と作物の種類にもとづいて、どんな作物を育てるとよいか、pH を 7.0 付近に近づける方法、灌漑と土づくりのポイントを分かりやすく表示します。",
+    leftHeading:"スマート pH ヘルパー",
+    phSectionTitle:"1. pH を選ぶ / 入力する",
+    phLabel:"pH",
+    useLatest:"最新の測定値を使う",
+    checkPH:"作物に対する pH を確認",
+    phNote:"pH を直接入力するか、「測定」ページに保存された最新の測定値を読み込むことができます。",
+    bestCropsTitle:"この pH に合う作物",
+    bestCropsNoteGood:"この pH では多くの作物がよく育ちます。気候と市場価格を見て作物を選びましょう。",
+    bestCropsNoteLimited:"この pH に強い作物は限られます。その他の作物では、まず pH 改善を行うと安心です。",
+    improveTitle:"2. pH を 7.0 付近へ近づける",
+    improveLabel:"現在の pH",
+    improveBtn:"改善のヒント",
+    shortTermTitle:"短期的な対策",
+    longTermTitle:"長期的な土づくり",
+    improveNote:"pH を大きく変える前には、必ず土壌検査と地域の指導員のアドバイスを参考にしてください。",
+    rightHeading:"作物別アドバイス",
+    cropSelectTitle:"3. 作物を選ぶ",
+    cropLabel:"作物",
+    cropNote:"左側と同じ pH の値を使うと、この作物にどれくらい合っているかが分かります。",
+    cropRangeTitle:"理想的な pH 範囲",
+    cropImproveTitle:"この作物向けの pH 改善",
+    irrigationTitle:"灌漑のポイント",
+    managementTitle:"施肥・管理のポイント",
+    statusOK:"理想範囲の中",
+    statusSlightLow:"理想よりやや低い",
+    statusLow:"理想よりかなり低い",
+    statusSlightHigh:"理想よりやや高い",
+    statusHigh:"理想よりかなり高い",
+
+    phStatusText(p,desc){return "pH " + p + " の水は、多くの作物にとって「" + desc + "」と考えられます。";},
+    cropRangeSentence(cropName,min,max,p,statusText){
+      let s = cropName + " は pH " + min.toFixed(1) + "〜" + max.toFixed(1) + " で最もよく育ちます。";
+      if(!isNaN(p)) s += " あなたの pH " + p.toFixed(2) + " はこの範囲に対して「" + statusText + "」状態です。";
+      return s;
+    },
+    phClassDesc(acid){
+      if(acid==="veryLow")   return "強い酸性で、根を傷めたり金属を溶かしやすい状態";
+      if(acid==="low")       return "酸性で、敏感な作物にはストレスになる可能性があります";
+      if(acid==="slightLow") return "やや酸性で、多くの作物には大丈夫だが、一部は石灰施用が必要になることがあります";
+      if(acid==="neutral")   return "ほぼ中性で、多くの作物にとって好ましい状態です";
+      if(acid==="slightHigh")return "ややアルカリ性で、一部の養分が吸収されにくくなる可能性があります";
+      if(acid==="high")      return "アルカリ性が強く、養分欠乏や塩類の付着を引き起こしやすい状態です";
+      return "極端なアルカリ性で、大きな改良無しでは栽培に適しません";
+    }
+  },
+
+  zh:{
+    navHome:"主页",navMeasure:"测量",navMap:"地图",navFarm:"农户助手",navCare:"养护",navChart:"图表",navDetails:"详情",
+    pageTitle:"农户助手",
+    intro:"结合水的 pH 值和作物类型，本页面给出简单实用的建议：种什么、怎样把 pH 调整到 7.0 附近，以及如何进行灌溉和土壤养护。",
+    leftHeading:"智能 pH 小助手",
+    phSectionTitle:"1. 选择或输入 pH",
+    phLabel:"pH",
+    useLatest:"使用最新记录",
+    checkPH:"按作物检查 pH",
+    phNote:"可以直接输入 pH，也可以从“测量”页面读取最近保存的一条记录。",
+    bestCropsTitle:"在此 pH 下适合的作物",
+    bestCropsNoteGood:"这个 pH 适合多种作物生长。可根据气候和市场价格来决定种什么。",
+    bestCropsNoteLimited:"只有少数作物能在这个 pH 下长得好，其他作物最好先对 pH 进行调整。",
+    improveTitle:"2. 将 pH 调整到 7.0 附近",
+    improveLabel:"当前 pH",
+    improveBtn:"改良建议",
+    shortTermTitle:"短期措施",
+    longTermTitle:"长期土壤养护",
+    improveNote:"在进行较大幅度 pH 调整前，一定要结合定期的土壤检测和当地农技人员的建议。",
+    rightHeading:"按作物给出建议",
+    cropSelectTitle:"3. 选择作物",
+    cropLabel:"作物",
+    cropNote:"使用左侧相同的 pH 数值，就能看到它与该作物的适配程度。",
+    cropRangeTitle:"理想 pH 范围",
+    cropImproveTitle:"针对该作物的 pH 改良",
+    irrigationTitle:"灌溉提示",
+    managementTitle:"施肥与管理",
+    statusOK:"处于理想范围内",
+    statusSlightLow:"略低于理想范围",
+    statusLow:"明显低于理想范围",
+    statusSlightHigh:"略高于理想范围",
+    statusHigh:"明显高于理想范围",
+
+    phStatusText(p,desc){return "当 pH 为 " + p + " 时，这样的水对大多数作物来说属于“" + desc + "”。";},
+    cropRangeSentence(cropName,min,max,p,statusText){
+      let s = cropName + " 最适宜的 pH 一般在 " + min.toFixed(1) + "～" + max.toFixed(1) + " 之间。";
+      if(!isNaN(p)) s += " 你的 pH " + p.toFixed(2) + " 相比该范围属于" + statusText + "。";
+      return s;
+    },
+    phClassDesc(acid){
+      if(acid==="veryLow")   return "强酸性，可能严重伤害根系并加速金属溶解";
+      if(acid==="low")       return "酸性，对敏感作物会形成明显胁迫";
+      if(acid==="slightLow") return "微酸性，多数作物可以接受，但部分地块需要施用石灰";
+      if(acid==="neutral")   return "接近中性，对大多数作物都比较友好";
+      if(acid==="slightHigh")return "微碱性，要注意某些养分被固定、难以吸收";
+      if(acid==="high")      return "碱性较强，易引起养分缺乏和盐类沉积";
+      return "极强碱性，如不进行大力度改良并不适合作物生产";
+    }
+  }
+};
 
   const langSelect = document.getElementById('langsel');
   let lang = localStorage.getItem('whilang') || 'en';
