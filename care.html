@@ -1818,11 +1818,11 @@ document.addEventListener('DOMContentLoaded',()=>{
         "清洗水箱、不把废油倒进下水道等这些日常小动作，长期坚持能带来很大变化。",
         "很多水质问题从上游或汇水区开始，保护流域和排水系统往往比只在末端处理水更有效。"
       ]
-    },
+    };
 
+ /* ---------------- language wiring ---------------- */
 
-  // ---------------- language wiring ----------------
-    const langSelect = document.getElementById("langsel");
+const langSelect = document.getElementById("langsel");
 
 // current language from storage, or English
 let lang = localStorage.getItem("whilang") || "en";
