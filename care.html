@@ -600,14 +600,1226 @@ document.addEventListener('DOMContentLoaded',()=>{
       ]
     },
 
-    hi:{/* later: Hindi translation keys mirroring en */},
-    bn:{/* Bengali */},
-    es:{/* Spanish */},
-    fr:{/* French */},
-    ru:{/* Russian */},
-    ja:{/* Japanese */},
-    zh:{/* Chinese */}
-  };
+        hi:{
+      navHome:"होम",navMeasure:"मापन",navMap:"मानचित्र",navFarm:"किसान सहायता",navCare:"देखभाल",navChart:"चार्ट",navDetails:"विवरण",
+      pageTitle:"जल देखभाल और कार्य",
+      intro:"अपनी नवीनतम रीडिंग के आधार पर पानी का मतलब समझें, एक सरल देखभाल योजना देखें, और कुओं, टैंकों, तालाबों और सामुदायिक जल स्रोतों की सुरक्षा करना सीखें।",
+      leftHeading:"मेरे पानी की देखभाल",
+      lastReadingTitle:"1. मेरी नवीनतम रीडिंग",
+      loadLast:"इतिहास से नवीनतम लें",
+      clearChecks:"चेकलिस्ट साफ करें",
+      noReadingNote:"देखभाल योजना देखने के लिए मापन पेज पर जाएँ, कम से कम एक रीडिंग सेव करें और फिर यहाँ नवीनतम रीडिंग लोड करें।",
+      bandGood:"अच्छी गुणवत्ता",
+      bandMed:"मध्यम गुणवत्ता",
+      bandPoor:"खराब गुणवत्ता",
+      bandUnknown:"कोई सूचकांक नहीं",
+      detailsIndex:"सूचकांक",
+      detailsPH:"pH",
+      detailsTemp:"तापमान",
+      detailsTurb:"अस्पष्टता",
+      carePlanTitle:"2. इस बैंड के लिए देखभाल योजना",
+      safetyTitle:"पहले स्वास्थ्य और सुरक्षा",
+      improveTitle:"पानी की गुणवत्ता सुधारें",
+      expertTitle:"कब विशेषज्ञ की मदद लें",
+      checklistTitle:"मेरी देखभाल चेकलिस्ट",
+      symptomTitle:"3. आपका पानी कैसा दिखता है?",
+      symptomLabel:"लक्षण चुनें",
+      symptomCauseTitle:"संभावित कारण",
+      symptomActionTitle:"अभी आप क्या कर सकते हैं",
+      reminderTitle:"4. रिमाइंडर",
+      reminderLabel:"पानी की जाँच इस अंतराल पर",
+      saveReminder:"रिमाइंडर सेव करें",
+      rightHeading:"देखभाल लाइब्रेरी",
+      homeCareTitle:"घर पर (पीने और पकाने के लिए)",
+      farmCareTitle:"खेत और तालाब के लिए",
+      communityCareTitle:"सामुदायिक जल स्रोत",
+      factsTitle:"क्या आप जानते हैं?",
+
+      safetyGood:[
+        "यदि स्रोत सुरक्षित है तो यह पानी सामान्यतः सुरक्षित है; फिर भी बच्चों और कमजोर लोगों के लिए उबालना अच्छा है।",
+        "पानी को साफ, ढके हुए पात्रों में रखें और सीधे हाथ या ग्लास न डुबोएँ, नल या डोंगी का उपयोग करें।"
+      ],
+      improveGood:[
+        "भंडारण टैंक और घरेलू फिल्टर को हर 1–3 महीने में साफ करें।",
+        "नालियों, डिटर्जेंट और तेल को कुओं तथा टैंकों से दूर रखें ताकि गुणवत्ता अचानक खराब न हो।"
+      ],
+      expertGood:[
+        "यदि रंग, गंध या स्वाद अचानक बदल जाए तो दोबारा परीक्षण करें और स्थानीय स्वास्थ्य कर्मियों से सलाह लें।",
+        "अच्छे परिणाम पड़ोसियों के साथ साझा करें ताकि सभी मिलकर स्रोत की रक्षा करें।"
+      ],
+
+      safetyMed:[
+        "सीधे पीने के लिए उपयोग न करें; उबालने या उचित फिल्टर के बाद ही पिएँ।",
+        "शिशु आहार या गंभीर बीमारी वाले लोगों के लिए ऐसे पानी का उपयोग न करें।"
+      ],
+      improveMed:[
+        "भंडारण टैंक, पाइप और नलों की सफाई करें; जहाँ सम्भव हो जम चुकी गाद हटाएँ।",
+        "कुओं और हैंडपंप के आसपास की नाली को सुधारें ताकि गंदा पानी वापस न आए।",
+        "स्थानीय सुझाव के अनुसार घरेलू फिल्टर (सिरेमिक, RO या UV) को बढ़ावा दें।"
+      ],
+      expertMed:[
+        "यदि 3 या उससे अधिक परीक्षणों में सूचकांक लगातार मध्यम रहे, तो विस्तृत परीक्षण के लिए विभाग से आग्रह करें।",
+        "पड़ोस में छोटा समूह बनाकर रीडिंग दर्ज करें और सामूहिक सफाई दिन तय करें।"
+      ],
+
+      safetyPoor:[
+        "गुणवत्ता सुधार होने तक इस पानी को पीने या पकाने के लिए उपयोग न करें।",
+        "पीने के लिए बोतलबंद, टैंकर या सार्वजनिक नल जैसे सुरक्षित वैकल्पिक स्रोत अपनाएँ।"
+      ],
+      improvePoor:[
+        "सीवेज रिसाव, कचरा या औद्योगिक डिस्चार्ज जैसे प्रत्यक्ष प्रदूषण स्रोतों की पहचान करें और रोकें।",
+        "परीक्षण बेहतर होने तक इस पानी को केवल फर्श साफ करने या फ्लशिंग जैसे कार्यों के लिए उपयोग करें।",
+        "नए कुओं, उपचार संयंत्र या स्रोत संरक्षण जैसी मध्यम अवधि की योजनाओं पर काम शुरू करें।"
+      ],
+      expertPoor:[
+        "अपने परीक्षण परिणामों के साथ स्थानीय पंचायत, जल विभाग या स्वास्थ्य विभाग को सूचित करें।",
+        "यदि आसपास पशु या मछलियाँ मर रही हों, तो इसे आपात स्थिति मानें और पहुँच सीमित करें।"
+      ],
+
+      checklistItems:[
+        "मैंने इस महीने भंडारण टैंक या मुख्य कंटेनर की सफाई/जाँच की।",
+        "मैंने अपने नियमित जल स्रोत में गंध, रंग या तेल/झाग जैसी समस्याएँ देखी या नहीं, यह जाँचा।",
+        "मैं पीने के पानी को ढककर रखता/रखती हूँ और सीधे पात्र नहीं डुबोता/डुबोती, नल या डोंगी का उपयोग करता/करती हूँ।",
+        "मैं रसायन, तेल, दवा या प्लास्टिक को नालियों या पास की जलधाराओं में नहीं फेंकता/फेंकती।",
+        "मैं निश्चित समय सीमा के भीतर स्ट्रिप या कैमरा टूल से पानी दोबारा जाँचने की योजना बना रहा/रही हूँ।"
+      ],
+
+      symptomOptions:{
+        muddy:{
+          causes:[
+            "तेज़ वर्षा या ऊपर की ओर मिट्टी कटाव से बहुत अधिक गाद पानी में आ गई है।",
+            "पंप या कुआँ तल के पास से पानी खींच रहा है जहाँ तलछट ज़्यादा है।"
+          ],
+          actions:[
+            "पानी को साफ बाल्टी में कुछ समय के लिए रहने दें और ऊपर की साफ परत को धीरे‑से निकालें।",
+            "बारीक कण हटाने के लिए कपड़े या कार्ट्रिज फिल्टर का उपयोग करें और फिर उबालें या कीटाणुरहित करें।",
+            "खेतों में मिट्टी के कटाव को कम करने के लिए घास पट्टी और बाँध बनाए रखें।"
+          ]
+        },
+        green:{
+          causes:[
+            "अधिक उर्वरक, डिटर्जेंट या सीवेज से पोषक तत्व बढ़ गए हैं, जिससे काई तेजी से बढ़ रही है।",
+            "धीमी या स्थिर जलधारा और तेज धूप काई की परत बनने में मदद करती है।"
+          ],
+          actions:[
+            "तेज़ हरी और बदबूदार पानी का पीने या नहाने के लिए उपयोग न करें।",
+            "उर्वरक और डिटर्जेंट का बहाव तालाबों और टैंकों में जाने से रोकें; शौचालय या नाली के रिसाव ठीक करें।",
+            "संभव हो तो तालाबों में आंशिक छाया या हलचल बढ़ाएँ और यदि मछलियाँ हों तो मत्स्य विशेषज्ञ से सलाह लें।"
+          ]
+        },
+        smell:{
+          causes:[
+            "सड़ी अंडे जैसी गंध अक्सर कम ऑक्सीजन वाले स्थिर पानी में सड़ते जैविक पदार्थ से आती है।",
+            "सीवेज या औद्योगिक गंदा पानी स्रोत में मिल सकता है।"
+          ],
+          actions:[
+            "दुर्गंध वाले पानी को उबालने के बाद भी न पिएँ; सुरक्षित स्रोत खोजें।",
+            "पास के शौचालय, नालियों या सीवर लाइन के रिसाव की जाँच करें और अधिकारियों को सूचना दें।",
+            "भंडारण टैंकों को हवादार रखें और आसपास जैविक कचरा जमा न होने दें।"
+          ]
+        },
+        scale:{
+          causes:[
+            "नलों और बरतनों पर सफेद परत होना आमतौर पर कैल्शियम और मैग्नीशियम अधिक होने (कठोर पानी) का संकेत है।",
+            "बहुत कठोर पानी में घुली हुई लवण मात्रा भी अधिक हो सकती है और स्वाद बदल सकता है।"
+          ],
+          actions:[
+            "केतली और नलों पर जमी परत को हल्के सिरके या साइट्रिक एसिड से साफ करें।",
+            "यदि कठोरता बहुत अधिक हो तो RO या सॉफ़्टनर जैसे विकल्प पर विचार करें।",
+            "कठोर पानी को मुख्यतः धोने‑सफाई के लिए रखें और पीने के लिए नरम स्रोत बचाएँ।"
+          ]
+        },
+        foam:{
+          causes:[
+            "डिटर्जेंट, साबुन या सर्फेक्टेंट पानी में पहुँच रहे हैं।",
+            "ग्रे‑वॉटर या सीवेज सीधे नालों या धाराओं से जुड़ा हो सकता है।"
+          ],
+          actions:[
+            "नदी, तालाब या कुओं में सीधे कपड़े या बर्तन न धोएँ।",
+            "ग्रे‑वॉटर को खुले नालों की बजाय सोक‑पिट या सरल उपचार बेड से गुज़ारें।",
+            "सार्वजनिक जल स्रोतों में लगातार झाग बनने पर स्थानीय अधिकारियों को सूचित करें।"
+          ]
+        }
+      },
+
+      reminderSaved(days){return "रिमाइंडर सेव हो गया: लगभग हर " + days + " दिन में पानी जाँचें।";},
+      reminderDue(daysAgo){return "आपकी पिछली रीडिंग को लगभग " + daysAgo + " दिन हो चुके हैं। संभव हो तो अब दोबारा जाँच करें।";},
+      reminderOK(daysAgo){return "पिछली रीडिंग हाल की है (" + daysAgo + " दिन पहले)। आप निगरानी ठीक तरह कर रहे हैं।";},
+
+      homeCareList:[
+        "यदि गुणवत्ता निश्चित न हो तो पीने के पानी को कम से कम 1 मिनट तक उबालें।",
+        "सुरक्षित पानी को साफ, ढके हुए बर्तन में रखें और धूप तथा जानवरों से दूर रखें।",
+        "निर्माता या स्थानीय सलाह के अनुसार फिल्टर और भंडारण बर्तनों की नियमित सफाई करें।",
+        "भंडारण पात्र में हाथ या इस्तेमाल किए हुए ग्लास न डुबोएँ; नल या डोंगी से पानी निकालें।",
+        "साबुन, डिटर्जेंट, इंधन और कीटनाशक को कुओं और टैंकों से दूर रखें।"
+      ],
+      farmCareList:[
+        "उर्वरक और कीटनाशक की मात्रा सीमित रखें; अनुशंसित मात्रा और समय का पालन करें।",
+        "कैनाल और तालाबों में मिट्टी और रसायन सीधे न जाएँ, इसके लिए घास पट्टी और मेड़ बनाए रखें।",
+        "पशुओं को तालाबों और धाराओं में लंबे समय तक खड़ा रहने और मल त्यागने से रोकें।",
+        "फार्म तालाबों की समय‑समय पर सफाई (डी‑सिल्टिंग) करें ताकि भंडारण और गुणवत्ता दोनों बने रहें।",
+        "पिछले सिरे का पानी या अपशिष्ट जल सावधानी से उपयोग करें और इसे कच्ची सब्जियों पर न लगाएँ।"
+      ],
+      communityCareList:[
+        "कभी भी ठोस कचरा, प्लास्टिक, इस्तेमाल किया हुआ तेल या मलबा झीलों, नदियों या नालों में न डालें।",
+        "तालाबों, कुओं और नदी किनारों पर सामुदायिक सफाई कार्यक्रमों में हिस्सा लें।",
+        "सीवेज रिसाव, टूटे मैनहोल या अवैध डिस्चार्ज को तुरंत अधिकारियों को बताएं।",
+        "जलस्रोतों के किनारे देशी पेड़ और घास लगाएँ ताकि तट स्थिर रहे और बहाव साफ हो सके।",
+        "जल गुणवत्ता की जानकारी पड़ोसियों के साथ साझा करें ताकि सब मिलकर स्रोत को सुरक्षित रखें।"
+      ],
+      factsList:[
+        "बहुत मटमैला पानी कीटाणुनाशन के लिए अधिक कठिन होता है क्योंकि जीवाणु कणों के अंदर छिप जाते हैं।",
+        "pH लंबे समय तक न्यूट्रल से बहुत दूर रहे तो पाइप, पंप और घरेलू फिल्टर धीरे‑धीरे खराब हो सकते हैं।",
+        "छोटे‑छोटे घरेलू काम, जैसे टैंक की सफाई और तेल को नाली में न डालना, कई वर्षों में बड़ा अंतर पैदा करते हैं।",
+        "अधिकतर समस्याएँ ऊपर की ओर से शुरू होती हैं; केवल अंत में पानी शुद्ध करने की बजाय कैचमेंट और नालियों की सुरक्षा अधिक प्रभावी होती है।"
+      ]
+    },
+
+    bn:{
+      navHome:"হোম",navMeasure:"মাপ",navMap:"মানচিত্র",navFarm:"কৃষক সহায়তা",navCare:"যত্ন",navChart:"চার্ট",navDetails:"বিস্তারিত",
+      pageTitle:"জল যত্ন ও করণীয়",
+      intro:"আপনার সর্বশেষ রিডিং দেখে এই পেজ সহজ ভাষায় বোঝায় জল মানে কী, কীভাবে সহজ যত্ন পরিকল্পনা নেবেন এবং কুয়ো, ট্যাংক, পুকুর ও আশপাশের জলস्रोतকে কীভাবে রক্ষা করবেন।",
+      leftHeading:"আমার পানির যত্ন",
+      lastReadingTitle:"১. আমার সর্বশেষ রিডিং",
+      loadLast:"ইতিহাস থেকে সর্বশেষ নিন",
+      clearChecks:"চেকলিস্ট মুছে ফেলুন",
+      noReadingNote:"যত্ন পরিকল্পনা দেখতে হলে আগে মাপ পেজে গিয়ে অন্তত একটি রিডিং সংরক্ষণ করুন, তারপর এখানে সর্বশেষ রিডিং লোড করুন।",
+      bandGood:"ভাল মানের",
+      bandMed:"মাঝারি মানের",
+      bandPoor:"খারাপ মানের",
+      bandUnknown:"সূচক নেই",
+      detailsIndex:"সূচক",
+      detailsPH:"pH",
+      detailsTemp:"তাপমাত্রা",
+      detailsTurb:"ঘোলাভাব",
+      carePlanTitle:"২. এই ব্যান্ডের জন্য যত্ন পরিকল্পনা",
+      safetyTitle:"প্রথমে স্বাস্থ্য ও নিরাপত্তা",
+      improveTitle:"জলের মান উন্নত করুন",
+      expertTitle:"কবে বিশেষজ্ঞের সাহায্য নেবেন",
+      checklistTitle:"আমার যত্ন চেকলিস্ট",
+      symptomTitle:"৩. আপনার পানি দেখতে কেমন?",
+      symptomLabel:"লক্ষণ নির্বাচন করুন",
+      symptomCauseTitle:"সম্ভাব্য কারণ",
+      symptomActionTitle:"এখন কী করতে পারেন",
+      reminderTitle:"৪. রিমাইন্ডার",
+      reminderLabel:"জল পরীক্ষা করার ব্যবধান",
+      saveReminder:"রিমাইন্ডার সংরক্ষণ করুন",
+      rightHeading:"যত্ন লাইব্রেরি",
+      homeCareTitle:"বাড়িতে (পান ও রান্না)",
+      farmCareTitle:"খেত ও পুকুরের জন্য",
+      communityCareTitle:"কমিউনিটি জলস্রোত",
+      factsTitle:"জানেন কি?",
+
+      safetyGood:[
+        "সোর্স সুরক্ষিত থাকলে এই পানি সাধারণত নিরাপদ; তবুও ছোট বাচ্চা ও দুর্বল রোগীর জন্য ফুটিয়ে নেয়া ভাল।",
+        "পানি পরিষ্কার, ঢাকনা‑যুক্ত পাত্রে রাখুন এবং হাতে বা গ্লাস ডুবিয়ে না নিয়ে কল বা ডালা দিয়ে তুলুন।"
+      ],
+      improveGood:[
+        "স্টোরেজ ট্যাংক ও ঘরের ফিল্টার ১–৩ মাস অন্তর পরিষ্কার করুন।",
+        "কুয়ো ও ট্যাংকের কাছ থেকে ডিটারজেন্ট, তেল ও নোংরা নালার পানি দূরে রাখুন যাতে হঠাৎ মান খারাপ না হয়।"
+      ],
+      expertGood:[
+        "হঠাৎ রং, গন্ধ বা স্বাদ বদলে গেলে আবার টেস্ট করুন এবং স্থানীয় স্বাস্থ্য কর্মীর সাথে কথা বলুন।",
+        "ভাল ফলাফল প্রতিবেশীদের সাথে ভাগ করুন যেন সবাই মিলে সোর্স রক্ষা করতে উৎসাহী হয়।"
+      ],
+
+      safetyMed:[
+        "সরাসরি পান করবেন না; ফুটিয়ে বা উপযুক্ত ফিল্টার ব্যবহার করার পরই পান করুন।",
+        "শিশুর খাবার বা গুরুতর অসুস্থ ব্যক্তির জন্য এমন পানি ব্যবহার করবেন না।"
+      ],
+      improveMed:[
+        "স্টোরেজ ট্যাংক, পাইপ এবং কল পরিষ্কার করুন; যেখানে সম্ভব জমে থাকা কাদা তুলে ফেলুন।",
+        "কুয়ো ও হ্যান্ড পাম্পের চারপাশে ড্রেনেজ ঠিক করুন যাতে নোংরা পানি ফিরে না আসে।",
+        "স্থানীয় পরামর্শ অনুযায়ী ঘরের ফিল্টার (সেরামিক, RO, UV ইত্যাদি) ব্যবহার বাড়ান।"
+      ],
+      expertMed:[
+        "টানা তিন বা তার বেশি টেস্টে সূচক মাঝারি থাকলে বিস্তারিত পরীক্ষার জন্য কর্তৃপক্ষের কাছে আবেদন করুন।",
+        "এলাকায় ছোট দল বানিয়ে রিডিং নথিভুক্ত করুন এবং একসাথে পরিষ্কার‑পরিচ্ছন্নতার দিন ঠিক করুন।"
+      ],
+
+      safetyPoor:[
+        "মান উন্নত না হওয়া পর্যন্ত এই পানি পান বা রান্নার কাজে ব্যবহার করবেন না।",
+        "পান করার জন্য বোতলজাত, ট্যাংকার বা পাবলিক ট্যাপের মত নিরাপদ উৎস বেছে নিন।"
+      ],
+      improvePoor:[
+        "সিউয়েজ লিকেজ, আবর্জনা বা শিল্প বর্জ্য – এমন সরাসরি দূষণ উৎসগুলো শনাক্ত করে বন্ধ করুন।",
+        "টেস্ট ভাল না হওয়া পর্যন্ত এই পানি শুধু মেঝে পরিষ্কার বা ফ্লাশিংয়ের কাজে ব্যবহার করুন।",
+        "নতুন কুয়ো, ট্রিটমেন্ট প্ল্যান্ট বা সোর্স প্রটেকশন – এ ধরনের মাঝারি মেয়াদি সমাধানের পরিকল্পনা করুন।"
+      ],
+      expertPoor:[
+        "নিজের পরীক্ষার ফল নিয়ে স্থানীয় পঞ্চায়েত, জল দফতর বা স্বাস্থ্য দফতরকে জানিয়ে দিন।",
+        "যদি আশেপাশে পশু বা মাছ মরতে দেখা যায়, এটাকে জরুরি অবস্থা ধরে সেখানে যাতায়াত সীমিত করুন।"
+      ],
+
+      checklistItems:[
+        "এই মাসে আমি স্টোরেজ ট্যাংক বা প্রধান পাত্র পরিষ্কার/পরীক্ষা করেছি।",
+        "দৈনন্দিন সোর্সের পানিতে গন্ধ, রং বদল বা তেল/ঝাঁঝালো ঝাঁপ দেখা যাচ্ছে কি না লক্ষ্য করেছি।",
+        "পানির পাত্র সব সময় ঢেকে রাখি এবং গ্লাস বা হাত না ডুবিয়ে কল বা ডালা ব্যবহার করি।",
+        "রাসায়নিক, তেল, ওষুধ বা প্লাস্টিক নালায় বা কাছের জলাসয়ে ফেলে দিই না।",
+        "নির্দিষ্ট সময়ের মধ্যে টেস্ট স্ট্রিপ বা ক্যামেরা টুল দিয়ে আবার পানি পরীক্ষা করার পরিকল্পনা করেছি।"
+      ],
+
+      symptomOptions:{
+        muddy:{
+          causes:[
+            "অতিরিক্ত বৃষ্টি বা উজানের মাটি ক্ষয় থেকে অনেক কাদা পানিতে মিশেছে।",
+            "পাম্প বা কুয়ো তলের কাছ থেকে পানি তুলছে যেখানে তলানি বেশি।"
+          ],
+          actions:[
+            "পরিষ্কার বালতিতে পানি কিছু সময় রেখে দিন, ওপরের স্বচ্ছ অংশ আস্তে তুলে নিন।",
+            "সূক্ষ্ম কণা সরাতে কাপড় বা কার্ট্রিজ ফিল্টার ব্যবহার করে তারপর ফুটিয়ে বা জীবাণুমুক্ত করুন।",
+            "খেতে মাটির ক্ষয় কমাতে ঘাসের বেড়া ও মজবুত মাটি‑বাঁধ ব্যবহার করুন।"
+          ]
+        },
+        green:{
+          causes:[
+            "বেশি সার, ডিটারজেন্ট বা সিউয়েজ থেকে অতিরিক্ত পুষ্টি এসে শৈবাল দ্রুত বাড়ছে।",
+            "ধীর বা স্থির পানি এবং বেশি রোদ একসাথে থাকলে সবুজ স্তর (algal bloom) তৈরি হয়।"
+          ],
+          actions:[
+            "তীব্র সবুজ ও দুর্গন্ধযুক্ত পানি পান বা গোসলের জন্য ব্যবহার করবেন না।",
+            "সার ও ডিটারজেন্টের পানি যেন সরাসরি পুকুর বা ট্যাংকে না যায় তা নিশ্চিত করুন; টয়লেট বা ড্রেন লিক থাকলে মেরামত করুন।",
+            "সম্ভব হলে পুকুরে আংশিক ছায়া বা হালকা নাড়াচাড়া বাড়ান এবং মাছ থাকলে মৎস্য বিশেষজ্ঞের পরামর্শ নিন।"
+          ]
+        },
+        smell:{
+          causes:[
+            "পচা ডিমের গন্ধ সাধারণত কম অক্সিজেনযুক্ত স্থির পানিতে পচা জৈব পদার্থ থেকে আসে।",
+            "সিউয়েজ বা শিল্প বর্জ্য সরাসরি পানির উৎসে মিশতে পারে।"
+          ],
+          actions:[
+            "দুর্গন্ধযুক্ত পানি ফুটিয়েও পান করবেন না; নিরাপদ উৎস খুঁজুন।",
+            "কাছাকাছি টয়লেট, ড্রেন বা সিউয়ার লাইনে লিক আছে কি না দেখুন এবং কর্তৃপক্ষকে জানান।",
+            "স্টোরেজ ট্যাংকে বাতাস চলাচলের ব্যবস্থা করুন এবং আশেপাশে জৈব আবর্জনা জমতে দেবেন না।"
+          ]
+        },
+        scale:{
+          causes:[
+            "নল ও পাত্রে সাদা স্কেল দেখা গেলে সাধারণত পানিতে ক্যালসিয়াম‑ম্যাগনেসিয়াম বেশি থাকে (হার্ড ওয়াটার)।",
+            "খুব বেশি শক্ত পানিতে দ্রবীভূত লবণের পরিমাণও বেশি হতে পারে এবং স্বাদ বদলে যেতে পারে।"
+          ],
+          actions:[
+            "কেতলি ও ট্যাপের স্কেল হালকা ভিনেগার বা সাইট্রিক অ্যাসিড দিয়ে পরিষ্কার করুন।",
+            "কঠোরতা খুব বেশি হলে RO বা সফটনার ব্যবহার বিবেচনা করুন।",
+            "হার্ড পানি মূলত ধোয়া‑মোছার কাজে ব্যবহার করুন, আর নরম উৎস পান করার জন্য রাখুন।"
+          ]
+        },
+        foam:{
+          causes:[
+            "ডিটারজেন্ট, সাবান বা সারফ্যাক্ট্যান্ট পানিতে ঢুকছে।",
+            "গ্রে‑ওয়াটার বা সিউয়েজ সরাসরি নালা বা নদীতে গিয়ে পড়তে পারে।"
+          ],
+          actions:[
+            "নদী, পুকুর বা কুয়োতে সরাসরি কাপড় বা বাসন মাজবেন না।",
+            "গ্রে‑ওয়াটারকে খোলা নালার বদলে সোক‑পিট বা সহজ ট্রিটমেন্ট বেডের মাধ্যমে প্রবাহিত করুন।",
+            "পাবলিক জলাশয়ে বারবার ফেনা দেখা গেলে স্থানীয় প্রশাসনকে জানান।"
+          ]
+        }
+      },
+
+      reminderSaved(days){return "রিমাইন্ডার সংরক্ষিত: প্রায় প্রতি " + days + " দিনে একবার পানি পরীক্ষা করুন।";},
+      reminderDue(daysAgo){return "আপনার শেষ রিডিং হয়েছে প্রায় " + daysAgo + " দিন আগে। সম্ভব হলে আবার টেস্ট করুন।";},
+      reminderOK(daysAgo){return "শেষ রিডিং বেশ সাম্প্রতিক (" + daysAgo + " দিন আগে)। আপনি নিয়মিত নজরদারি করছেন।";},
+
+      homeCareList:[
+        "মান নিয়ে সন্দেহ থাকলে অন্তত ১ মিনিট টগবগে ফুটিয়ে তবেই পানি পান করুন।",
+        "নিরাপদ পানি পরিষ্কার, ঢাকনা‑যুক্ত পাত্রে রাখুন এবং রোদ ও পশু‑পাখি থেকে দূরে রাখুন।",
+        "নির্মাতার নির্দেশ বা স্থানীয় পরামর্শ অনুযায়ী ফিল্টার ও স্টোরেজ পাত্র নিয়মিত পরিষ্কার করুন।",
+        "পাত্রে হাত বা ব্যবহৃত গ্লাস ডুবিয়ে পানি তুলবেন না; কল বা ডালা ব্যবহার করুন।",
+        "সাবান, ডিটারজেন্ট, জ্বালানি ও কীটনাশক কুয়ো বা ট্যাংকের কাছাকাছি রাখবেন না।"
+      ],
+      farmCareList:[
+        "অতিরিক্ত সার ও কীটনাশক ব্যবহার করবেন না; নির্ধারিত ডোজ ও সময় মেনে চলুন।",
+        "খাল ও পুকুরে মাটি ও রাসায়নিক ধুয়ে না যায়, এজন্য ঘাস‑বেষ্টিত মাটি বাঁধ করুন।",
+        "গবাদি পশু যেন পুকুর বা খালের মধ্যে দীর্ঘ সময় দাঁড়িয়ে মলত্যাগ না করে তা নিশ্চিত করুন।",
+        "খেতের পুকুরগুলি মাঝে মাঝে ডি‑সিল্ট করে সংরক্ষণ ক্ষমতা ও মান বজায় রাখুন।",
+        "ড্রেনের শেষের পানি ও বর্জ্য জল সাবধানে ব্যবহার করুন এবং কাঁচা খাওয়া সবজিতে সরাসরি দেবেন না।"
+      ],
+      communityCareList:[
+        "কখনই কঠিন বর্জ্য, প্লাস্টিক, ব্যবহৃত তেল বা মাটি‑ভরাটের ময়লা হ্রদ, নদী বা ড্রেনে ফেলবেন না।",
+        "পুকুর, কুয়ো ও নদীর ধার পরিষ্কারের কমিউনিটি কর্মসূচিতে অংশ নিন।",
+        "সিউয়ার লিক, ভাঙা ম্যানহোল বা বেআইনি ডিসচার্জ থাকলে দ্রুত কর্তৃপক্ষকে জানান।",
+        "জলাশয়ের ধারে দেশি গাছ ও ঘাস লাগিয়ে তীর মজবুত করুন এবং বহমান জল কিছুটা পরিশোধিত করুন।",
+        "জল মান সংক্রান্ত তথ্য প্রতিবেশীদের সাথে ভাগ করে নিন যাতে সবাই মিলেই উৎস রক্ষা করতে পারে।"
+      ],
+      factsList:[
+        "খুব ঘোলা পানি জীবাণুনাশক দিয়ে পরিষ্কার করা কঠিন, কারণ জীবাণু কণার ভেতরে লুকিয়ে থাকে।",
+        "pH দীর্ঘ সময় ধরে নিউট্রাল থেকে বেশ দূরে থাকলে পাইপ, পাম্প ও ঘরের ফিল্টার ধীরে ধীরে ক্ষতিগ্রস্ত হতে পারে।",
+        "ঘরোয়া ছোট কাজ, যেমন ট্যাংক পরিষ্কার আর ব্যবহৃত তেল নালায় না ফেলা – বহু বছরের ব্যবধানে বড় পার্থক্য তৈরি করে।",
+        "বেশিরভাগ সমস্যা উজান বা ক্যাচমেন্ট‑এ শুরু হয়; শুধু শেষে পানি শোধনের বদলে নালা ও উৎস রক্ষা কখনও কখনও বেশি কার্যকর।"
+      ]
+    },
+    es:{
+      navHome:"Inicio",navMeasure:"Medir",navMap:"Mapa",navFarm:"Ayuda a agricultores",navCare:"Cuidado",navChart:"Gráfico",navDetails:"Detalles",
+      pageTitle:"Cuidado del agua y acciones",
+      intro:"Comprende qué significa tu última lectura, obtén un plan sencillo de cuidado para tu agua y aprende a proteger pozos, tanques, estanques y cuerpos de agua comunitarios.",
+      leftHeading:"Cuidar mi agua",
+      lastReadingTitle:"1. Mi última lectura",
+      loadLast:"Cargar la última del historial",
+      clearChecks:"Borrar lista de tareas",
+      noReadingNote:"Ve a la página Medir, guarda al menos una lectura y luego vuelve aquí para ver un plan de cuidado basado en su índice y pH.",
+      bandGood:"Calidad buena",
+      bandMed:"Calidad moderada",
+      bandPoor:"Calidad mala",
+      bandUnknown:"Sin índice",
+      detailsIndex:"Índice",
+      detailsPH:"pH",
+      detailsTemp:"Temp",
+      detailsTurb:"Turbidez",
+      carePlanTitle:"2. Plan de cuidado para esta banda",
+      safetyTitle:"Salud y seguridad primero",
+      improveTitle:"Mejorar la calidad del agua",
+      expertTitle:"Cuándo pedir ayuda experta",
+      checklistTitle:"Mi lista de cuidado",
+      symptomTitle:"3. ¿Cómo se ve el agua?",
+      symptomLabel:"Elige un síntoma",
+      symptomCauseTitle:"Causas probables",
+      symptomActionTitle:"Qué puedes hacer ahora",
+      reminderTitle:"4. Recordatorios",
+      reminderLabel:"Revisar el agua cada",
+      saveReminder:"Guardar recordatorio",
+      rightHeading:"Biblioteca de cuidado",
+      homeCareTitle:"En casa (beber y cocinar)",
+      farmCareTitle:"Para fincas y estanques",
+      communityCareTitle:"Cuerpos de agua comunitarios",
+      factsTitle:"¿Sabías que...?",
+
+      safetyGood:[
+        "El agua suele ser segura si la fuente está protegida; aun así, hiérvela para bebés y personas con defensas bajas.",
+        "Usa recipientes limpios y tapados y evita meter vasos o manos directamente en el agua almacenada."
+      ],
+      improveGood:[
+        "Limpia tanques de almacenamiento y filtros domésticos al menos cada 1–3 meses.",
+        "Mantén escorrentías, detergentes y aceites lejos de pozos y tanques para evitar un deterioro repentino."
+      ],
+      expertGood:[
+        "Si notas cambios repentinos de color, olor o sabor, repite la prueba y contacta al personal de salud local.",
+        "Comparte los buenos resultados con tus vecinos para animar a todos a proteger la fuente."
+      ],
+
+      safetyMed:[
+        "Evita beber directamente; hierve o usa filtros adecuados antes de consumir.",
+        "No uses agua moderadamente contaminada para preparar alimentos de bebés ni para personas con enfermedades graves."
+      ],
+      improveMed:[
+        "Limpia tanques, tuberías y grifos; retira los lodos acumulados cuando sea posible.",
+        "Mejora el drenaje alrededor de pozos y bombas para que las aguas residuales no regresen a la fuente.",
+        "Promueve filtros domésticos (cerámicos, RO o UV) según las recomendaciones locales."
+      ],
+      expertMed:[
+        "Si el índice se mantiene moderado en 3 o más pruebas, pide un análisis detallado a las autoridades.",
+        "Forma un pequeño grupo comunitario para registrar lecturas y organizar jornadas de limpieza."
+      ],
+
+      safetyPoor:[
+        "No utilices esta agua para beber ni cocinar hasta que mejore la calidad.",
+        "Usa una fuente alternativa segura (agua embotellada, camión cisterna, grifo público) para el consumo directo."
+      ],
+      improvePoor:[
+        "Identifica y detén fuentes directas de contaminación como fugas de alcantarillado, vertidos de basura o descargas industriales.",
+        "Usa esta agua solo para usos sin contacto directo (limpiar pisos, descargar sanitarios) hasta que las pruebas muestren recuperación.",
+        "Planifica soluciones a mediano plazo como nuevos pozos, plantas de tratamiento o medidas de protección de la fuente."
+      ],
+      expertPoor:[
+        "Informa a la alcaldía, junta de agua o autoridad de salud local mostrando tus resultados.",
+        "Si mueren animales o peces cerca de la fuente, trátalo como una emergencia y restringe el acceso."
+      ],
+
+      checklistItems:[
+        "Limpié o revisé mi tanque de almacenamiento o recipiente principal este mes.",
+        "Revisé si el agua de mi fuente habitual tiene olores, cambios de color u aceite/espuma visibles.",
+        "Mantengo el agua para beber tapada y uso un grifo o cucharón en lugar de meter vasos.",
+        "Evito tirar químicos, aceite usado, medicinas o plásticos en desagües o cuerpos de agua cercanos.",
+        "Planeo volver a probar el agua con tiras o con la herramienta de cámara dentro del periodo del recordatorio."
+      ],
+
+      symptomOptions:{
+        muddy:{
+          causes:[
+            "Lluvias intensas o erosión aguas arriba han añadido mucho barro en suspensión.",
+            "La bomba o el pozo están tomando agua desde el fondo, donde hay más sedimentos."
+          ],
+          actions:[
+            "Deja el agua en un balde limpio para que sedimente y vierte con cuidado la parte clara de arriba.",
+            "Usa filtros de tela o cartucho para quitar partículas finas antes de hervir o desinfectar.",
+            "En las fincas, mantén franjas de vegetación y bordos para reducir la erosión de suelo hacia canales y estanques."
+          ]
+        },
+        green:{
+          causes:[
+            "Exceso de nutrientes (fertilizantes, detergentes, aguas residuales) que alimentan el crecimiento de algas.",
+            "Agua estancada o de movimiento lento con mucha luz solar favorece floraciones algales."
+          ],
+          actions:[
+            "No uses agua muy verde y con mal olor para beber o bañarse.",
+            "Reduce el aporte de fertilizantes y detergentes a tanques y estanques; repara fugas de baños o desagües.",
+            "Aumenta la sombra parcial o la mezcla suave de los estanques cuando sea posible y consulta a expertos en pesca si hay peces."
+          ]
+        },
+        smell:{
+          causes:[
+            "Olor a huevo podrido suele indicar sulfuro de hidrógeno por materia orgánica en descomposición y poco oxígeno.",
+            "Aguas residuales o descargas industriales pueden estar mezclándose con la fuente."
+          ],
+          actions:[
+            "No bebas agua con mal olor ni siquiera después de hervir; busca una fuente más segura.",
+            "Revisa si hay baños, desagües o tuberías de alcantarillado con fugas cerca y repórtalas.",
+            "Mejora la ventilación de los tanques de almacenamiento y evita acumular basura orgánica cerca de los pozos."
+          ]
+        },
+        scale:{
+          causes:[
+            "La cal blanca en grifos y utensilios suele indicar agua dura con alto contenido de calcio y magnesio.",
+            "El agua muy dura puede contener más sales disueltas y cambiar el sabor."
+          ],
+          actions:[
+            "Elimina la cal en hervidores y grifos con soluciones suaves de vinagre o ácido cítrico.",
+            "Considera opciones de ablandamiento (equipos RO o ablandadores) si la dureza es muy alta.",
+            "Usa el agua dura principalmente para lavado y limpieza, y reserva fuentes más blandas para beber."
+          ]
+        },
+        foam:{
+          causes:[
+            "Detergentes, jabones o tensioactivos están entrando en el cuerpo de agua.",
+            "Las aguas grises o residuales pueden estar descargándose directamente en desagües o arroyos."
+          ],
+          actions:[
+            "Evita lavar ropa o utensilios directamente en ríos, estanques o pozos.",
+            "Conduce las aguas grises a zanjas de infiltración o lechos de tratamiento simples en lugar de desagües abiertos.",
+            "Informa a las autoridades locales si ves espuma persistente en cuerpos de agua públicos."
+          ]
+        }
+      },
+
+      reminderSaved(days){return "Recordatorio guardado: revisa el agua aproximadamente cada " + days + " días.";},
+      reminderDue(daysAgo){return "Han pasado aproximadamente " + daysAgo + " días desde tu última lectura guardada. Si puedes, vuelve a hacer una prueba.";},
+      reminderOK(daysAgo){return "La última lectura es bastante reciente (" + daysAgo + " días). Vas bien con el seguimiento.";},
+
+      homeCareList:[
+        "Si no estás seguro de la calidad, hierve el agua para beber al menos 1 minuto a hervor fuerte.",
+        "Almacena el agua segura en recipientes limpios, tapados, lejos del sol y de los animales.",
+        "Limpia filtros y recipientes de almacenamiento con regularidad según las indicaciones del fabricante o las guías locales.",
+        "No metas vasos usados ni manos en los recipientes; usa un grifo o cucharón.",
+        "Mantén jabones, detergentes, combustibles y plaguicidas lejos de los pozos y tanques."
+      ],
+      farmCareList:[
+        "Evita el uso excesivo de fertilizantes y plaguicidas; sigue las dosis y calendarios recomendados.",
+        "Mantén bordes y franjas de hierba para que el suelo y los químicos no se laven directamente hacia canales o estanques.",
+        "No permitas que los animales permanezcan dentro de estanques o arroyos defecando directamente en el agua.",
+        "Desazolva periódicamente los estanques de la finca para mantener el almacenamiento y reducir picos de turbidez.",
+        "Usa el agua de cola y las aguas residuales con cuidado, y evita usarla en hortalizas de hoja que se comen crudas."
+      ],
+      communityCareList:[
+        "Nunca arrojes basura sólida, plásticos, aceites usados ni escombros en lagos, ríos o desagües.",
+        "Participa en jornadas comunitarias de limpieza alrededor de estanques, pozos y riberas.",
+        "Reporta fugas de aguas residuales, tapas de alcantarilla rotas o descargas ilegales a las autoridades.",
+        "Planta árboles y pastos nativos en las orillas para estabilizar los taludes y filtrar la escorrentía.",
+        "Comparte la información de calidad del agua con tus vecinos para que todos colaboren en proteger la fuente."
+      ],
+      factsList:[
+        "El agua muy turbia es más difícil de desinfectar, porque los microbios se esconden dentro de las partículas.",
+        "Un pH que se mantiene muy alejado de la neutralidad durante mucho tiempo puede dañar lentamente tuberías, bombas y filtros domésticos.",
+        "Pequeñas acciones en el hogar, como limpiar tanques y no tirar aceite usado, marcan una gran diferencia a lo largo de los años.",
+        "Muchos problemas empiezan aguas arriba: proteger cuencas y desagües puede ser más efectivo que tratar el agua solo al final."
+      ]
+    },
+        fr:{
+      navHome:"Accueil",navMeasure:"Mesure",navMap:"Carte",navFarm:"Aide aux agriculteurs",navCare:"Soins",navChart:"Courbe",navDetails:"Détails",
+      pageTitle:"Soins de l’eau et actions",
+      intro:"Comprenez ce que signifie votre dernière mesure, obtenez un plan de soins simple pour votre eau et apprenez à protéger les puits, citernes, étangs et plans d’eau communautaires.",
+      leftHeading:"Prendre soin de mon eau",
+      lastReadingTitle:"1. Ma dernière mesure",
+      loadLast:"Charger la dernière du journal",
+      clearChecks:"Effacer la liste",
+      noReadingNote:"Allez d’abord sur la page Mesure, enregistrez au moins une mesure, puis revenez ici pour voir un plan de soins basé sur son indice et son pH.",
+      bandGood:"Bonne qualité",
+      bandMed:"Qualité moyenne",
+      bandPoor:"Mauvaise qualité",
+      bandUnknown:"Pas d’indice",
+      detailsIndex:"Indice",
+      detailsPH:"pH",
+      detailsTemp:"Température",
+      detailsTurb:"Turbidité",
+      carePlanTitle:"2. Plan de soins pour cette bande",
+      safetyTitle:"Santé et sécurité d’abord",
+      improveTitle:"Améliorer la qualité de l’eau",
+      expertTitle:"Quand demander un avis expert",
+      checklistTitle:"Ma liste de soins",
+      symptomTitle:"3. À quoi ressemble l’eau ?",
+      symptomLabel:"Choisir un symptôme",
+      symptomCauseTitle:"Causes probables",
+      symptomActionTitle:"Ce que vous pouvez faire maintenant",
+      reminderTitle:"4. Rappels",
+      reminderLabel:"Contrôler l’eau tous les",
+      saveReminder:"Enregistrer le rappel",
+      rightHeading:"Bibliothèque de soins",
+      homeCareTitle:"À la maison (boisson et cuisine)",
+      farmCareTitle:"Pour les champs et les étangs",
+      communityCareTitle:"Plans d’eau communautaires",
+      factsTitle:"Le saviez‑vous ?",
+
+      safetyGood:[
+        "L’eau est généralement sûre si la source est protégée ; faites‑la tout de même bouillir pour les bébés et les personnes fragiles.",
+        "Utilisez des récipients propres et couverts et évitez de plonger les mains ou les verres directement dans l’eau stockée."
+      ],
+      improveGood:[
+        "Nettoyez les citernes et filtres domestiques au moins tous les 1 à 3 mois.",
+        "Éloignez les eaux de ruissellement, les détergents et les huiles des puits et citernes pour éviter une dégradation soudaine."
+      ],
+      expertGood:[
+        "En cas de changement brutal de couleur, d’odeur ou de goût, refaites un test et contactez les services de santé locaux.",
+        "Partagez les bons résultats avec vos voisins pour encourager la protection collective de la ressource."
+      ],
+
+      safetyMed:[
+        "Évitez de boire directement ; faites bouillir ou utilisez des filtres adaptés avant consommation.",
+        "N’utilisez pas cette eau pour les préparations pour nourrissons ni pour les personnes très malades."
+      ],
+      improveMed:[
+        "Nettoyez les réservoirs, conduites et robinets ; enlevez les boues déposées lorsque c’est possible.",
+        "Améliorez le drainage autour des puits et pompes pour que les eaux usées ne reviennent pas vers la source.",
+        "Encouragez l’utilisation de filtres domestiques (céramique, RO, UV) selon les recommandations locales."
+      ],
+      expertMed:[
+        "Si l’indice reste modéré pendant 3 tests ou plus, demandez une analyse détaillée aux autorités.",
+        "Constituez un petit groupe de quartier pour suivre les mesures et organiser des journées de nettoyage."
+      ],
+
+      safetyPoor:[
+        "N’utilisez pas cette eau pour boire ou cuisiner tant que la qualité ne s’est pas améliorée.",
+        "Utilisez une source alternative sûre (eau embouteillée, camion‑citernes, borne publique) pour toute consommation directe."
+      ],
+      improvePoor:[
+        "Identifiez et arrêtez les sources de pollution directe telles que fuites d’égout, dépôts sauvages ou rejets industriels.",
+        "Réservez cette eau aux usages sans contact direct (lavage des sols, chasse d’eau) jusqu’à amélioration des tests.",
+        "Planifiez des solutions de moyen terme comme de nouveaux puits, des unités de traitement ou des mesures de protection de la ressource."
+      ],
+      expertPoor:[
+        "Prévenez la mairie, le service des eaux ou l’Agence de santé avec vos résultats de test.",
+        "Si des animaux ou des poissons meurent près de la source, considérez la situation comme une urgence et limitez l’accès."
+      ],
+
+      checklistItems:[
+        "J’ai nettoyé ou inspecté mon réservoir de stockage ou récipient principal ce mois‑ci.",
+        "J’ai vérifié la présence d’odeurs, de changements de couleur ou d’huile/écume visibles dans ma source habituelle.",
+        "Je garde l’eau de boisson couverte et j’utilise un robinet ou une louche au lieu de plonger des verres.",
+        "Je n’abandonne pas de produits chimiques, d’huile usagée, de médicaments ou de plastiques dans les caniveaux ou les plans d’eau voisins.",
+        "Je prévois de tester à nouveau l’eau avec des bandelettes ou l’outil caméra avant la date du rappel."
+      ],
+
+      symptomOptions:{
+        muddy:{
+          causes:[
+            "De fortes pluies ou l’érosion en amont ont ajouté beaucoup de boue en suspension.",
+            "La pompe ou le puits prélève l’eau près du fond, là où les sédiments sont abondants."
+          ],
+          actions:[
+            "Laissez reposer l’eau dans un seau propre puis versez doucement la couche claire supérieure.",
+            "Utilisez des filtres en tissu ou cartouche pour enlever les particules fines avant l’ébullition ou la désinfection.",
+            "Sur les parcelles, maintenez des bandes enherbées et des talus pour réduire l’érosion du sol vers les canaux et étangs."
+          ]
+        },
+        green:{
+          causes:[
+            "Un excès de nutriments (engrais, détergents, eaux usées) favorise la croissance des algues.",
+            "Une eau stagnante ou lente avec beaucoup de soleil encourage les proliférations algales."
+          ],
+          actions:[
+            "N’utilisez pas d’eau très verte et malodorante pour boire ou se baigner.",
+            "Réduisez les apports d’engrais et de détergents vers les réservoirs et étangs ; réparez les fuites de toilettes ou de drains.",
+            "Augmentez l’ombre partielle ou le brassage léger des étangs lorsque c’est possible et consultez des spécialistes des pêches s’il y a des poissons."
+          ]
+        },
+        smell:{
+          causes:[
+            "Une odeur d’œuf pourri indique souvent du sulfure d’hydrogène provenant de matière organique en décomposition dans une eau pauvre en oxygène.",
+            "Des eaux usées ou rejets industriels peuvent se mélanger à la source."
+          ],
+          actions:[
+            "Ne buvez pas d’eau malodorante, même après ébullition ; cherchez une source plus sûre.",
+            "Vérifiez la présence de toilettes, drains ou canalisations d’égout fuyards à proximité et signalez‑les.",
+            "Aérez mieux les réservoirs de stockage et évitez de laisser des déchets organiques près des puits."
+          ]
+        },
+        scale:{
+          causes:[
+            "Le dépôt blanc sur les robinets et ustensiles indique souvent une eau dure riche en calcium et magnésium.",
+            "Une eau très dure peut aussi contenir beaucoup de sels dissous et modifier le goût."
+          ],
+          actions:[
+            "Détartrez bouilloires et robinets avec des solutions douces de vinaigre ou d’acide citrique.",
+            "En cas de dureté très élevée, envisagez des solutions d’adoucissement (unités RO ou adoucisseurs).",
+            "Réservez l’eau dure principalement aux usages de lavage et gardez les sources plus douces pour la boisson."
+          ]
+        },
+        foam:{
+          causes:[
+            "Des détergents, savons ou tensioactifs pénètrent dans le plan d’eau.",
+            "Les eaux grises ou usées peuvent être rejetées directement dans les caniveaux ou les ruisseaux."
+          ],
+          actions:[
+            "Évitez de laver le linge ou la vaisselle directement dans les rivières, étangs ou puits.",
+            "Faites passer les eaux grises par des fosses d’infiltration ou de petits lits filtrants plutôt que dans des drains ouverts.",
+            "Signalez aux autorités locales toute formation persistante de mousse dans les plans d’eau publics."
+          ]
+        }
+      },
+
+      reminderSaved(days){return "Rappel enregistré : contrôlez l’eau environ tous les " + days + " jours.";},
+      reminderDue(daysAgo){return "Environ " + daysAgo + " jours se sont écoulés depuis votre dernière mesure enregistrée. Si possible, refaites un test.";},
+      reminderOK(daysAgo){return "La dernière mesure est assez récente (" + daysAgo + " jours). Votre suivi est sur la bonne voie.";},
+
+      homeCareList:[
+        "En cas de doute sur la qualité, faites bouillir l’eau de boisson au moins 1 minute à gros bouillons.",
+        "Stockez l’eau sûre dans des récipients propres, couverts, à l’abri du soleil et des animaux.",
+        "Nettoyez régulièrement filtres et réservoirs selon les conseils du fabricant ou les recommandations locales.",
+        "Ne plongez pas de verres utilisés ni les mains dans les récipients ; utilisez un robinet ou une louche.",
+        "Gardez savons, détergents, carburants et pesticides éloignés des puits et des citernes."
+      ],
+      farmCareList:[
+        "Évitez la sur‑utilisation d’engrais et de pesticides ; respectez les doses et calendriers recommandés.",
+        "Maintenez des talus enherbés pour que le sol et les produits chimiques n’aillent pas directement dans les canaux ou étangs.",
+        "Empêchez les animaux de rester debout et de déféquer directement dans les réservoirs ou cours d’eau.",
+        "Désembourbez périodiquement les étangs agricoles pour préserver le stockage et réduire les pics de turbidité.",
+        "Utilisez avec prudence les eaux de queue et eaux usées et évitez de les appliquer sur les légumes feuilles consommés crus."
+      ],
+      communityCareList:[
+        "Ne jetez jamais de déchets solides, plastiques, huiles usées ou gravats dans les lacs, rivières ou caniveaux.",
+        "Participez aux journées de nettoyage communautaire autour des étangs, puits et berges.",
+        "Signalez aux autorités les fuites d’eaux usées, bouches d’égout cassées ou rejets illégaux.",
+        "Plantez des arbres et herbes locales le long des berges pour stabiliser les rives et filtrer le ruissellement.",
+        "Partagez les informations de qualité de l’eau avec vos voisins pour que chacun contribue à protéger la ressource."
+      ],
+      factsList:[
+        "Une eau très trouble est plus difficile à désinfecter car les microbes se cachent dans les particules.",
+        "Un pH qui reste longtemps loin de la neutralité peut endommager progressivement les canalisations, pompes et filtres domestiques.",
+        "De petites actions à la maison, comme nettoyer les citernes et ne pas jeter l’huile usée, font une grande différence sur plusieurs années.",
+        "Beaucoup de problèmes commencent en amont : protéger les bassins versants et les drains peut être plus efficace que de traiter l’eau uniquement à la fin."
+      ]
+    },
+        ru:{
+      navHome:"Главная",navMeasure:"Измерение",navMap:"Карта",navFarm:"Помощь фермерам",navCare:"Уход",navChart:"График",navDetails:"Подробно",
+      pageTitle:"Уход за водой и действия",
+      intro:"Узнайте, что означает ваша последняя проба, получите простой план действий по уходу за водой и узнайте, как защищать колодцы, резервуары, пруды и общие водоёмы.",
+      leftHeading:"Уход за моей водой",
+      lastReadingTitle:"1. Моя последняя запись",
+      loadLast:"Загрузить последнюю из истории",
+      clearChecks:"Очистить список задач",
+      noReadingNote:"Перейдите на страницу Измерение, сохраните хотя бы одну запись, а затем вернитесь сюда, чтобы увидеть план ухода по её индексу и pH.",
+      bandGood:"Хорошее качество",
+      bandMed:"Среднее качество",
+      bandPoor:"Плохое качество",
+      bandUnknown:"Нет индекса",
+      detailsIndex:"Индекс",
+      detailsPH:"pH",
+      detailsTemp:"Темп",
+      detailsTurb:"Мутность",
+      carePlanTitle:"2. План ухода для этого диапазона",
+      safetyTitle:"Сначала здоровье и безопасность",
+      improveTitle:"Улучшение качества воды",
+      expertTitle:"Когда обращаться к специалистам",
+      checklistTitle:"Мой список действий",
+      symptomTitle:"3. Как выглядит вода?",
+      symptomLabel:"Выберите симптом",
+      symptomCauseTitle:"Вероятные причины",
+      symptomActionTitle:"Что можно сделать сейчас",
+      reminderTitle:"4. Напоминания",
+      reminderLabel:"Проверять воду каждые",
+      saveReminder:"Сохранить напоминание",
+      rightHeading:"Библиотека по уходу",
+      homeCareTitle:"Дома (для питья и готовки)",
+      farmCareTitle:"Для полей и прудов",
+      communityCareTitle:"Общественные водоёмы",
+      factsTitle:"Интересные факты",
+
+      safetyGood:[
+        "Вода обычно безопасна, если источник защищён; однако для детей и людей со слабым иммунитетом её лучше кипятить.",
+        "Храните воду в чистых закрытых ёмкостях и не опускайте в них руки или стаканы."
+      ],
+      improveGood:[
+        "Очищайте резервуары и бытовые фильтры не реже одного раза в 1–3 месяца.",
+        "Не допускайте попадания стоков, моющих средств и масел к колодцам и бакам, чтобы избежать резкого ухудшения качества."
+      ],
+      expertGood:[
+        "При резком изменении цвета, запаха или вкуса повторите тест и обратитесь в местные органы здравоохранения.",
+        "Делитесь хорошими результатами с соседями, чтобы все вместе защищали источник."
+      ],
+
+      safetyMed:[
+        "Не пейте такую воду без обработки; кипятите её или пропускайте через надёжные фильтры.",
+        "Не используйте воду средней чистоты для приготовления детского питания и для тяжело больных людей."
+      ],
+      improveMed:[
+        "Промойте баки, трубопроводы и краны; по возможности удалите осевший ил.",
+        "Улучшите водоотвод вокруг колодцев и насосов, чтобы сточные воды не возвращались к источнику.",
+        "Продвигайте использование бытовых фильтров (керамических, RO или УФ) согласно местным рекомендациям."
+      ],
+      expertMed:[
+        "Если индекс остаётся средним на протяжении 3 и более тестов, попросите провести детальный анализ в компетентных службах.",
+        "Создайте небольшую инициативную группу, которая будет вести журнал измерений и организовывать дни очистки."
+      ],
+
+      safetyPoor:[
+        "Не используйте эту воду для питья и приготовления пищи, пока качество не улучшится.",
+        "Для питья используйте альтернативный безопасный источник (бутылированная вода, автоцистерна, общественная колонка)."
+      ],
+      improvePoor:[
+        "Выявите и устраните прямые источники загрязнения: утечки канализации, свалки, промышленные сбросы.",
+        "Пользуйтесь этой водой только для хозяйственных нужд без прямого контакта с кожей (мытьё полов, слив в туалете), пока тесты не покажут улучшение.",
+        "Планируйте решения на среднесрочную перспективу: новые скважины, станции очистки, мероприятия по защите источника."
+      ],
+      expertPoor:[
+        "Сообщите результаты анализов в местный муниципалитет, водоканал или органы здравоохранения.",
+        "Если рядом с источником гибнут животные или рыба, рассматривайте ситуацию как чрезвычайную и ограничьте доступ."
+      ],
+
+      checklistItems:[
+        "В этом месяце я почистил(а) или осмотрел(а) свой резервуар или основную ёмкость для воды.",
+        "Я проверил(а), нет ли запаха, изменения цвета или видимой плёнки/пены в привычном источнике.",
+        "Я храню питьевую воду закрытой и набираю её через кран или ковш, а не опускаю стаканы в ёмкость.",
+        "Я не выбрасываю химикаты, использованное масло, лекарства и пластик в канавы или рядом с водоёмами.",
+        "Я планирую провести повторный тест воды с помощью полосок или камеры в пределах периода напоминания."
+      ],
+
+      symptomOptions:{
+        muddy:{
+          causes:[
+            "Сильные дожди или эрозия почвы выше по течению принесли много взвешенного ила.",
+            "Насос или колодец забирает воду ближе ко дну, где много осадка."
+          ],
+          actions:[
+            "Дайте воде отстояться в чистом ведре и аккуратно слейте верхний прозрачный слой.",
+            "Используйте тканевые или картриджные фильтры для удаления мелких частиц перед кипячением или дезинфекцией.",
+            "На полях устраивайте травяные полосы и валы, уменьшающие смыв почвы в каналы и пруды."
+          ]
+        },
+        green:{
+          causes:[
+            "Избыток питательных веществ (удобрения, моющие средства, сточные воды) стимулирует рост водорослей.",
+            "Медленно текущая или стоячая вода при ярком солнце способствует цветению водоёмов."
+          ],
+          actions:[
+            "Не используйте сильно позеленевшую и зловонную воду для питья и купания.",
+            "Снижайте поступление удобрений и моющих средств в резервуары и пруды, устраняйте утечки из туалетов и дренажей.",
+            "При возможности обеспечьте частичное затенение или перемешивание воды и консультируйтесь с ихтиологами, если в водоёме есть рыба."
+          ]
+        },
+        smell:{
+          causes:[
+            "Запах тухлых яиц часто указывает на сероводород, образующийся при разложении органики в воде с низким содержанием кислорода.",
+            "В источник могут попадать бытовые или промышленные сточные воды."
+          ],
+          actions:[
+            "Не пейте воду с резким запахом даже после кипячения; найдите более безопасный источник.",
+            "Проверьте, нет ли поблизости протекающих туалетов, дренажей или канализационных труб и сообщите об этом.",
+            "Обеспечьте лучшую вентиляцию резервуаров и не складируйте органический мусор возле колодцев."
+          ]
+        },
+        scale:{
+          causes:[
+            "Белый налёт на кранах и посуде обычно означает жёсткую воду с высоким содержанием кальция и магния.",
+            "Очень жёсткая вода может содержать больше растворённых солей и иметь необычный вкус."
+          ],
+          actions:[
+            "Удаляйте накипь в чайниках и на кранах с помощью слабых растворов уксуса или лимонной кислоты.",
+            "При очень высокой жёсткости рассмотрите варианты умягчения (RO‑установки или умягчители).",
+            "Используйте жёсткую воду в основном для стирки и уборки, а более мягкие источники оставьте для питья."
+          ]
+        },
+        foam:{
+          causes:[
+            "В воду попадают моющие средства, мыло или другие ПАВы.",
+            "Серые или канализационные стоки могут напрямую сбрасываться в канавы или ручьи."
+          ],
+          actions:[
+            "Не стирайте одежду и не мойте посуду прямо в реках, прудах и колодцах.",
+            "Направляйте серые стоки в поглощающие колодцы или простые фильтрующие сооружения вместо открытых канав.",
+            "О постоянной пене в общественных водоёмах сообщайте в местные органы власти."
+          ]
+        }
+      },
+
+      reminderSaved(days){return "Напоминание сохранено: проверяйте воду примерно каждые " + days + " дней.";},
+      reminderDue(daysAgo){return "С момента последней сохранённой записи прошло примерно " + daysAgo + " дней. По возможности проведите новый тест.";},
+      reminderOK(daysAgo){return "Последняя запись довольно свежая (" + daysAgo + " дней назад). Вы хорошо контролируете качество воды.";},
+
+      homeCareList:[
+        "Если вы не уверены в качестве, кипятите питьевую воду не менее 1 минуты после закипания.",
+        "Храните безопасную воду в чистых закрытых ёмкостях вдали от солнца и животных.",
+        "Регулярно мойте фильтры и ёмкости для хранения в соответствии с инструкциями или местными рекомендациями.",
+        "Не опускайте использованные стаканы и руки в ёмкость с водой; пользуйтесь краном или ковшом.",
+        "Держите мыло, моющие средства, топливо и пестициды подальше от колодцев и резервуаров."
+      ],
+      farmCareList:[
+        "Не злоупотребляйте удобрениями и пестицидами; соблюдайте рекомендованные дозы и сроки.",
+        "Создавайте травяные полосы и валы, чтобы почва и химикаты не смывались прямо в каналы и пруды.",
+        "Не допускайте, чтобы животные долго стояли и испражнялись непосредственно в водоёмах.",
+        "Периодически удаляйте ил из прудов, чтобы сохранить объём и уменьшить резкие всплески мутности.",
+        "Осторожно используйте сточные и дренажные воды и не поливайте ими листовые овощи, которые едят сырыми."
+      ],
+      communityCareList:[
+        "Никогда не выбрасывайте твёрдые отходы, пластик, отработанное масло и строительный мусор в озёра, реки и канавы.",
+        "Участвуйте в общественных акциях по уборке вокруг прудов, колодцев и берегов рек.",
+        "Сообщайте о протечках канализации, повреждённых люках и незаконных сбросах в соответствующие службы.",
+        "Высаживайте местные деревья и травы вдоль берегов, чтобы укреплять склоны и фильтровать сток.",
+        "Делитесь информацией о качестве воды с соседями, чтобы все вместе защищали источник."
+      ],
+      factsList:[
+        "Очень мутную воду трудно эффективно обеззараживать, потому что микробы скрываются внутри частиц.",
+        "Если pH долго остаётся далеко от нейтрального, это может постепенно разрушать трубы, насосы и бытовые фильтры.",
+        "Небольшие домашние действия, такие как чистка баков и отказ от слива отработанного масла в канализацию, со временем дают большой эффект.",
+        "Многие проблемы начинаются выше по течению: защита водосборов и дренажей часто эффективнее, чем только обработка воды на выходе."
+      ]
+    },
+        ja:{
+      navHome:"ホーム",navMeasure:"計測",navMap:"地図",navFarm:"農家サポート",navCare:"ケア",navChart:"チャート",navDetails:"詳細",
+      pageTitle:"水のケアと行動",
+      intro:"最新の測定結果が何を意味するのかをわかりやすく示し、水のためのシンプルなケアプランと、井戸・タンク・ため池・地域の水域を守る方法をまとめています。",
+      leftHeading:"自分の水を守る",
+      lastReadingTitle:"1. 最新の測定値",
+      loadLast:"履歴から最新を読み込む",
+      clearChecks:"チェックリストをクリア",
+      noReadingNote:"ケアプランを見るには、まず計測ページで少なくとも 1 件の測定を保存し、その後ここで最新の測定を読み込んでください。",
+      bandGood:"良好な水質",
+      bandMed:"ふつうの水質",
+      bandPoor:"悪い水質",
+      bandUnknown:"指数なし",
+      detailsIndex:"指数",
+      detailsPH:"pH",
+      detailsTemp:"温度",
+      detailsTurb:"濁度",
+      carePlanTitle:"2. このランクのケアプラン",
+      safetyTitle:"健康と安全を最優先",
+      improveTitle:"水質をよくする",
+      expertTitle:"専門家に相談すべきとき",
+      checklistTitle:"私のケアチェックリスト",
+      symptomTitle:"3. 水の見た目は？",
+      symptomLabel:"症状を選択",
+      symptomCauseTitle:"考えられる原因",
+      symptomActionTitle:"今すぐできる対策",
+      reminderTitle:"4. リマインダー",
+      reminderLabel:"水をチェックする間隔",
+      saveReminder:"リマインダーを保存",
+      rightHeading:"ケアライブラリ",
+      homeCareTitle:"家庭用（飲用・調理）",
+      farmCareTitle:"農地・ため池向け",
+      communityCareTitle:"地域の水域",
+      factsTitle:"豆知識",
+
+      safetyGood:[
+        "水源が守られていれば、一般的には安全に利用できますが、乳幼児や免疫の弱い人には一度沸騰させてから使うと安心です。",
+        "清潔でフタの付いた容器に保存し、手やコップを直接入れず、蛇口や柄杓を使って汲み出しましょう."
+      ],
+      improveGood:[
+        "貯水タンクや家庭用フィルターは 1〜3 か月ごとに掃除しましょう。",
+        "井戸やタンクの近くに洗剤や油、水たまりの排水が流れ込まないようにして、急な水質悪化を防ぎます。"
+      ],
+      expertGood:[
+        "色・におい・味が急に変わった場合は、再度テストを行い、必要に応じて保健センターなどに相談してください。",
+        "良い結果は近所の人とも共有し、みんなで水源を守れるようにしましょう。"
+      ],
+
+      safetyMed:[
+        "そのまま飲むのは避け、沸騰や適切なフィルター処理を行ってから飲用に使ってください。",
+        "乳児用ミルクや重い持病のある人向けの飲み水としての利用は控えましょう。"
+      ],
+      improveMed:[
+        "貯水タンクや配管、蛇口を洗浄し、可能であれば底にたまった泥を取り除きます。",
+        "井戸や手押しポンプ周りの排水を改善し、汚水が逆流してこないようにします。",
+        "地域の推奨に応じて、陶器フィルター・RO・UV などの家庭用浄水器の利用を広めましょう。"
+      ],
+      expertMed:[
+        "3 回以上のテストで指数が中程度のままの場合は、行政機関などに詳しい水質検査を依頼しましょう。",
+        "近所で小さなグループを作り、測定値を記録して定期的な清掃デーを企画すると効果的です。"
+      ],
+
+      safetyPoor:[
+        "水質が改善するまで、この水を飲用や調理には使わないでください。",
+        "飲用にはボトル水・給水車・公設水栓など、より安全な水源を利用しましょう。"
+      ],
+      improvePoor:[
+        "下水漏れ、不法投棄、工場排水など、直接の汚染源を探して止める必要があります。",
+        "テスト結果が回復するまでは、この水は床掃除やトイレの洗浄など、直接触れない用途のみに使います。",
+        "中長期的な対策として、新しい井戸や浄水施設、水源保全策などの計画を検討しましょう。"
+      ],
+      expertPoor:[
+        "測定結果を添えて自治体や水道局、保健当局に連絡し、対応を依頼してください。",
+        "水源付近で家畜や魚が死んでいる場合は緊急事態と考え、立ち入りを制限しましょう。"
+      ],
+
+      checklistItems:[
+        "今月、貯水タンクまたは主な容器を清掃または点検した。",
+        "普段利用している水に、におい・色の変化・油膜や泡がないか確認した。",
+        "飲み水は必ずフタをして保管し、コップを直接入れず、蛇口や柄杓で汲んでいる。",
+        "薬品・使用済みの油・薬・プラスチックなどを排水溝や水辺に捨てていない。",
+        "リマインダーの期間内に、試験紙やカメラツールでもう一度水質を確認するつもりだ。"
+      ],
+
+      symptomOptions:{
+        muddy:{
+          causes:[
+            "大雨や上流の土壌浸食により、泥が多く混ざっている可能性があります。",
+            "ポンプや井戸が、堆積物の多い底に近い水をくみ上げていることがあります."
+          ],
+          actions:[
+            "きれいなバケツに入れて静置し、上澄みの透明な部分だけを慎重に移し替えます。",
+            "布やカートリッジフィルターで細かい粒子をできるだけ除いたうえで、沸騰または消毒します。",
+            "農地では、草の帯や畦を維持して、土と農薬が用水路やため池に流れ込まないようにします。"
+          ]
+        },
+        green:{
+          causes:[
+            "肥料・洗剤・生活排水などの栄養分が多く流入し、藻類が増えています。",
+            "日差しが強い中で、水の流れが遅い・ほとんど動かないと、アオコなどの藻類が繁殖しやすくなります。"
+          ],
+          actions:[
+            "強い緑色で悪臭のする水は、飲用や入浴には使わないでください。",
+            "肥料や洗剤がタンクやため池に直接流れ込まないようにし、トイレや排水管の漏れがあれば修理します。",
+            "可能であれば、ため池に部分的な日陰や緩やかなかき混ぜを加え、魚がいる場合は専門家に相談してください。"
+          ]
+        },
+        smell:{
+          causes:[
+            "卵が腐ったようなにおいは、酸素が少ない水の中で有機物が分解されてできる硫化水素の可能性があります。",
+            "生活排水や工業排水が水源に混入している場合もあります。"
+          ],
+          actions:[
+            "においの強い水は、沸騰させても飲まないでください。より安全な水源を探しましょう。",
+            "近くにトイレ・排水溝・下水管の漏れがないか確認し、自治体に連絡します。",
+            "貯水タンクに換気口を設けるなどして通気性をよくし、井戸の周りに生ごみを放置しないようにします。"
+          ]
+        },
+        scale:{
+          causes:[
+            "蛇口や食器に白い固い汚れが付く場合は、カルシウムやマグネシウムを多く含む硬水の可能性があります。",
+            "非常に硬い水は溶解した塩分も多く、味が変わることがあります。"
+          ],
+          actions:[
+            "やかんや蛇口のスケールは、薄めた酢やクエン酸溶液でこまめに除去します。",
+            "硬度が非常に高い場合は、RO 装置や軟水器などの導入を検討します。",
+            "硬水は主に洗濯や清掃に使い、飲用にはできるだけ軟らかい水源を確保します。"
+          ]
+        },
+        foam:{
+          causes:[
+            "洗剤や石けんなどの界面活性剤が水域に流れ込んでいます。",
+            "生活排水（グレーウォーター）や下水が直接溝や川に流されている可能性があります。"
+          ],
+          actions:[
+            "川・池・井戸で直接洗濯や食器洗いをするのはやめましょう。",
+            "生活排水は、浸透枡や簡易な処理ベッドを通してから流すようにし、開放溝への直接放流は避けます。",
+            "公共の水域で泡立ちが続く場合は、自治体や関係機関に報告しましょう。"
+          ]
+        }
+      },
+
+      reminderSaved(days){return "リマインダーを保存しました：およそ " + days + " 日ごとに水質を確認しましょう。";},
+      reminderDue(daysAgo){return "前回の記録から約 " + daysAgo + " 日が経過しています。可能なら、もう一度テストしてください。";},
+      reminderOK(daysAgo){return "最新の測定はかなり最近です（約 " + daysAgo + " 日前）。良いペースでモニタリングできています。";},
+
+      homeCareList:[
+        "水質に不安がある場合は、少なくとも 1 分間ぐつぐつ沸騰させてから飲みましょう。",
+        "安全な水は清潔でフタ付きの容器に入れ、直射日光や動物から離して保管します。",
+        "メーカーや地域のガイドラインに従って、フィルターや貯水容器を定期的に掃除します。",
+        "容器に手や使ったコップを入れず、蛇口や柄杓から水を取ります。",
+        "洗剤・燃料・農薬などを井戸やタンクの近くに保管しないようにします。"
+      ],
+      farmCareList:[
+        "肥料や農薬の量を守り、推奨される時期と回数を超えないようにします。",
+        "用水路やため池に土と農薬が直接流れ込まないよう、草の帯や畦を維持します。",
+        "家畜がため池や川の中で長時間立ち、そこで排泄しないように管理します。",
+        "農業用ため池は定期的に浚渫して土砂を取り除き、貯水量と水質を保ちます。",
+        "末端排水や再利用水は注意して使い、葉野菜など生で食べる作物には使わないようにします。"
+      ],
+      communityCareList:[
+        "湖や川、排水路にゴミ、プラスチック、使用済み油、建設残土などを捨てないようにします。",
+        "ため池や井戸、川岸の清掃ボランティアに参加し、周辺のゴミを定期的に取り除きます。",
+        "下水の漏れ、壊れたマンホールや違法排水を見つけたら、すぐに自治体に報告します。",
+        "水辺に在来種の木や草を植え、土手を安定させつつ流入する雨水を少しでも浄化させます。",
+        "水質の情報を近隣の人々と共有し、地域全体で水源を守れるようにします。"
+      ],
+      factsList:[
+        "非常に濁った水は、微生物が粒子の内側に隠れるため消毒が難しくなります。",
+        "pH が長期間ニュートラルから大きくずれていると、配管・ポンプ・家庭用フィルターが少しずつ傷みます。",
+        "タンク清掃や使用済み油を排水に流さないといった小さな家庭の行動も、何年も積み重なると大きな差になります。",
+        "多くの問題は上流や集水域から始まります。末端だけで浄水するより、流域と排水路を守るほうが効果的な場合も多いです。"
+      ]
+    },
+        zh:{
+      navHome:"主页",navMeasure:"测量",navMap:"地图",navFarm:"农户助手",navCare:"养护",navChart:"图表",navDetails:"详情",
+      pageTitle:"水质养护与行动",
+      intro:"根据你的最新读数说明水质状况，给出简单易行的养护方案，并介绍如何保护井、水箱、鱼塘以及社区水体。",
+      leftHeading:"照顾我的水",
+      lastReadingTitle:"1. 最新读数",
+      loadLast:"从历史记录中读取最新",
+      clearChecks:"清空养护清单",
+      noReadingNote:"要查看养护方案，请先到“测量”页面保存至少一条记录，然后在这里读取最新读数。",
+      bandGood:"水质良好",
+      bandMed:"水质中等",
+      bandPoor:"水质较差",
+      bandUnknown:"无指数",
+      detailsIndex:"指数",
+      detailsPH:"pH",
+      detailsTemp:"温度",
+      detailsTurb:"浑浊度",
+      carePlanTitle:"2. 该等级的养护方案",
+      safetyTitle:"健康与安全优先",
+      improveTitle:"改善水质",
+      expertTitle:"何时需要专家帮助",
+      checklistTitle:"我的养护清单",
+      symptomTitle:"3. 你的水看起来怎样？",
+      symptomLabel:"选择一种现象",
+      symptomCauseTitle:"可能原因",
+      symptomActionTitle:"现在可以做什么",
+      reminderTitle:"4. 提醒",
+      reminderLabel:"每隔多久检查一次水",
+      saveReminder:"保存提醒",
+      rightHeading:"养护知识库",
+      homeCareTitle:"家庭用水（饮用与做饭）",
+      farmCareTitle:"农田与鱼塘用水",
+      communityCareTitle:"社区水体",
+      factsTitle:"小知识",
+
+      safetyGood:[
+        "如果水源受到保护，这类水一般是安全的；不过对于婴幼儿和免疫力较弱的人，最好先煮沸再饮用。",
+        "使用干净并带盖的容器储水，取水时不要把杯子或手直接伸进容器，用水龙头或勺子舀取。"
+      ],
+      improveGood:[
+        "至少每 1–3 个月清洗一次储水箱和家用滤芯。",
+        "避免雨水带着洗涤剂、油污等顺着地面流向井口和水箱，以免水质突然变坏。"
+      ],
+      expertGood:[
+        "若水的颜色、气味或味道突然改变，应重新测试并向当地卫生部门咨询。",
+        "把良好的检测结果与邻居分享，鼓励大家一起保护水源。"
+      ],
+
+      safetyMed:[
+        "不要直接饮用；先煮沸或使用合适的过滤设备处理后再喝。",
+        "不要把这种水用于冲奶粉或给重病患者饮用。"
+      ],
+      improveMed:[
+        "清洗储水箱、管道和水龙头；在条件允许时清除底部沉积的污泥。",
+        "改善井和手压泵附近的排水状况，防止污水回流到水源。",
+        "根据本地建议推广使用陶瓷、RO 或紫外线等家用净水器。"
+      ],
+      expertMed:[
+        "如果连续 3 次以上测试指数都处于中等水平，应向相关部门申请更详细的化验。",
+        "组织小型社区小组，记录水质读数并定期开展清洁行动。"
+      ],
+
+      safetyPoor:[
+        "在水质明显改善之前，不要用这类水来饮用或做饭。",
+        "饮用时应使用更安全的替代水源，例如瓶装水、送水车或公共自来水。"
+      ],
+      improvePoor:[
+        "查找并制止直接污染源，如污水泄漏、垃圾倾倒或工业排放。",
+        "在检测结果明显好转之前，这类水只用于拖地、冲厕等不直接接触人体的用途。",
+        "规划中长期解决方案，如新建水井、净水设施或上游水源保护工程。"
+      ],
+      expertPoor:[
+        "携带你的检测结果，向当地村委、供水部门或卫生部门报告情况。",
+        "如果在水源附近发现牲畜或鱼类死亡，应视为紧急情况并限制人员进入。"
+      ],
+
+      checklistItems:[
+        "本月我已经清洗或检查了储水箱或主要储水容器。",
+        "我检查了常用水源是否出现异味、变色或肉眼可见的油膜和泡沫。",
+        "我始终用带盖容器储存饮用水，并通过水龙头或勺子取水，而不是把杯子伸进容器。",
+        "我不会把化学品、废油、药品或塑料直接丢进下水道或附近的水体。",
+        "我计划在提醒周期内再次使用试纸或相机工具检测水质。"
+      ],
+
+      symptomOptions:{
+        muddy:{
+          causes:[
+            "大雨或上游水土流失导致大量泥沙进入水体。",
+            "水泵或水井从靠近水底、沉积物较多的地方取水。"
+          ],
+          actions:[
+            "将水倒入干净的桶中静置一段时间，缓慢倒出上层较清的部分。",
+            "使用布或滤芯过滤掉细小颗粒后，再进行煮沸或消毒处理。",
+            "在农田边缘保留草带和田埂，减少泥土和农药被冲入渠道和鱼塘。"
+          ]
+        },
+        green:{
+          causes:[
+            "化肥、洗涤剂或生活污水中的营养物质过多，促进了藻类生长。",
+            "水体流速很慢或几乎不流动，再加上阳光强烈，容易形成藻华。"
+          ],
+          actions:[
+            "颜色很绿并伴有臭味的水，不要用来喝或洗澡。",
+            "减少化肥和洗涤剂进入水塘和水箱，修复厕所或排水管的泄漏。",
+            "在可能的情况下增加一定遮阴或轻微搅拌，如果池中有鱼，可咨询水产专家。"
+          ]
+        },
+        smell:{
+          causes:[
+            "臭鸡蛋味通常来自于缺氧环境中有机物分解产生的硫化氢。",
+            "生活污水或工业废水可能正在与水源混合。"
+          ],
+          actions:[
+            "有明显异味的水，即使煮沸也不要饮用，应寻找更安全的水源。",
+            "检查周围是否有漏水的厕所、排水沟或污水管，并向当地部门报告。",
+            "改善储水箱的通风，避免在井口附近堆放有机垃圾。"
+          ]
+        },
+        scale:{
+          causes:[
+            "水龙头和器皿上的白色水垢通常表示水质较硬，含有较多钙和镁。",
+            "非常硬的水还可能含有较多溶解盐分，使口感发生变化。"
+          ],
+          actions:[
+            "用稀释的食醋或柠檬酸溶液定期清除水壶和水龙头上的水垢。",
+            "如果水的硬度非常高，可以考虑安装 RO 或软水器等设备。",
+            "尽量把硬水用于洗涤和清洁，把相对较软的水源留给饮用。"
+          ]
+        },
+        foam:{
+          causes:[
+            "洗衣粉、肥皂或其他表面活性剂进入了水体。",
+            "家庭灰水或污水可能直接排入沟渠或河道。"
+          ],
+          actions:[
+            "避免在河流、池塘或水井中直接洗衣服或洗碗。",
+            "把灰水引入渗水坑或简易净化床，而不是直接排入明沟。",
+            "如果在公共水体中长期看到大量泡沫，应向当地管理部门报告。"
+          ]
+        }
+      },
+
+      reminderSaved(days){return "提醒已保存：建议大约每 " + days + " 天检测一次水质。";},
+      reminderDue(daysAgo){return "距离上次保存的读数大约已经过去 " + daysAgo + " 天，如有条件请再次检测。";},
+      reminderOK(daysAgo){return "最近一次读数距今约 " + daysAgo + " 天，水质监测的频率基本合适。";},
+
+      homeCareList:[
+        "如果不确定水是否安全，饮用前至少要在沸腾状态下持续 1 分钟。",
+        "把安全的水储存在干净、带盖的容器中，远离阳光直射和家畜。",
+        "根据厂家或本地指导，定期清洗过滤器和储水容器。",
+        "取水时不要把用过的杯子或手伸入容器，应使用水龙头或勺子。",
+        "不要在井口和水箱附近存放肥皂、洗涤剂、燃料和农药。"
+      ],
+      farmCareList:[
+        "避免化肥和农药施用过量，严格按照推荐剂量和时间施用。",
+        "在沟渠和鱼塘边保留草带和土埂，防止土壤和农药被雨水直接冲入水体。",
+        "不要让牲畜长时间站在池塘或河道里并在水中排泄。",
+        "定期清淤农用鱼塘，保持蓄水能力并减少浑浊度的剧烈波动。",
+        "谨慎使用末端污水和再生水，避免直接浇灌生吃的叶类蔬菜。"
+      ],
+      communityCareList:[
+        "不要把固体垃圾、塑料、废油或建筑垃圾直接扔进湖泊、河流或排水沟。",
+        "参加附近水塘、井口和河岸的社区清洁活动，定期清理周边垃圾。",
+        "发现污水泄漏、井盖破损或非法排污时，及时向当地部门举报。",
+        "在水边种植本地树木和草，既能稳固河岸，也能对地表径流起到一定过滤作用。",
+        "把水质信息与邻居分享，让整个社区一起参与保护水源。"
+      ],
+      factsList:[
+        "浑浊度很高的水更难彻底消毒，因为微生物会藏在颗粒内部。",
+        "pH 长期偏离中性，会慢慢腐蚀管道、水泵和家用滤芯。",
+        "清洗水箱、不把废油倒进下水道等这些日常小动作，长期坚持能带来很大变化。",
+        "很多水质问题从上游或汇水区开始，保护流域和排水系统往往比只在末端处理水更有效。"
+      ]
+    },
+
 
   // ---------------- language wiring ----------------
   const langSelect = document.getElementById('langsel');
