@@ -1390,43 +1390,73 @@ document.addEventListener('DOMContentLoaded',()=>{
     return (x / rect.width) * 14;
   }
 
-  // drag on bar
+    // drag on bar (mouse and touch)
   let dragging = false;
+
+  function startDragFromClientX(clientX){
+    dragging = true;
+    const ph = phFromX(clientX);
+    phInput.value = round(ph,2).toFixed(2);
+    showPH(ph);
+  }
+
+  function moveDragFromClientX(clientX){
+    if(!dragging) return;
+    const ph = phFromX(clientX);
+    phInput.value = round(ph,2).toFixed(2);
+    showPH(ph);
+  }
+
+  // mouse events
   gradEl.addEventListener('mousedown',e=>{
     e.preventDefault();
-    dragging = true;
-    const ph = phFromX(e.clientX);
-    phInput.value = round(ph,2).toFixed(2);
-    showPH(ph);
+    startDragFromClientX(e.clientX);
   });
-  window.addEventListener('mousemove',e=>{
-    if(!dragging) return;
-    const ph = phFromX(e.clientX);
-    phInput.value = round(ph,2).toFixed(2);
-    showPH(ph);
-  });
-  window.addEventListener('mouseup',()=>{dragging=false;});
 
-  // drag pin specifically
+  window.addEventListener('mousemove',e=>{
+    moveDragFromClientX(e.clientX);
+  });
+
+  window.addEventListener('mouseup',()=>{
+    dragging = false;
+  });
+
+  // touch events
+  gradEl.addEventListener('touchstart',e=>{
+    e.preventDefault();
+    const t = e.touches[0];
+    if(!t) return;
+    startDragFromClientX(t.clientX);
+  }, {passive:false});
+
+  window.addEventListener('touchmove',e=>{
+    const t = e.touches[0];
+    if(!t) return;
+    moveDragFromClientX(t.clientX);
+  }, {passive:false});
+
+  window.addEventListener('touchend',()=>{
+    dragging = false;
+  });
+
+  // drag pin specifically (mouse + touch)
   pin.addEventListener('mousedown',e=>{
     e.stopPropagation();
+    e.preventDefault();
     dragging = true;
   });
 
+  pin.addEventListener('touchstart',e=>{
+    e.stopPropagation();
+    e.preventDefault();
+    dragging = true;
+  }, {passive:false});
+
+  // simple click to jump (works for mouse; on touch the drag handlers already cover it)
   gradEl.addEventListener('click',e=>{
     const ph = phFromX(e.clientX);
     phInput.value = round(ph,2).toFixed(2);
     showPH(ph);
-  });
-
-  checkBtn.addEventListener('click',()=>{
-    const v = parseFloat(phInput.value);
-    if(isNaN(v) || v<0 || v>14){
-      alert("Enter a pH value between 0 and 14");
-      phInput.focus();
-      return;
-    }
-    showPH(v);
   });
 
   document.querySelectorAll('.ex').forEach(btn=>{
