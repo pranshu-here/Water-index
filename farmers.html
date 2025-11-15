@@ -1205,27 +1205,28 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 
   // use latest reading from localStorage (same structure as measure.html saves)
-  document.getElementById('useLatest').addEventListener('click',()=>{
-    let data = [];
-    try{
-      data = JSON.parse(localStorage.getItem('whi_readings') || "[]");
-    }catch(e){data=[];}
-    if(!Array.isArray(data) || data.length===0){
-      alert("No saved readings found. Go to Measure page and save at least one reading.");
-      return;
-    }
-    const last = data[data.length-1];
-    const p = parseFloat(last.ph);
-    if(isNaN(p)){
-      alert("Latest reading has no valid pH.");
-      return;
-    }
-    document.getElementById('phFarmer').value = p.toFixed(2);
-    document.getElementById('phImprove').value = p.toFixed(2);
-    currentPH = p;
-    updatePHStatus(p);
-    if(currentCropId) showCropAdvice(currentCropId,currentPH);
-  });
+document.getElementById('useLatest').addEventListener('click',()=>{
+  let data = [];
+  try{
+    // IMPORTANT: use the SAME key as measure.html
+    data = JSON.parse(localStorage.getItem('whReadings') || "[]");
+  }catch(e){data=[];}
+  if(!Array.isArray(data) || data.length===0){
+    alert("No saved readings found. Go to Measure page and save at least one reading.");
+    return;
+  }
+  const last = data[data.length-1];
+  const p = parseFloat(last.ph);
+  if(isNaN(p)){
+    alert("Latest reading has no valid pH.");
+    return;
+  }
+  document.getElementById('phFarmer').value = p.toFixed(2);
+  document.getElementById('phImprove').value = p.toFixed(2);
+  currentPH = p;
+  updatePHStatus(p);
+  if(currentCropId) showCropAdvice(currentCropId,currentPH);
+});
 
   // ---------- pH improvement tips ----------
   const shortTermList = document.getElementById('shortTermList');
