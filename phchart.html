@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Water Health Index – pH Chart</title>
+  <style>
+    :root{
+      --bg1:#215871;
+      --bg2:#184757;
+      --card:#213a4a;
+      --card2:#253c4d;
+      --text:#e3fbfa;
+      --accent:#55ebca;
+      --accent2:#39bbe9;
+      --btn:#2cb5d6;
+      --btn-hover:#168eaf;
+      --rowHighlight:#294f63;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:"Times New Roman",Times,serif;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
+    }
+    nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:1.1rem 2.2rem 0.3rem 2.2rem;
+    }
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:0.7rem;
+      font-weight:bold;
+      font-size:2.2rem;
+    }
+    .logo span{font-size:2.6rem;}
+    .nav-links{
+      display:flex;
+      gap:2rem;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      color:var(--text);
+      text-decoration:none;
+      font-weight:bold;
+      padding-bottom:2px;
+      border-bottom:2px solid transparent;
+    }
+    .nav-links a.active,
+    .nav-links a:hover{
+      color:var(--accent);
+      border-bottom-color:var(--accent);
+    }
+    .langbar select{
+      font-family:inherit;
+      font-size:1.05rem;
+      border-radius:7px;
+      padding:0.32rem 0.9rem;
+      border:1.3px solid #74c6e0;
+      background:#15313e;
+      color:var(--accent2);
+      font-weight:bold;
+    }
+    main{
+      max-width:1100px;
+      margin:3vw auto 2.5vw auto;
+      background:var(--card);
+      border-radius:17px;
+      padding:2.3rem 1.7rem 2.5rem;
+      box-shadow:0 8px 28px rgba(0,0,0,0.25);
+    }
+    h1{
+      margin:0 0 .4rem 0;
+      text-align:left;
+      color:var(--accent);
+      font-size:2.2rem;
+    }
+    .intro{
+      font-size:.96rem;
+      color:#bfe9f4;
+      margin-bottom:1.4rem;
+    }
+    .layout{
+      display:grid;
+      grid-template-columns:2.1fr 1.4fr;
+      gap:1.5rem;
+    }
+    @media(max-width:960px){
+      .layout{grid-template-columns:1fr;}
+    }
+    .panel{
+      background:var(--card2);
+      border-radius:15px;
+      padding:1.3rem 1.2rem 1.4rem;
+    }
+    .panel h2{
+      margin:.1rem 0 .7rem 0;
+      font-size:1.3rem;
+      color:var(--accent2);
+    }
+    .gradient-wrapper{margin-top:.2rem;position:relative;}
+    .gradient-label{margin-bottom:.4rem;font-weight:bold;color:var(--accent2);}
+    #phGradient{
+      height:54px;
+      border-radius:12px;
+      border:1px solid rgba(3,40,60,0.45);
+      background:linear-gradient(90deg,
+        #6b0000 0%,
+        #ff3b30 6%,
+        #ff7a00 14%,
+        #ffb300 24%,
+        #ffee58 38%,
+        #b2ff59 46%,
+        #64ffda 58%,
+        #00b0ff 72%,
+        #0077ff 86%,
+        #1f0b4b 100%);
+      position:relative;
+      box-shadow:0 10px 30px rgba(0,0,0,0.35);
+      cursor:pointer;
+      user-select:none;
+    }
+    .pin{
+      position:absolute;
+      top:-22px;
+      width:20px;
+      height:20px;
+      border-radius:50%;
+      background:#fff;
+      border:3px solid #0e3b4f;
+      transform:translateX(-50%);
+      box-shadow:0 4px 10px rgba(0,0,0,0.4);
+      cursor:grab;
+    }
+    .pin::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:19px;
+      width:3px;
+      height:36px;
+      background:#e7f9ff;
+      transform:translateX(-50%);
+    }
+    .ticks{
+      display:flex;
+      justify-content:space-between;
+      margin-top:.5rem;
+      font-size:.9rem;
+      color:#b7e3f1;
+      font-weight:bold;
+    }
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:.6rem;
+      margin-top:1rem;
+    }
+    @media(max-width:640px){
+      .controls{flex-direction:column;align-items:flex-start;}
+    }
+    .controls label{
+      font-weight:bold;
+      color:var(--accent2);
+    }
+    .controls input[type=number]{
+      width:100px;
+      padding:.4rem .6rem;
+      border-radius:7px;
+      border:1px solid #27536b;
+      background:#182b35;
+      color:#e7fbff;
+    }
+    button{
+      border:none;
+      border-radius:8px;
+      padding:.5rem .9rem;
+      font-family:"Times New Roman",Times,serif;
+      font-size:.98rem;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    .btn-main{background:var(--btn);color:#fff;}
+    .btn-main:hover{background:var(--btn-hover);}
+    .btn-ghost{
+      background:transparent;
+      border:1px solid #3b7b95;
+      color:#cdefff;
+    }
+    .badge{
+      display:inline-block;
+      padding:6px 9px;
+      border-radius:9px;
+      font-size:.88rem;
+      font-weight:bold;
+      color:#fff;
+      margin-left:.3rem;
+    }
+    .cat-acid{background:linear-gradient(135deg,#ff3b30,#ff7a00);}
+    .cat-neutral{background:linear-gradient(135deg,#2e7d32,#66bb6a);}
+    .cat-alk{background:linear-gradient(135deg,#0077ff,#00b0ff);}
+    #resultBox{margin-top:1rem;display:none;}
+    #bigPH{
+      font-size:1.9rem;
+      font-weight:800;
+      color:#e9ffff;
+    }
+    .result-row{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+    .result-text{font-size:.94rem;color:#d0f5ff;margin-top:.4rem;}
+    .section-title{
+      margin-top:1.5rem;
+      font-weight:bold;
+      color:var(--accent2);
+    }
+    .quick-buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.45rem;
+      margin-top:.5rem;
+    }
+    .quick-buttons .btn-ghost{
+      font-size:.86rem;
+      padding:.35rem .7rem;
+    }
+    .info-card{
+      margin-top:1rem;
+      background:#1b313e;
+      border-radius:12px;
+      padding:.8rem .9rem;
+      font-size:.9rem;
+      color:#c9f4ff;
+    }
+    .quality-tag{
+      margin-top:.5rem;
+      display:inline-block;
+      padding:4px 8px;
+      border-radius:9px;
+      font-size:.84rem;
+      background:#15333f;
+      color:#e9fff8;
+      border:1px solid rgba(144,238,209,0.5);
+    }
+    .open-hint{
+      font-size:.86rem;
+      color:#bfe9ff;
+      margin-top:.35rem;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:.9rem;
+    }
+    th,td{
+      padding:.45rem .4rem;
+      border-bottom:1px dashed rgba(188,230,245,0.25);
+    }
+    th{
+      text-align:left;
+      color:var(--accent2);
+      font-weight:bold;
+      font-size:.92rem;
+    }
+    td{color:#e1fbff;}
+    tr.highlight{background:var(--rowHighlight);}
+    .tips-list{
+      margin:.4rem 0 0 1rem;
+      padding:0;
+      list-style:disc;
+      color:#ccefff;
+      font-size:.9rem;
+    }
+    .tips-list li{margin-bottom:.25rem;}
+    .hint{
+      margin-top:.5rem;
+      font-size:.86rem;
+      color:#b9e3f5;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <span aria-hidden="true">🌊</span>
+    Water Health Index
+  </div>
+  <div class="nav-links">
+    <a href="index.html" id="navHome">Home</a>
+    <a href="measure.html" id="navMeasure">Measure</a>
+    <a href="map.html" id="navMap">Map</a>
+    <a href="farmers.html" id="navFarm">Farmers Assistance</a>
+    <a href="care.html" id="navCare">Care</a>
+    <a href="phchart.html" class="active" id="navChart">Chart</a>
+    <a href="details.html" id="navDetails">Details</a>
+    <span class="langbar">
+      <select id="langsel">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="ru">Русский</option>
+        <option value="ja">日本語</option>
+        <option value="zh">中文</option>
+      </select>
+    </span>
+  </div>
+</nav>
+
+<main>
+  <h1 id="pageTitle">Interactive pH Chart</h1>
+  <p class="intro" id="introText">
+    Drag the pin on the gradient, type a pH, or use the quick examples to see what each pH range means and get practical guidance. Use “Open in Home” to send this pH back to the main page.
+  </p>
+
+  <div class="layout">
+    <!-- LEFT SIDE -->
+    <section class="panel">
+      <h2 id="leftHeading">pH Gradient & Advice</h2>
+
+      <div class="gradient-wrapper">
+        <div class="gradient-label" id="gradLabel">pH Gradient</div>
+        <div id="phGradient">
+          <div id="pin" class="pin"></div>
+        </div>
+        <div class="ticks">
+          <span>0</span><span>2</span><span>4</span><span>6</span><span>7</span>
+          <span>8</span><span>10</span><span>12</span><span>14</span>
+        </div>
+        <div class="hint" id="dragHint">
+          Drag the pin (or click on the bar) to choose a pH between 0 and 14.
+        </div>
+      </div>
+
+      <div class="controls">
+        <label for="phVal" id="phLabel">pH</label>
+        <input id="phVal" type="number" step="0.01" min="0" max="14" placeholder="7.00">
+        <button id="checkBtn" class="btn-main">Check</button>
+        <button id="openHome" class="btn-ghost">Open in Home</button>
+        <div id="catBadge"></div>
+      </div>
+      <div class="open-hint" id="openHint">
+        Will open Home with pH 7.00 pre-filled.
+      </div>
+
+      <div id="resultBox">
+        <div class="result-row">
+          <div id="bigPH">pH 7.00</div>
+          <div id="category" class="badge cat-neutral">Neutral / Healthy</div>
+        </div>
+        <div id="phAdvice" class="result-text"></div>
+        <div class="section-title" id="impactTitle">Practical impact</div>
+        <div id="impact" class="result-text"></div>
+        <div class="section-title" id="detailsTitle">Details for this pH</div>
+        <div id="detailList" class="result-text"></div>
+        <div id="qualityTag" class="quality-tag">
+          Overall water quality (from pH alone): Good
+        </div>
+      </div>
+
+      <div class="section-title" id="quickTitle">Quick examples</div>
+      <div class="quick-buttons">
+        <button class="btn-ghost ex" data-ph="4.5" id="ex45">pH 4.5 (Acidic)</button>
+        <button class="btn-ghost ex" data-ph="6.0" id="ex60">pH 6.0 (Slightly acidic)</button>
+        <button class="btn-ghost ex" data-ph="7.0" id="ex70">pH 7.0 (Neutral)</button>
+        <button class="btn-ghost ex" data-ph="8.4" id="ex84">pH 8.4 (Slight alkaline)</button>
+        <button class="btn-ghost ex" data-ph="10.0" id="ex100">pH 10.0 (Alkaline)</button>
+      </div>
+
+      <div class="info-card" id="howText">
+        Drag the pin anywhere on the bar: its position is mapped to the pH scale 0–14. For best accuracy when using strips, compare under bright neutral white light.
+      </div>
+    </section>
+
+    <!-- RIGHT SIDE -->
+    <aside class="panel">
+      <h2 id="rangesTitle">pH ranges & guidance</h2>
+      <table>
+        <thead>
+          <tr>
+            <th id="thRange">Range</th>
+            <th id="thLabel">Label</th>
+            <th id="thGuide">Guidance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-range="very-acid"><td>0–3</td><td id="lblVeryAcid">Very acidic</td><td id="txtVeryAcid">Corrosive; toxic to most aquatic life. Avoid contact.</td></tr>
+          <tr data-range="acid"><td>4–5</td><td id="lblAcid">Acidic</td><td id="txtAcid">Harmful to sensitive species; test for metal leaching.</td></tr>
+          <tr data-range="slight-acid"><td>5.5–6.4</td><td id="lblSlightAcid">Slightly acidic</td><td id="txtSlightAcid">Some stress for sensitive species; monitor trends.</td></tr>
+          <tr data-range="neutral"><td>6.5–8.5</td><td id="lblNeutral">Neutral / Healthy</td><td id="txtNeutral">Suitable for most aquatic life and normal recreation.</td></tr>
+          <tr data-range="slight-alk"><td>8.6–9.5</td><td id="lblSlightAlk">Slightly alkaline</td><td id="txtSlightAlk">Watch for ammonia toxicity in warm water.</td></tr>
+          <tr data-range="alk"><td>9.6–11</td><td id="lblAlk">Alkaline</td><td id="txtAlk">May harm some fish; consider filtration/dilution.</td></tr>
+          <tr data-range="very-alk"><td>11–14</td><td id="lblVeryAlk">Very alkaline</td><td id="txtVeryAlk">Corrosive and hazardous. Avoid use and seek expert help.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="section-title" style="margin-top:1.2rem" id="tipsTitle">Measurement tips</div>
+      <ul class="tips-list" id="tipsList">
+        <li>Use a calibrated meter or fresh strips for accuracy.</li>
+        <li>Measure at a consistent temperature; pH changes with temperature.</li>
+        <li>Compare strip color under neutral white light.</li>
+        <li>When unsure, take multiple readings and average them.</li>
+      </ul>
+      <div class="hint" id="camHint">
+        Want to use the camera reader? Go to the Home page and open the camera tool.
+      </div>
+    </aside>
+  </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+
+  // your original strings object, extended slightly for this page
+  const strings = {
+  en:{
+    title:"Measure Water Quality",
+    ph:"pH (0.0 - 14.0)",
+    temp:"Temperature (°C)",
+    turb:"Turbidity",
+    turbHint:"Low = clear water, Medium = slightly cloudy, High = cloudy or muddy water.",
+    camera:"Camera",
+    switchCam:"Switch Camera",
+    capture:"Capture Color",
+    closeCam:"Close Camera",
+    location:"Use My Location",
+    analyze:"Analyze",
+    save:"Save Reading",
+    clear:"Clear History",
+    histTitle:"Saved Readings",
+    noReadings:"No readings saved.",
+    mapCap:"Your saved readings appear here. Green = Good, Yellow = Moderate, Red = Poor.",
+    status:"Status",
+    camTitle:"Camera pH Reader",
+    camInfo:"Align the pH strip inside the dashed box under good light.",
+    thWhen:"When",
+    thPh:"pH",
+    thTemp:"Temp",
+    thTurb:"Turb",
+    thIndex:"Index",
+
+    navHome:"Home",
+    navMeasure:"Measure",
+    navMap:"Map",
+    navFarm:"Farmers Assistance",
+    navCare:"Care",
+    navChart:"Chart",
+    navDetails:"Details",
+
+    chartTitle:"Interactive pH Chart",
+    chartIntro:"Drag the pin on the gradient, type a pH, or use the quick examples to see what each pH range means and get practical guidance. Use “Open in Home” to send this pH back to the main page.",
+
+    gradTitle:"pH Gradient & Advice",
+    gradLabel:"pH Gradient",
+    dragHint:"Drag the pin (or click on the bar) to choose a pH between 0 and 14.",
+    phLabel:"pH",
+    check:"Check",
+    openHomeBtn:"Open in Home",
+    openHint(ph){return "Will open Home with pH " + ph + " pre-filled.";},
+
+    impactTitle2:"Practical impact",
+    detailsTitle:"Details for this pH",
+
+    quickTitle:"Quick examples",
+    ex45:"pH 4.5 (Acidic)",
+    ex60:"pH 6.0 (Slightly acidic)",
+    ex70:"pH 7.0 (Neutral)",
+    ex84:"pH 8.4 (Slight alkaline)",
+    ex100:"pH 10.0 (Alkaline)",
+
+    howText:"Drag the pin anywhere on the bar: its position is mapped to the pH scale 0–14. For best accuracy when using strips, compare under bright neutral white light.",
+
+    rangesTitle:"pH ranges & guidance",
+    thRange:"Range",
+    thLabel2:"Label",
+    thGuide:"Guidance",
+
+    lblVeryAcid:"Very acidic",
+    txtVeryAcid:"Corrosive; toxic to most aquatic life. Avoid contact.",
+    lblAcid:"Acidic",
+    txtAcid:"Harmful to sensitive species; test for metal leaching.",
+    lblSlightAcid:"Slightly acidic",
+    txtSlightAcid:"Some stress for sensitive species; monitor trends.",
+    lblNeutral:"Neutral / Healthy",
+    txtNeutral:"Suitable for most aquatic life and normal recreation.",
+    lblSlightAlk:"Slightly alkaline",
+    txtSlightAlk:"Watch for ammonia toxicity in warm water.",
+    lblAlk:"Alkaline",
+    txtAlk:"May harm some fish; consider filtration/dilution.",
+    lblVeryAlk:"Very alkaline",
+    txtVeryAlk:"Corrosive and hazardous. Avoid use and seek expert help.",
+
+    tipsTitle2:"Measurement tips",
+    tips:[
+      "Use a calibrated meter or fresh strips for accuracy.",
+      "Measure at a consistent temperature; pH changes with temperature.",
+      "Compare strip color under neutral white light.",
+      "When unsure, take multiple readings and average them."
+    ],
+    camHint2:"Want to use the camera reader? Go to the Home page and open the camera tool.",
+    quality(cat){
+      if(cat==="excellent") return "Overall water quality (from pH alone): Excellent";
+      if(cat==="good")      return "Overall water quality (from pH alone): Good";
+      if(cat==="caution")   return "Overall water quality (from pH alone): Caution";
+      return "Overall water quality (from pH alone): Poor";
+    }
+  },
+
+  hi:{
+    title:"जल गुणवत्ता मापन",
+    ph:"pH (0.0 - 14.0)",
+    temp:"तापमान (°C)",
+    turb:"अस्पष्टता",
+    turbHint:"Low = साफ पानी, Medium = थोड़ा धुंधला, High = धुंधला या मटमैला पानी।",
+    camera:"कैमरा",
+    switchCam:"कैमरा बदलें",
+    capture:"रंग कैप्चर करें",
+    closeCam:"कैमरा बंद करें",
+    location:"मेरा स्थान",
+    analyze:"विश्लेषण",
+    save:"रीडिंग सेव करें",
+    clear:"इतिहास साफ करें",
+    histTitle:"सहेजी गई रीडिंग्स",
+    noReadings:"कोई रीडिंग नहीं।",
+    mapCap:"आपकी रीडिंग्स यहाँ दिखेंगी। हरा = अच्छा, पीला = मध्यम, लाल = खराब।",
+    status:"स्थिति",
+    camTitle:"कैमरा pH रीडर",
+    camInfo:"pH स्ट्रिप को बॉक्स के अंदर रखें और प्रकाश अच्छा रखें।",
+    thWhen:"कब",
+    thPh:"pH",
+    thTemp:"तापमान",
+    thTurb:"अस्पष्टता",
+    thIndex:"सूचकांक",
+
+    navHome:"होम",
+    navMeasure:"मापन",
+    navMap:"मानचित्र",
+    navFarm:"किसान सहायता",
+    navCare:"देखभाल",
+    navChart:"चार्ट",
+    navDetails:"विवरण",
+
+    chartTitle:"इंटरैक्टिव pH चार्ट",
+    chartIntro:"ग्रेडिएंट पर पिन को ड्रैग करें, pH लिखें या त्वरित उदाहरणों का उपयोग करें और हर pH सीमा का अर्थ व सलाह देखें। \"होम में खोलें\" से यह pH मुख्य पेज पर भेजें।",
+
+    gradTitle:"pH ग्रेडिएंट और सलाह",
+    gradLabel:"pH ग्रेडिएंट",
+    dragHint:"ग्रेडिएंट पर पिन ड्रैग करें या बार पर क्लिक करें, 0 से 14 के बीच pH चुनने के लिए।",
+    phLabel:"pH",
+    check:"जांचें",
+    openHomeBtn:"होम में खोलें",
+    openHint(ph){return "होम पेज pH " + ph + " के साथ पहले से भरा खुलेगा।";},
+
+    impactTitle2:"व्यावहारिक प्रभाव",
+    detailsTitle:"इस pH के बारे में विवरण",
+
+    quickTitle:"त्वरित उदाहरण",
+    ex45:"pH 4.5 (अम्लीय)",
+    ex60:"pH 6.0 (हल्का अम्लीय)",
+    ex70:"pH 7.0 (न्यूट्रल)",
+    ex84:"pH 8.4 (हल्का क्षारीय)",
+    ex100:"pH 10.0 (क्षारीय)",
+
+    howText:"बार पर कहीं भी पिन को ड्रैग करें; उसकी स्थिति pH स्केल 0–14 से जुड़ी होती है। स्ट्रिप्स के साथ तुलना करते समय तेज सफेद प्रकाश का उपयोग करें।",
+
+    rangesTitle:"pH सीमाएँ और मार्गदर्शन",
+    thRange:"सीमा",
+    thLabel2:"स्तर",
+    thGuide:"मार्गदर्शन",
+
+    lblVeryAcid:"अत्यधिक अम्लीय",
+    txtVeryAcid:"बहुत संक्षारक; अधिकांश जलीय जीवन के लिए विषैला। संपर्क से बचें।",
+    lblAcid:"अम्लीय",
+    txtAcid:"संवेदनशील प्रजातियों के लिए हानिकारक; धातु घुलने की जाँच करें।",
+    lblSlightAcid:"हल्का अम्लीय",
+    txtSlightAcid:"संवेदनशील प्रजातियों पर कुछ तनाव; प्रवृत्ति पर नज़र रखें।",
+    lblNeutral:"न्यूट्रल / स्वस्थ",
+    txtNeutral:"अधिकांश जलीय जीवन और सामान्य मनोरंजन के लिए उपयुक्त।",
+    lblSlightAlk:"हल्का क्षारीय",
+    txtSlightAlk:"गरम पानी में अमोनिया विषाक्तता पर नज़र रखें।",
+    lblAlk:"क्षारीय",
+    txtAlk:"कुछ मछलियों को नुकसान पहुँचा सकता है; निस्पंदन या पतला करने पर विचार करें।",
+    lblVeryAlk:"अत्यधिक क्षारीय",
+    txtVeryAlk:"संक्षारक और खतरनाक। उपयोग से बचें और विशेषज्ञ से सलाह लें।",
+
+    tipsTitle2:"मापन सुझाव",
+    tips:[
+      "सटीकता के लिए कैलिब्रेटेड मीटर या नई स्ट्रिप्स का उपयोग करें।",
+      "pH तापमान के साथ बदलता है, इसलिए समान तापमान पर मापें।",
+      "सफेद न्यूट्रल प्रकाश में स्ट्रिप के रंग की तुलना करें।",
+      "शंका होने पर कई रीडिंग लेकर औसत लें।"
+    ],
+    camHint2:"कैमरा रीडर चाहिए? होम पेज पर जाएँ और कैमरा टूल खोलें।",
+    quality(cat){
+      if(cat==="excellent") return "केवल pH के आधार पर जल गुणवत्ता: उत्कृष्ट";
+      if(cat==="good")      return "केवल pH के आधार पर जल गुणवत्ता: अच्छी";
+      if(cat==="caution")   return "केवल pH के आधार पर जल गुणवत्ता: सावधानी";
+      return "केवल pH के आधार पर जल गुणवत्ता: खराब";
+    }
+  },
+
+  bn:{
+    title:"জল মান পরিমাপ",
+    ph:"pH (0.0 - 14.0)",
+    temp:"তাপমাত্রা (°C)",
+    turb:"ঘোলাভাব",
+    turbHint:"Low = স্বচ্ছ পানি, Medium = সামান্য ঘোলা, High = ঘোলা বা কাদা মিশ্রিত।",
+    camera:"ক্যামেরা",
+    switchCam:"ক্যামেরা পরিবর্তন",
+    capture:"রং ধরুন",
+    closeCam:"ক্যামেরা বন্ধ",
+    location:"আমার অবস্থান",
+    analyze:"বিশ্লেষণ",
+    save:"রিডিং সংরক্ষণ",
+    clear:"ইতিহাস মুছুন",
+    histTitle:"সংরক্ষিত রিডিং",
+    noReadings:"কোনো রিডিং নেই।",
+    mapCap:"আপনার রিডিং মানচিত্রে এখানে দেখানো হবে। সবুজ = ভাল, হলুদ = মাঝারি, লাল = খারাপ।",
+    status:"স্থিতি",
+    camTitle:"ক্যামেরা pH রিডার",
+    camInfo:"ভাল আলোতে ড্যাশ বক্সের মধ্যে pH স্ট্রিপ রাখুন।",
+    thWhen:"কখন",
+    thPh:"pH",
+    thTemp:"তাপ",
+    thTurb:"ঘোলাভাব",
+    thIndex:"সূচক",
+
+    navHome:"হোম",
+    navMeasure:"মাপ",
+    navMap:"মানচিত্র",
+    navFarm:"কৃষক সহায়তা",
+    navCare:"যত্ন",
+    navChart:"চার্ট",
+    navDetails:"বিস্তারিত",
+
+    chartTitle:"ইন্টারঅ্যাকটিভ pH চার্ট",
+    chartIntro:"গ্রেডিয়েন্টে পিন ড্র্যাগ করুন, pH লিখুন বা দ্রুত উদাহরণ ব্যবহার করে প্রতিটি pH সীমার মানে এবং পরামর্শ দেখুন। \"হোমে খুলুন\" বোতামটি এই pH মূল পাতায় পাঠাবে।",
+
+    gradTitle:"pH গ্রেডিয়েন্ট ও পরামর্শ",
+    gradLabel:"pH গ্রেডিয়েন্ট",
+    dragHint:"পিনটি গ্রেডিয়েন্ট বারের উপর ড্র্যাগ করুন বা ক্লিক করুন, ০–১৪ এর মধ্যে pH নির্বাচন করতে।",
+    phLabel:"pH",
+    check:"চেক",
+    openHomeBtn:"হোমে খুলুন",
+    openHint(ph){return "হোম পেজ pH " + ph + " মান নিয়ে খুলবে।";},
+
+    impactTitle2:"ব্যবহারিক প্রভাব",
+    detailsTitle:"এই pH সম্পর্কে বিস্তারিত",
+
+    quickTitle:"দ্রুত উদাহরণ",
+    ex45:"pH 4.5 (অম্লীয়)",
+    ex60:"pH 6.0 (হালকা অম্লীয়)",
+    ex70:"pH 7.0 (নিরপেক্ষ)",
+    ex84:"pH 8.4 (হালকা ক্ষারীয়)",
+    ex100:"pH 10.0 (ক্ষারীয়)",
+
+    howText:"বারের যে কোন জায়গায় পিন ড্র্যাগ করুন; অবস্থানটি ০–১৪ pH স্কেলে মানে রূপান্তর হয়। সঠিক ফল পেতে উজ্জ্বল সাদা আলোতে স্ট্রিপের রং মিলিয়ে দেখুন।",
+
+    rangesTitle:"pH সীমা ও নির্দেশনা",
+    thRange:"সীমা",
+    thLabel2:"স্তর",
+    thGuide:"নির্দেশনা",
+
+    lblVeryAcid:"খুব অম্লীয়",
+    txtVeryAcid:"অত্যন্ত ক্ষয়কারী; বেশিরভাগ জলজ প্রাণীর জন্য বিষাক্ত। স্পর্শ এড়িয়ে চলুন।",
+    lblAcid:"অম্লীয়",
+    txtAcid:"সংবেদনশীল প্রজাতির জন্য ক্ষতিকর; ধাতু লিচিং পরীক্ষা করুন।",
+    lblSlightAcid:"হালকা অম্লীয়",
+    txtSlightAcid:"সংবেদনশীল প্রজাতির উপর কিছু চাপ; প্রবণতা লক্ষ্য করুন।",
+    lblNeutral:"নিরপেক্ষ / স্বাস্থ্যকর",
+    txtNeutral:"বেশিরভাগ জলজ প্রাণী এবং স্বাভাবিক বিনোদনের জন্য উপযোগী।",
+    lblSlightAlk:"হালকা ক্ষারীয়",
+    txtSlightAlk:"গরম পানিতে অ্যামোনিয়া বিষাক্ততার জন্য নজর রাখুন।",
+    lblAlk:"ক্ষারীয়",
+    txtAlk:"কিছু মাছের ক্ষতি করতে পারে; পরিশোধন বা পাতলা করা ভাবুন।",
+    lblVeryAlk:"খুব ক্ষারীয়",
+    txtVeryAlk:"ক্ষয়কারী এবং বিপজ্জনক। ব্যবহার এড়িয়ে চলুন এবং বিশেষজ্ঞের সাহায্য নিন।",
+
+    tipsTitle2:"মাপার টিপস",
+    tips:[
+      "সঠিকতার জন্য ক্যালিব্রেটেড মিটার বা নতুন স্ট্রিপ ব্যবহার করুন।",
+      "একই তাপমাত্রায় মাপুন; pH তাপমাত্রার সাথে বদলায়।",
+      "সাদা নিরপেক্ষ আলোতে স্ট্রিপের রং মিলিয়ে দেখুন।",
+      "নিশ্চিত না হলে একাধিক রিডিং নিয়ে গড় করুন।"
+    ],
+    camHint2:"ক্যামেরা রিডার ব্যবহার করতে চান? হোম পেজে গিয়ে ক্যামেরা টুল খুলুন।",
+    quality(cat){
+      if(cat==="excellent") return "শুধু pH থেকে অনুমান করা জলমান: অসাধারণ";
+      if(cat==="good")      return "শুধু pH থেকে অনুমান করা জলমান: ভাল";
+      if(cat==="caution")   return "শুধু pH থেকে অনুমান করা জলমান: সাবধানতা";
+      return "শুধু pH থেকে অনুমান করা জলমান: খারাপ";
+    }
+  },
+
+  es:{
+    title:"Medir calidad del agua",
+    ph:"pH (0.0 - 14.0)",
+    temp:"Temperatura (°C)",
+    turb:"Turbidez",
+    turbHint:"Low = agua clara, Medium = algo turbia, High = agua turbia o fangosa.",
+    camera:"Cámara",
+    switchCam:"Cambiar cámara",
+    capture:"Capturar color",
+    closeCam:"Cerrar cámara",
+    location:"Usar mi ubicación",
+    analyze:"Analizar",
+    save:"Guardar lectura",
+    clear:"Borrar historial",
+    histTitle:"Lecturas guardadas",
+    noReadings:"No hay lecturas guardadas.",
+    mapCap:"Tus lecturas aparecerán aquí. Verde = Buena, Amarillo = Moderada, Rojo = Mala.",
+    status:"Estado",
+    camTitle:"Lector de pH con cámara",
+    camInfo:"Coloca la tira de pH dentro del cuadro punteado con buena luz.",
+    thWhen:"Cuándo",
+    thPh:"pH",
+    thTemp:"Temp",
+    thTurb:"Turb",
+    thIndex:"Índice",
+
+    navHome:"Inicio",
+    navMeasure:"Medir",
+    navMap:"Mapa",
+    navFarm:"Ayuda a agricultores",
+    navCare:"Cuidado",
+    navChart:"Gráfico",
+    navDetails:"Detalles",
+
+    chartTitle:"Gráfico interactivo de pH",
+    chartIntro:"Arrastra el pin sobre el gradiente, escribe un pH o usa los ejemplos rápidos para ver qué significa cada rango de pH y obtener consejos prácticos. Usa «Abrir en Inicio» para enviar este pH a la página principal.",
+
+    gradTitle:"Gradiente de pH y consejo",
+    gradLabel:"Gradiente de pH",
+    dragHint:"Arrastra el pin o haz clic en la barra para elegir un pH entre 0 y 14.",
+    phLabel:"pH",
+    check:"Comprobar",
+    openHomeBtn:"Abrir en Inicio",
+    openHint(ph){return "Se abrirá Inicio con pH " + ph + " rellenado.";},
+
+    impactTitle2:"Impacto práctico",
+    detailsTitle:"Detalles para este pH",
+
+    quickTitle:"Ejemplos rápidos",
+    ex45:"pH 4.5 (Ácido)",
+    ex60:"pH 6.0 (Ligeramente ácido)",
+    ex70:"pH 7.0 (Neutro)",
+    ex84:"pH 8.4 (Ligeramente alcalino)",
+    ex100:"pH 10.0 (Alcalino)",
+
+    howText:"Arrastra el pin en cualquier parte de la barra; la posición horizontal se mapea a la escala de pH 0–14. Para mayor precisión con tiras, compara bajo luz blanca neutra.",
+
+    rangesTitle:"Rangos de pH y guía",
+    thRange:"Rango",
+    thLabel2:"Etiqueta",
+    thGuide:"Guía",
+
+    lblVeryAcid:"Muy ácido",
+    txtVeryAcid:"Corrosivo; tóxico para la mayoría de la vida acuática. Evita el contacto.",
+    lblAcid:"Ácido",
+    txtAcid:"Dañino para especies sensibles; revisa si hay lixiviación de metales.",
+    lblSlightAcid:"Ligeramente ácido",
+    txtSlightAcid:"Algo de estrés para especies sensibles; controla las tendencias.",
+    lblNeutral:"Neutro / Saludable",
+    txtNeutral:"Adecuado para la mayoría de la vida acuática y uso recreativo normal.",
+    lblSlightAlk:"Ligeramente alcalino",
+    txtSlightAlk:"Vigila la toxicidad por amoníaco en agua cálida.",
+    lblAlk:"Alcalino",
+    txtAlk:"Puede dañar algunos peces; considera filtración o dilución.",
+    lblVeryAlk:"Muy alcalino",
+    txtVeryAlk:"Corrosivo y peligroso. Evita su uso y consulta a expertos.",
+
+    tipsTitle2:"Consejos de medición",
+    tips:[
+      "Usa un medidor calibrado o tiras nuevas para mayor precisión.",
+      "Mide siempre a temperatura constante; el pH cambia con la temperatura.",
+      "Compara el color de la tira bajo luz blanca neutra.",
+      "Si tienes dudas, toma varias mediciones y promedia."
+    ],
+    camHint2:"¿Quieres usar el lector de cámara? Ve a Inicio y abre la herramienta de cámara.",
+    quality(cat){
+      if(cat==="excellent") return "Calidad del agua solo por pH: excelente";
+      if(cat==="good")      return "Calidad del agua solo por pH: buena";
+      if(cat==="caution")   return "Calidad del agua solo por pH: precaución";
+      return "Calidad del agua solo por pH: mala";
+    }
+  },
+
+  fr:{
+    title:"Mesurer la qualité de l'eau",
+    ph:"pH (0.0 - 14.0)",
+    temp:"Température (°C)",
+    turb:"Turbidité",
+    turbHint:"Low = eau claire, Medium = légèrement trouble, High = eau trouble ou boueuse.",
+    camera:"Caméra",
+    switchCam:"Changer de caméra",
+    capture:"Capturer la couleur",
+    closeCam:"Fermer la caméra",
+    location:"Utiliser ma position",
+    analyze:"Analyser",
+    save:"Enregistrer la mesure",
+    clear:"Effacer l'historique",
+    histTitle:"Mesures enregistrées",
+    noReadings:"Aucune mesure enregistrée.",
+    mapCap:"Vos mesures apparaîtront ici. Vert = Bon, Jaune = Moyen, Rouge = Mauvais.",
+    status:"Statut",
+    camTitle:"Lecteur de pH par caméra",
+    camInfo:"Alignez la bande de pH dans le carré en pointillés avec une bonne lumière.",
+    thWhen:"Quand",
+    thPh:"pH",
+    thTemp:"Temp.",
+    thTurb:"Turb.",
+    thIndex:"Indice",
+
+    navHome:"Accueil",
+    navMeasure:"Mesure",
+    navMap:"Carte",
+    navFarm:"Aide aux agriculteurs",
+    navCare:"Soins",
+    navChart:"Courbe",
+    navDetails:"Détails",
+
+    chartTitle:"Courbe de pH interactive",
+    chartIntro:"Faites glisser le repère sur le dégradé, saisissez un pH ou utilisez les exemples rapides pour voir ce que signifie chaque plage de pH et obtenir des conseils pratiques. Utilisez «Ouvrir dans Accueil» pour envoyer ce pH vers la page principale.",
+
+    gradTitle:"Dégradé de pH et conseils",
+    gradLabel:"Dégradé de pH",
+    dragHint:"Faites glisser le repère ou cliquez sur la barre pour choisir un pH entre 0 et 14.",
+    phLabel:"pH",
+    check:"Vérifier",
+    openHomeBtn:"Ouvrir dans Accueil",
+    openHint(ph){return "La page Accueil s’ouvrira avec un pH de " + ph + " pré‑rempli.";},
+
+    impactTitle2:"Impact pratique",
+    detailsTitle:"Détails pour ce pH",
+
+    quickTitle:"Exemples rapides",
+    ex45:"pH 4.5 (Acide)",
+    ex60:"pH 6.0 (Légèrement acide)",
+    ex70:"pH 7.0 (Neutre)",
+    ex84:"pH 8.4 (Légèrement alcalin)",
+    ex100:"pH 10.0 (Alcalin)",
+
+    howText:"Faites glisser le repère sur la barre ; la position horizontale correspond à l’échelle de pH 0–14. Pour une meilleure précision, comparez les bandelettes sous une lumière blanche neutre.",
+
+    rangesTitle:"Plages de pH et conseils",
+    thRange:"Plage",
+    thLabel2:"Niveau",
+    thGuide:"Conseil",
+
+    lblVeryAcid:"Très acide",
+    txtVeryAcid:"Corrosif ; toxique pour la plupart de la vie aquatique. Éviter tout contact.",
+    lblAcid:"Acide",
+    txtAcid:"Nocif pour les espèces sensibles ; vérifier la lixiviation des métaux.",
+    lblSlightAcid:"Légèrement acide",
+    txtSlightAcid:"Un peu de stress pour les espèces sensibles ; surveiller l’évolution.",
+    lblNeutral:"Neutre / Sain",
+    txtNeutral:"Adapté à la plupart de la vie aquatique et aux usages récréatifs normaux.",
+    lblSlightAlk:"Légèrement alcalin",
+    txtSlightAlk:"Surveiller la toxicité de l’ammoniac en eau chaude.",
+    lblAlk:"Alcalin",
+    txtAlk:"Peut nuire à certains poissons ; envisager filtration ou dilution.",
+    lblVeryAlk:"Très alcalin",
+    txtVeryAlk:"Corrosif et dangereux. Éviter l’usage et consulter un spécialiste.",
+
+    tipsTitle2:"Conseils de mesure",
+    tips:[
+      "Utilisez un appareil étalonné ou des bandelettes récentes pour la précision.",
+      "Mesurez à température constante ; le pH varie avec la température.",
+      "Comparez la couleur des bandelettes sous une lumière blanche neutre.",
+      "En cas de doute, faites plusieurs mesures et calculez la moyenne."
+    ],
+    camHint2:"Pour utiliser le lecteur de caméra, ouvrez l’outil caméra depuis la page Accueil.",
+    quality(cat){
+      if(cat==="excellent") return "Qualité de l’eau d’après le seul pH : excellente";
+      if(cat==="good")      return "Qualité de l’eau d’après le seul pH : bonne";
+      if(cat==="caution")   return "Qualité de l’eau d’après le seul pH : prudence";
+      return "Qualité de l’eau d’après le seul pH : mauvaise";
+    }
+  },
+
+  ru:{
+    title:"Измерение качества воды",
+    ph:"pH (0.0 - 14.0)",
+    temp:"Температура (°C)",
+    turb:"Мутность",
+    turbHint:"Low = прозрачная вода, Medium = немного мутная, High = мутная или грязная.",
+    camera:"Камера",
+    switchCam:"Переключить камеру",
+    capture:"Считать цвет",
+    closeCam:"Выключить камеру",
+    location:"Моё местоположение",
+    analyze:"Анализ",
+    save:"Сохранить",
+    clear:"Очистить историю",
+    histTitle:"Сохранённые измерения",
+    noReadings:"Сохранённых измерений нет.",
+    mapCap:"Ваши измерения появятся здесь. Зелёный = хороший, жёлтый = средний, красный = плохой.",
+    status:"Статус",
+    camTitle:"Камера‑датчик pH",
+    camInfo:"Поместите pH‑полоску в пунктирный квадрат при хорошем освещении.",
+    thWhen:"Время",
+    thPh:"pH",
+    thTemp:"Темп.",
+    thTurb:"Мутн.",
+    thIndex:"Индекс",
+
+    navHome:"Главная",
+    navMeasure:"Измерение",
+    navMap:"Карта",
+    navFarm:"Помощь фермерам",
+    navCare:"Уход",
+    navChart:"График",
+    navDetails:"Подробно",
+
+    chartTitle:"Интерактивный график pH",
+    chartIntro:"Перетащите указатель по градиенту, введите значение pH или выберите один из быстрых примеров, чтобы увидеть значение диапазона и практические советы. Кнопка «Открыть на главной» передаёт pH на главную страницу.",
+
+    gradTitle:"Градиент pH и рекомендации",
+    gradLabel:"Градиент pH",
+    dragHint:"Тащите указатель или щёлкните по полосе, чтобы выбрать pH от 0 до 14.",
+    phLabel:"pH",
+    check:"Проверить",
+    openHomeBtn:"Открыть на главной",
+    openHint(ph){return "Главная страница откроется с pH " + ph + " в поле ввода.";},
+
+    impactTitle2:"Практическое значение",
+    detailsTitle:"Подробности для этого pH",
+
+    quickTitle:"Быстрые примеры",
+    ex45:"pH 4.5 (кислый)",
+    ex60:"pH 6.0 (слегка кислый)",
+    ex70:"pH 7.0 (нейтральный)",
+    ex84:"pH 8.4 (слегка щёлочной)",
+    ex100:"pH 10.0 (щёлочной)",
+
+    howText:"Тащите по полосе: горизонтальное положение соответствует шкале pH 0–14. Для точного сравнения полосок используйте яркий белый свет.",
+
+    rangesTitle:"Диапазоны pH и рекомендации",
+    thRange:"Диапазон",
+    thLabel2:"Статус",
+    thGuide:"Рекомендация",
+
+    lblVeryAcid:"Очень кислый",
+    txtVeryAcid:"Коррозионно‑активная вода, токсична для большинства организмов. Избегайте контакта.",
+    lblAcid:"Кислый",
+    txtAcid:"Вреден для чувствительных видов; проверьте вымывание металлов.",
+    lblSlightAcid:"Слегка кислый",
+    txtSlightAcid:"Некоторый стресс для организмов; важно следить за изменениями.",
+    lblNeutral:"Нейтральный / здоровый",
+    txtNeutral:"Подходит для большинства водных организмов и обычного отдыха.",
+    lblSlightAlk:"Слегка щёлочной",
+    txtSlightAlk:"Следите за токсичностью аммиака в тёплой воде.",
+    lblAlk:"Щёлочной",
+    txtAlk:"Может вредить рыбе; рассмотрите фильтрацию или разбавление.",
+    lblVeryAlk:"Очень щёлочной",
+    txtVeryAlk:"Коррозионный и опасный; не использовать, обратитесь к специалистам.",
+
+    tipsTitle2:"Советы по измерению",
+    tips:[
+      "Используйте откалиброванный прибор или новые тест‑полоски.",
+      "Измеряйте при одинаковой температуре; pH зависит от температуры.",
+      "Сравнивайте цвет полосок при нейтральном белом освещении.",
+      "При сомнениях сделайте несколько измерений и усредните."
+    ],
+    camHint2:"Чтобы воспользоваться камерой‑датчиком, откройте инструмент камеры на главной странице.",
+    quality(cat){
+      if(cat==="excellent") return "Качество воды только по pH: отличное";
+      if(cat==="good")      return "Качество воды только по pH: хорошее";
+      if(cat==="caution")   return "Качество воды только по pH: требуется осторожность";
+      return "Качество воды только по pH: плохое";
+    }
+  },
+
+  ja:{
+    title:"水質インデックス測定",
+    ph:"pH (0.0 - 14.0)",
+    temp:"温度 (°C)",
+    turb:"濁度",
+    turbHint:"Low = 透明, Medium = やや濁り, High = 濁っていて泥っぽい水。",
+    camera:"カメラ",
+    switchCam:"カメラ切替",
+    capture:"色を取得",
+    closeCam:"カメラを閉じる",
+    location:"現在地を使用",
+    analyze:"解析",
+    save:"記録を保存",
+    clear:"履歴を削除",
+    histTitle:"保存された測定値",
+    noReadings:"保存された測定値はありません。",
+    mapCap:"ここに測定地点が表示されます。緑=良好, 黄=普通, 赤=悪い。",
+    status:"状態",
+    camTitle:"カメラ pH リーダー",
+    camInfo:"点線の枠の中に試験紙を合わせ、明るい場所で測定してください。",
+    thWhen:"時刻",
+    thPh:"pH",
+    thTemp:"温度",
+    thTurb:"濁度",
+    thIndex:"指数",
+
+    navHome:"ホーム",
+    navMeasure:"計測",
+    navMap:"地図",
+    navFarm:"農家サポート",
+    navCare:"ケア",
+    navChart:"チャート",
+    navDetails:"詳細",
+
+    chartTitle:"インタラクティブ pH チャート",
+    chartIntro:"グラデーション上のピンをドラッグするか pH を入力し、クイック例を使って各 pH 範囲の意味と実用的なアドバイスを確認できます。「ホームで開く」でこの pH をホームページへ送ります。",
+
+    gradTitle:"pH グラデーションとアドバイス",
+    gradLabel:"pH グラデーション",
+    dragHint:"グラデーション上でピンをドラッグ（またはバーをクリック）して 0～14 の pH を選びます。",
+    phLabel:"pH",
+    check:"チェック",
+    openHomeBtn:"ホームで開く",
+    openHint(ph){return "ホームページは pH " + ph + " が入力された状態で開きます。";},
+
+    impactTitle2:"実際の影響",
+    detailsTitle:"この pH の詳細",
+
+    quickTitle:"クイック例",
+    ex45:"pH 4.5（酸性）",
+    ex60:"pH 6.0（やや酸性）",
+    ex70:"pH 7.0（中性）",
+    ex84:"pH 8.4（ややアルカリ性）",
+    ex100:"pH 10.0（アルカリ性）",
+
+    howText:"バーの上をどこでもドラッグすると、その位置が pH 0～14 の値に変換されます。試験紙を使う場合は、明るい白色光の下で色を比べてください。",
+
+    rangesTitle:"pH 範囲とガイド",
+    thRange:"範囲",
+    thLabel2:"区分",
+    thGuide:"ガイド",
+
+    lblVeryAcid:"強酸性",
+    txtVeryAcid:"腐食性が高く、多くの水生生物に有害です。接触を避けてください。",
+    lblAcid:"酸性",
+    txtAcid:"敏感な生物に害があります。金属の溶出を確認してください。",
+    lblSlightAcid:"やや酸性",
+    txtSlightAcid:"一部の生物にストレス。変化の傾向を観察しましょう。",
+    lblNeutral:"中性 / 良好",
+    txtNeutral:"多くの水生生物と通常のレクリエーション利用に適しています。",
+    lblSlightAlk:"ややアルカリ性",
+    txtSlightAlk:"温かい水ではアンモニア毒性に注意してください。",
+    lblAlk:"アルカリ性",
+    txtAlk:"一部の魚に害を与える可能性があります。ろ過や希釈を検討してください。",
+    lblVeryAlk:"強アルカリ性",
+    txtVeryAlk:"腐食性が強く危険です。使用を避け、専門家に相談してください。",
+
+    tipsTitle2:"測定のコツ",
+    tips:[
+      "校正済みメーターまたは新しい試験紙を使いましょう。",
+      "同じ水温で測定します。pH は温度によって変化します。",
+      "中性の白色光の下で色を比較してください。",
+      "不安なときは複数回測定して平均値を使いましょう。"
+    ],
+    camHint2:"カメラリーダーを使う場合は、ホームページからカメラツールを開いてください。",
+    quality(cat){
+      if(cat==="excellent") return "pH のみから見た水質: 非常に良好";
+      if(cat==="good")      return "pH のみから見た水質: 良好";
+      if(cat==="caution")   return "pH のみから見た水質: 注意";
+      return "pH のみから見た水質: 悪い";
+    }
+  },
+
+  zh:{
+    title:"水质指数测量",
+    ph:"pH (0.0 - 14.0)",
+    temp:"温度 (°C)",
+    turb:"浑浊度",
+    turbHint:"Low = 清澈, Medium = 略浑浊, High = 浑浊或泥水。",
+    camera:"相机",
+    switchCam:"切换相机",
+    capture:"采集颜色",
+    closeCam:"关闭相机",
+    location:"使用我的位置",
+    analyze:"分析",
+    save:"保存记录",
+    clear:"清空历史",
+    histTitle:"已保存的记录",
+    noReadings:"暂无记录。",
+    mapCap:"您的记录会显示在地图上。绿色=好, 黄色=中等, 红色=差。",
+    status:"状态",
+    camTitle:"相机 pH 读取器",
+    camInfo:"在虚线框内对准 pH 试纸，并保持光线充足。",
+    thWhen:"时间",
+    thPh:"pH",
+    thTemp:"温度",
+    thTurb:"浑浊",
+    thIndex:"指数",
+
+    navHome:"主页",
+    navMeasure:"测量",
+    navMap:"地图",
+    navFarm:"农户助手",
+    navCare:"养护",
+    navChart:"图表",
+    navDetails:"详情",
+
+    chartTitle:"交互式 pH 图表",
+    chartIntro:"在渐变条上拖动指针、输入 pH 或使用快速示例，查看每个 pH 范围的含义和实用建议。使用“在主页打开”按钮把这个 pH 发送到主页。",
+
+    gradTitle:"pH 渐变与建议",
+    gradLabel:"pH 渐变条",
+    dragHint:"在渐变条上拖动或单击，在 0–14 之间选择 pH。",
+    phLabel:"pH",
+    check:"检查",
+    openHomeBtn:"在主页打开",
+    openHint(ph){return "主页将以 pH " + ph + " 预填的方式打开。";},
+
+    impactTitle2:"实际影响",
+    detailsTitle:"该 pH 的详细信息",
+
+    quickTitle:"快速示例",
+    ex45:"pH 4.5（酸性）",
+    ex60:"pH 6.0（微酸性）",
+    ex70:"pH 7.0（中性）",
+    ex84:"pH 8.4（微碱性）",
+    ex100:"pH 10.0（碱性）",
+
+    howText:"在条上任意位置拖动指针，水平位置会映射到 0–14 的 pH 数值。使用试纸时，请在明亮的白光下对比颜色。",
+
+    rangesTitle:"pH 范围与指导",
+    thRange:"范围",
+    thLabel2:"等级",
+    thGuide:"指导",
+
+    lblVeryAcid:"强酸性",
+    txtVeryAcid:"具有强腐蚀性，对大多数水生生物有毒，应避免接触。",
+    lblAcid:"酸性",
+    txtAcid:"对敏感物种有害；检查是否有金属溶出。",
+    lblSlightAcid:"微酸性",
+    txtSlightAcid:"对敏感物种有一定压力；需要监测变化趋势。",
+    lblNeutral:"中性 / 健康",
+    txtNeutral:"适合大多数水生生物和一般娱乐用途。",
+    lblSlightAlk:"微碱性",
+    txtSlightAlk:"在温暖水体中要注意氨毒性。",
+    lblAlk:"碱性",
+    txtAlk:"可能伤害部分鱼类；考虑过滤或稀释。",
+    lblVeryAlk:"强碱性",
+    txtVeryAlk:"具有腐蚀性且危险。避免使用并寻求专业帮助。",
+
+    tipsTitle2:"测量小贴士",
+    tips:[
+      "使用校准好的仪表或新的试纸以提高精度。",
+      "在相同水温下测量；pH 会随温度变化。",
+      "在中性的白光下对比试纸颜色。",
+      "不确定时，多测几次取平均值。"
+    ],
+    camHint2:"想用摄像头读数？请到主页打开摄像头工具。",
+    quality(cat){
+      if(cat==="excellent") return "仅按 pH 评估的水质：非常好";
+      if(cat==="good")      return "仅按 pH 评估的水质：良好";
+      if(cat==="caution")   return "仅按 pH 评估的水质：需注意";
+      return "仅按 pH 评估的水质：较差";
+    }
+  }
+};
+  const langSelect = document.getElementById('langsel');
+  let lang = localStorage.getItem('whilang') || 'en';
+  langSelect.value = lang;
+
+  function dict(){ return strings[lang] || strings.en; }
+
+  function applyLang(currentPhText){
+    const s = dict();
+    document.getElementById('navHome').textContent    = s.navHome;
+    document.getElementById('navMeasure').textContent = s.navMeasure;
+    document.getElementById('navMap').textContent     = s.navMap;
+    document.getElementById('navFarm').textContent    = s.navFarm;
+    document.getElementById('navCare').textContent    = s.navCare;
+    document.getElementById('navChart').textContent   = s.navChart;
+    document.getElementById('navDetails').textContent = s.navDetails;
+
+    document.getElementById('pageTitle').textContent  = s.chartTitle;
+    document.getElementById('introText').textContent  = s.chartIntro;
+    document.getElementById('leftHeading').textContent= s.gradTitle;
+    document.getElementById('gradLabel').textContent  = s.gradLabel;
+    document.getElementById('dragHint').textContent   = s.dragHint;
+    document.getElementById('phLabel').textContent    = s.phLabel;
+    document.getElementById('checkBtn').textContent   = s.check;
+    document.getElementById('openHome').textContent   = s.openHomeBtn;
+    document.getElementById('impactTitle').textContent= s.impactTitle2;
+    document.getElementById('detailsTitle').textContent= s.detailsTitle;
+    document.getElementById('quickTitle').textContent = s.quickTitle;
+    document.getElementById('ex45').textContent       = s.ex45;
+    document.getElementById('ex60').textContent       = s.ex60;
+    document.getElementById('ex70').textContent       = s.ex70;
+    document.getElementById('ex84').textContent       = s.ex84;
+    document.getElementById('ex100').textContent      = s.ex100;
+    document.getElementById('howText').textContent    = s.howText;
+
+    document.getElementById('rangesTitle').textContent= s.rangesTitle;
+    document.getElementById('thRange').textContent    = s.thRange;
+    document.getElementById('thLabel').textContent    = s.thLabel2;
+    document.getElementById('thGuide').textContent    = s.thGuide;
+    document.getElementById('lblVeryAcid').textContent= s.lblVeryAcid;
+    document.getElementById('txtVeryAcid').textContent= s.txtVeryAcid;
+    document.getElementById('lblAcid').textContent    = s.lblAcid;
+    document.getElementById('txtAcid').textContent    = s.txtAcid;
+    document.getElementById('lblSlightAcid').textContent = s.lblSlightAcid;
+    document.getElementById('txtSlightAcid').textContent = s.txtSlightAcid;
+    document.getElementById('lblNeutral').textContent = s.lblNeutral;
+    document.getElementById('txtNeutral').textContent = s.txtNeutral;
+    document.getElementById('lblSlightAlk').textContent = s.lblSlightAlk;
+    document.getElementById('txtSlightAlk').textContent = s.txtSlightAlk;
+    document.getElementById('lblAlk').textContent     = s.lblAlk;
+    document.getElementById('txtAlk').textContent     = s.txtAlk;
+    document.getElementById('lblVeryAlk').textContent = s.lblVeryAlk;
+    document.getElementById('txtVeryAlk').textContent = s.txtVeryAlk;
+
+    document.getElementById('tipsTitle').textContent  = s.tipsTitle2;
+    const tipsList = document.getElementById('tipsList');
+    tipsList.innerHTML = "";
+    s.tips.forEach(line=>{
+      const li = document.createElement('li');
+      li.textContent = line;
+      tipsList.appendChild(li);
+    });
+    document.getElementById('camHint').textContent    = s.camHint2;
+
+    const phText = currentPhText || "7.00";
+    document.getElementById('openHint').textContent = s.openHint(phText);
+  }
+
+  langSelect.addEventListener('change',()=>{
+    lang = langSelect.value;
+    localStorage.setItem('whilang',lang);
+    applyLang(currentPH.toFixed(2));
+    updateQualityTag(currentPH);
+    updateDetailList(currentPH);
+  });
+
+  // --------------- pH logic ---------------
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+  function round(v,d=2){return Number(v.toFixed(d));}
+
+  const gradEl   = document.getElementById('phGradient');
+  const pin      = document.getElementById('pin');
+  const phInput  = document.getElementById('phVal');
+  const checkBtn = document.getElementById('checkBtn');
+  const resultBox= document.getElementById('resultBox');
+  const bigPH    = document.getElementById('bigPH');
+  const category = document.getElementById('category');
+  const phAdvice = document.getElementById('phAdvice');
+  const impact   = document.getElementById('impact');
+  const catBadge = document.getElementById('catBadge');
+  const qualityTag = document.getElementById('qualityTag');
+  const detailList = document.getElementById('detailList');
+  let currentPH = 7.0;
+
+  function classifyPH(pH){
+    pH = clamp(Number(pH),0,14);
+    if(pH < 3) return {label:"Very acidic",cls:"cat-acid",cat:"poor",rangeKey:"very-acid",
+      short:"Strong mineral acid range.",
+      impact:"Rapid corrosion, extreme stress to all aquatic life.",
+      bullets:[
+        "Likely to dissolve metals from pipes and rocks.",
+        "Severe skin and eye irritation on contact.",
+        "Fish kills expected; only extremophile microbes survive."
+      ]};
+    if(pH < 4.5) return {label:"Very acidic",cls:"cat-acid",cat:"poor",rangeKey:"very-acid",
+      short:"Highly acidic water.",
+      impact:"Corrosive to metals and concrete; dangerous for contact.",
+      bullets:[
+        "Can strip protective slime from fish and damage gills.",
+        "Increases solubility of heavy metals like lead and copper.",
+        "Unsuitable for irrigation; damages roots and soil life."
+      ]};
+    if(pH < 5.5) return {label:"Acidic",cls:"cat-acid",cat:"caution",rangeKey:"acid",
+      short:"Clearly acidic conditions.",
+      impact:"Stressful for many freshwater species and crops.",
+      bullets:[
+        "Sensitive fish (trout, fry) may stop reproducing.",
+        "Corrodes metal plumbing over time; metallic taste possible.",
+        "Can stunt growth of many crops and reduce nutrient uptake."
+      ]};
+    if(pH < 6.5) return {label:"Slightly acidic",cls:"cat-acid",cat:"caution",rangeKey:"slight-acid",
+      short:"Mildly acidic but often still usable.",
+      impact:"Borderline for drinking and aquaculture if stable.",
+      bullets:[
+        "May dissolve small amounts of metals from old pipes.",
+        "Some aquatic plants become stressed and lose leaves.",
+        "Soils may slowly acidify; lime treatment often recommended."
+      ]};
+    if(pH <= 7.5) return {label:"Neutral / Healthy",cls:"cat-neutral",cat:"excellent",rangeKey:"neutral",
+      short:"Near‑ideal pH.",
+      impact:"Comfortable zone for most aquatic life and crops.",
+      bullets:[
+        "Good taste and low corrosion / scaling in plumbing.",
+        "Supports balanced microbial activity in ponds and soil.",
+        "Best range for most vegetables, grains and ornamentals."
+      ]};
+    if(pH <= 8.5) return {label:"Neutral / Healthy",cls:"cat-neutral",cat:"good",rangeKey:"neutral",
+      short:"Slightly on the alkaline side.",
+      impact:"Usually fine, but monitor if fertiliser use is high.",
+      bullets:[
+        "Can reduce availability of iron and some micronutrients.",
+        "Favors certain algae species in warm, nutrient‑rich water.",
+        "Still acceptable for swimming and many crops with care."
+      ]};
+    if(pH <= 9.5) return {label:"Slightly alkaline",cls:"cat-alk",cat:"caution",rangeKey:"slight-alk",
+      short:"Mild alkaline stress zone.",
+      impact:"Some species and seedlings become sensitive.",
+      bullets:[
+        "Ammonia in water becomes more toxic at higher pH.",
+        "Can cause scale build‑up in pipes and tanks.",
+        "Leaf chlorosis (yellowing) may appear on iron‑sensitive plants."
+      ]};
+    if(pH <= 11) return {label:"Alkaline",cls:"cat-alk",cat:"poor",rangeKey:"alk",
+      short:"Strong alkalinity.",
+      impact:"Irritating to skin and gills; aggressive scaling.",
+      bullets:[
+        "Most freshwater fish cannot survive long‑term.",
+        "Makes many nutrients insoluble to plants, causing deficiencies.",
+        "High risk of soap scum and mineral deposits in equipment."
+      ]};
+    return {label:"Very alkaline",cls:"cat-alk",cat:"poor",rangeKey:"very-alk",
+      short:"Extreme alkaline environment.",
+      impact:"Dangerous for almost all normal uses.",
+      bullets:[
+        "Can burn skin and eyes; protective gear required.",
+        "Rapidly kills aquatic life and beneficial microbes.",
+        "Requires professional neutralisation before any discharge."
+      ]};
+  }
+
+  function updateTableHighlight(rangeKey){
+    document.querySelectorAll('tbody tr').forEach(tr=>{
+      if(tr.getAttribute('data-range')===rangeKey) tr.classList.add('highlight');
+      else tr.classList.remove('highlight');
+    });
+  }
+
+  function updateQualityTag(ph){
+    const c = classifyPH(ph);
+    qualityTag.textContent = dict().quality(c.cat);
+  }
+
+  function updateDetailList(ph){
+    const c = classifyPH(ph);
+    const lines = [c.short,c.impact].concat(c.bullets);
+    detailList.innerHTML = "";
+    lines.forEach((line,idx)=>{
+      const div = document.createElement('div');
+      div.style.marginBottom = ".15rem";
+      div.textContent = (idx<2 ? "• " : "– ") + line;
+      detailList.appendChild(div);
+    });
+  }
+
+  function movePinToPH(p){
+    const rect = gradEl.getBoundingClientRect();
+    const frac = clamp(p/14,0,1);
+    const x = frac*rect.width;
+    pin.style.left = x+"px";
+  }
+
+  function showPH(val){
+    const p = clamp(parseFloat(val),0,14);
+    currentPH = p;
+    const c = classifyPH(p);
+    const rounded = round(p,2).toFixed(2);
+
+    resultBox.style.display = "block";
+    bigPH.textContent = "pH " + rounded;
+    category.textContent = c.label;
+    category.className = "badge " + c.cls;
+    phAdvice.textContent = c.impact;
+    impact.textContent   = c.short;
+    catBadge.innerHTML   = `<span class="badge ${c.cls}" style="font-size:.86rem">${c.label}</span>`;
+    updateTableHighlight(c.rangeKey);
+    updateQualityTag(p);
+    updateDetailList(p);
+
+    movePinToPH(p);
+    document.getElementById('openHint').textContent = dict().openHint(rounded);
+  }
+
+  function phFromX(clientX){
+    const rect = gradEl.getBoundingClientRect();
+    const x = clamp(clientX - rect.left,0,rect.width);
+    return (x / rect.width) * 14;
+  }
+
+  // drag on bar
+  let dragging = false;
+  gradEl.addEventListener('mousedown',e=>{
+    e.preventDefault();
+    dragging = true;
+    const ph = phFromX(e.clientX);
+    phInput.value = round(ph,2).toFixed(2);
+    showPH(ph);
+  });
+  window.addEventListener('mousemove',e=>{
+    if(!dragging) return;
+    const ph = phFromX(e.clientX);
+    phInput.value = round(ph,2).toFixed(2);
+    showPH(ph);
+  });
+  window.addEventListener('mouseup',()=>{dragging=false;});
+
+  // drag pin specifically
+  pin.addEventListener('mousedown',e=>{
+    e.stopPropagation();
+    dragging = true;
+  });
+
+  gradEl.addEventListener('click',e=>{
+    const ph = phFromX(e.clientX);
+    phInput.value = round(ph,2).toFixed(2);
+    showPH(ph);
+  });
+
+  checkBtn.addEventListener('click',()=>{
+    const v = parseFloat(phInput.value);
+    if(isNaN(v) || v<0 || v>14){
+      alert("Enter a pH value between 0 and 14");
+      phInput.focus();
+      return;
+    }
+    showPH(v);
+  });
+
+  document.querySelectorAll('.ex').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const v = parseFloat(btn.dataset.ph);
+      phInput.value = v.toFixed(2);
+      showPH(v);
+    });
+  });
+
+  document.getElementById('openHome').addEventListener('click',()=>{
+    const v = parseFloat(phInput.value);
+    if(isNaN(v) || v<0 || v>14){
+      alert("Enter a valid pH first");
+      phInput.focus();
+      return;
+    }
+    const url = "index.html?ph=" + encodeURIComponent(round(v,2).toFixed(2));
+    window.location.href = url;
+  });
+
+  // initial language + default pH
+  applyLang("7.00");
+  phInput.value = "7.00";
+  movePinToPH(7.0);
+  showPH(7.0);
+});
+</script>
+
+</body>
+</html>
