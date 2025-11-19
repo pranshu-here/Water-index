@@ -1,51 +1,85 @@
-// Farmers AI Assistant – simplified & fixed
+// किसान हिंदी सहायक – Hindi voice assistant (rule‑based, draggable)
 document.addEventListener('DOMContentLoaded', () => {
   const openBtn      = document.getElementById('open-assistant-btn');
-  const chatbox      = document.getElementById('assistant-chatbox');
+  const box          = document.getElementById('assistant-chatbox');
+  const header       = document.getElementById('assistant-header');
   const sendBtn      = document.getElementById('send-btn');
   const inputField   = document.getElementById('user-input');
-  const chatOutput   = document.getElementById('chat-output');
+  const output       = document.getElementById('chat-output');
   const voiceBtn     = document.getElementById('voice-btn');
   const stopVoiceBtn = document.getElementById('stop-voice-btn');
   const closeBtn     = document.getElementById('close-btn');
 
-  if (!openBtn || !chatbox || !sendBtn || !inputField || !chatOutput) {
-    console.log('Farmers AI Assistant: elements not found.');
+  if (!openBtn || !box || !sendBtn || !inputField || !output) {
+    console.log('Hindi assistant: elements missing');
     return;
   }
 
-  // ---------- Crop pH data ----------
-  const cropPHRanges = {
-    rice:      { min: 5.5, max: 7.0, note: 'Rice (paddy) likes slightly acidic to neutral water and can tolerate flooded fields.' },
-    wheat:     { min: 6.0, max: 7.5, note: 'Wheat prefers mild acidity to neutral pH with good drainage.' },
-    maize:     { min: 5.5, max: 7.5, note: 'Maize adapts well but prefers near‑neutral pH and fertile soil.' },
-    sugarcane: { min: 6.0, max: 7.5, note: 'Sugarcane needs moist soil and slightly acidic to neutral pH.' },
-    cotton:    { min: 5.8, max: 7.5, note: 'Cotton likes warm climate and slightly acidic to neutral pH.' },
-    soybean:   { min: 6.0, max: 7.5, note: 'Soybean fixes nitrogen and prefers near‑neutral pH.' },
-    mustard:   { min: 5.5, max: 7.5, note: 'Mustard tolerates mild acidity and neutral soils.' },
-    tomato:    { min: 6.0, max: 7.0, note: 'Tomato likes slightly acidic soil and hates waterlogging.' },
-    chilli:    { min: 6.0, max: 7.0, note: 'Chilli likes warm climate, slightly acidic soils, and good drainage.' },
-    banana:    { min: 5.5, max: 7.0, note: 'Banana needs plenty of moisture and slightly acidic to neutral soil.' },
-    mango:     { min: 5.5, max: 7.5, note: 'Mango trees tolerate a wide pH but prefer near‑neutral.' },
-    pulses:    { min: 6.0, max: 7.5, note: 'Many pulses like gram and lentil prefer mild acidity to neutral pH.' }
+  // ---------------- ड्रैग / drag behaviour ----------------
+  (function makeDraggable() {
+    let offsetX = 0, offsetY = 0, isDown = false;
+
+    header.addEventListener('mousedown', (e) => {
+      isDown = true;
+      offsetX = e.clientX - box.offsetLeft;
+      offsetY = e.clientY - box.offsetTop;
+      document.body.style.userSelect = 'none';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      let x = e.clientX - offsetX;
+      let y = e.clientY - offsetY;
+      // keep on screen
+      const maxX = window.innerWidth - box.offsetWidth;
+      const maxY = window.innerHeight - box.offsetHeight;
+      x = Math.max(0, Math.min(maxX, x));
+      y = Math.max(0, Math.min(maxY, y));
+      box.style.left = x + 'px';
+      box.style.top  = y + 'px';
+      box.style.bottom = 'auto';
+      box.style.right  = 'auto';
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDown = false;
+      document.body.style.userSelect = '';
+    });
+  })();
+
+  // ---------------- crop + pH data ----------------
+  const cropPH = {
+    'धान (Rice)':   { min: 5.5, max: 7.0,  note: 'धान को हल्का अम्लीय से न्यूट्रल पानी पसंद है और खेत में पानी खड़ा रह सकता है।' },
+    'गेहूं (Wheat)':{ min: 6.0, max: 7.5,  note: 'गेहूं को हल्का अम्लीय से न्यूट्रल pH और अच्छी जल‑निकासी वाली मिट्टी चाहिए।' },
+    'मक्का (Maize)':{ min: 5.5, max: 7.5,  note: 'मक्का कई pH पर चल जाता है, लेकिन न्यूट्रल के आसपास बेहतर रहता है।' },
+    'गन्ना (Sugarcane)':{ min: 6.0, max: 7.5, note: 'गन्ने को नम मिट्टी और हल्का अम्लीय से न्यूट्रल pH पसंद है।' },
+    'कपास (Cotton)':{ min: 5.8, max: 7.5,  note: 'कपास को गर्म मौसम और हल्का अम्लीय से न्यूट्रल pH अच्छा लगता है।' },
+    'सोयाबीन (Soybean)':{ min: 6.0, max: 7.5, note: 'सोयाबीन नाइट्रोजन बनाती है, न्यूट्रल pH के पास अच्छा प्रदर्शन देती है।' },
+    'सरसों (Mustard)':{ min: 5.5, max: 7.5, note: 'सरसों हल्का अम्लीय और न्यूट्रल दोनों मिट्टी में चल जाती है।' },
+    'टमाटर (Tomato)':{ min: 6.0, max: 7.0, note: 'टमाटर को हल्का अम्लीय मिट्टी और बिल्कुल भी जलभराव पसंद नहीं।' },
+    'मिर्च (Chilli)':{ min: 6.0, max: 7.0, note: 'मिर्च को गर्म मौसम और हल्का अम्लीय जमीन, अच्छी निकासी के साथ चाहिए।' },
+    'केला (Banana)': { min: 5.5, max: 7.0, note: 'केले को भरपूर नमी और हल्का अम्लीय से न्यूट्रल pH वाली मिट्टी चाहिए।' },
+    'आम (Mango)':    { min: 5.5, max: 7.5, note: 'आम का पेड़ pH की बड़ी रेंज सह लेता है, लेकिन न्यूट्रल के पास ज्यादा अच्छा बढ़ता है।' },
+    'दालें (Pulses)':{ min: 6.0, max: 7.5, note: 'चने, मसूर, अरहर जैसी दालों को हल्का अम्लीय से न्यूट्रल pH अच्छा लगता है।' }
   };
 
-  const cropSynonyms = {
-    rice: 'rice', paddy: 'rice',
-    wheat: 'wheat',
-    maize: 'maize', corn: 'maize',
-    sugarcane: 'sugarcane',
-    cotton: 'cotton',
-    soybean: 'soybean', soya: 'soybean', soyabean: 'soybean',
-    mustard: 'mustard',
-    tomato: 'tomato',
-    chilli: 'chilli', chili: 'chilli',
-    banana: 'banana',
-    mango: 'mango',
-    pulses: 'pulses', dal: 'pulses', lentil: 'pulses', gram: 'pulses'
+  const cropKeywords = {
+    'धान': 'धान (Rice)', 'paddy': 'धान (Rice)', 'rice': 'धान (Rice)',
+    'गेहूं': 'गेहूं (Wheat)', 'wheat': 'गेहूं (Wheat)',
+    'मक्का': 'मक्का (Maize)', 'corn': 'मक्का (Maize)', 'maize': 'मक्का (Maize)',
+    'गन्ना': 'गन्ना (Sugarcane)', 'sugarcane':'गन्ना (Sugarcane)',
+    'कपास': 'कपास (Cotton)', 'cotton':'कपास (Cotton)',
+    'सोयाबीन':'सोयाबीन (Soybean)', 'soybean':'सोयाबीन (Soybean)',
+    'सरसों':'सरसों (Mustard)', 'mustard':'सरसों (Mustard)',
+    'टमाटर':'टमाटर (Tomato)', 'tomato':'टमाटर (Tomato)',
+    'मिर्च':'मिर्च (Chilli)', 'chilli':'मिर्च (Chilli)', 'chili':'मिर्च (Chilli)',
+    'केला':'केला (Banana)', 'banana':'केला (Banana)',
+    'आम':'आम (Mango)', 'mango':'आम (Mango)',
+    'दाल':'दालें (Pulses)', 'दालें':'दालें (Pulses)', 'pulses':'दालें (Pulses)'
   };
 
-  // ---------- Small helpers ----------
+  // --------------- helpers ---------------
+
   function addMessage(sender, text) {
     const row = document.createElement('div');
     row.style.margin = '6px 0';
@@ -62,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     row.appendChild(label);
     row.appendChild(body);
-    chatOutput.appendChild(row);
-    chatOutput.scrollTop = chatOutput.scrollHeight;
+    output.appendChild(row);
+    output.scrollTop = output.scrollHeight;
   }
 
   function extractPH(text) {
@@ -74,128 +108,121 @@ document.addEventListener('DOMContentLoaded', () => {
     return v;
   }
 
-  function phStatus(ph) {
-    if (ph < 5.0) return 'strongly acidic and risky for many crops.';
-    if (ph < 5.5) return 'acidic; some crops grow but many prefer higher pH.';
-    if (ph < 6.0) return 'slightly acidic; good for crops that like acidity.';
-    if (ph < 7.5) return 'near neutral and friendly for most crops.';
-    if (ph < 8.5) return 'slightly to moderately alkaline; some crops may struggle.';
-    return 'strongly alkaline; careful management is needed.';
-  }
-
-  function capitalize(s) {
-    return s.charAt(0).toUpperCase() + s.slice(1);
+  function phStatusHindi(ph) {
+    if (ph < 5.0) return 'काफी ज़्यादा अम्लीय है, ज़्यादातर फसलों के लिये जोखिम भरा स्तर है।';
+    if (ph < 5.5) return 'अम्लीय है, कुछ फसलें चल जाएँगी पर ज़्यादातर को सुधार की ज़रूरत होगी।';
+    if (ph < 6.0) return 'हल्का अम्लीय है, कई फसलें आराम से चल सकती हैं।';
+    if (ph < 7.5) return 'लगभग न्यूट्रल है, ज़्यादातर सामान्य फसलों के लिये अच्छा स्तर है।';
+    if (ph < 8.5) return 'हल्का क्षारीय है, कुछ फसलें दिक्कत में पड़ सकती हैं।';
+    return 'काफी ज़्यादा क्षारीय है, प्रबंधन और सुधार बहुत ज़रूरी है।';
   }
 
   function findCrop(text) {
-    for (const word in cropSynonyms) {
-      if (text.includes(word)) return cropSynonyms[word];
+    for (const key in cropKeywords) {
+      if (text.includes(key)) return cropKeywords[key];
     }
     return null;
   }
 
-  // ---------- Knowledge replies ----------
+  // --------------- Hindi logic ---------------
 
   function websiteAnswer() {
-    return 'This Water Health Index website helps you test water, see a health score, and connect it to farming. "Measure" lets you enter test values. "Map" shows where readings were taken. "Farmers Assistance" (here) uses pH and crops to give practical advice. "Care" teaches how to protect water, "Chart" shows graphs of your readings, and "Details" explains the science behind the index.';
+    return 'यह Water Health Index वेबसाइट आपको पानी की सेहत जाँचने, उसका स्कोर देखने और खेती से जोड़ने में मदद करती है। "Measure" में आप टेस्ट का डाटा भरते हैं, "Map" पर जगह दिखती है, "Farmers Assistance" में pH और फसल के आधार पर सलाह मिलती है, "Care" में पानी बचाने और गंदगी रोकने की बातें हैं, "Chart" में आपके रीडिंग के ग्राफ हैं और "Details" में पूरा विज्ञान समझाया गया है।';
   }
 
   function irrigationAnswer() {
-    return 'Irrigation tips: water in early morning or late evening to reduce evaporation; avoid waterlogging; sandy soils need more frequent but smaller irrigations, clay soils need fewer but deeper irrigations; adjust water based on crop stage—seedlings and flowering are very sensitive. Use drip or sprinkler where possible to save water.';
+    return 'सिंचाई सलाह: सुबह जल्दी या शाम को पानी दें ताकि पानी कम वाष्पित हो। खेत में लगातार पानी खड़ा न रहने दें, जड़ों को हवा भी चाहिए। रेतीली मिट्टी में थोड़ी‑थोड़ी बार‑बार सिंचाई करें, चिकनी मिट्टी में कम बार लेकिन गहरी सिंचाई करें। फसल की अवस्था के हिसाब से सिंचाई बदलें—अंकुरण और फूल आते समय पानी की कमी बहुत नुकसान करती है।';
   }
 
   function fertiliserAnswer() {
-    return 'Fertiliser basics: follow soil‑test recommendations, use balanced NPK instead of only urea, split nitrogen into 2–3 doses, and always mix organic manure or compost to improve soil health. Keep fertiliser and chemicals away from wells, ponds and rivers to protect water quality and your Water Health Index.';
+    return 'उर्वरक सलाह: कोशिश करें कि मिट्टी की जाँच रिपोर्ट के हिसाब से NPK दें। सिर्फ यूरिया पर निर्भर न रहें, संतुलित NPK और जैविक खाद दोनों इस्तेमाल करें। नाइट्रोजन को दो‑तीन किस्तों में बाँटकर दें। गोबर, कम्पोस्ट जैसी जैविक खाद मिट्टी की सेहत और pH दोनों को बेहतर बनाती है। उर्वरक और रसायन कुएँ, नदी, तालाब के पास न डालें ताकि पानी की सेहत खराब न हो।';
   }
 
   function savedReadingAnswer() {
-    return 'To use a saved reading: go to the Measure page, enter your test values, and save. Then come to Farmers Assistance, type that pH into the Smart pH helper, and click on different crops to see how well they match and what management tips to follow.';
+    return 'सबसे पहले Measure पेज पर जाकर अपने पानी की जाँच के वैल्यू भरें और रीडिंग सेव करें। फिर Farmers Assistance पेज पर आइये, वही pH वैल्यू Smart pH helper में डालिये और दायीं तरफ फसल चुनकर देखिये कि यह pH उस फसल के लिये कितना सही है और क्या‑क्या सावधानी रखनी है।';
   }
 
-  function genericPHAdvice(ph) {
-    let msg = `Your pH ${ph.toFixed(2)} is ${phStatus(ph)}\n\n`;
+  function phAdvice(ph) {
+    let msg = `आपका pH ${ph.toFixed(2)} है, जो कि ${phStatusHindi(ph)}\n\n`;
     if (ph < 6.0) {
-      msg += 'To raise pH (reduce acidity), apply agricultural lime as per soil test, add compost or farmyard manure, and avoid overuse of very acidic fertilisers.\n';
+      msg += 'इसे थोड़ा बढ़ाने (कम अम्लीय करने) के लिये आप मिट्टी की जाँच के अनुसार चुना (lime) डाल सकते हैं, साथ में भरपूर कम्पोस्ट या गोबर खाद मिलाएँ और बहुत ज़्यादा अम्लीय उर्वरकों का इस्तेमाल कम करें।\n';
     } else if (ph > 7.5) {
-      msg += 'To lower alkalinity, add plenty of organic matter, improve drainage, and where suitable use gypsum or sulphur. Also avoid highly alkaline or salty irrigation water.\n';
+      msg += 'इसे कम क्षारीय करने के लिये जैविक खाद ज़्यादा डालें, अच्छी निकासी रखें और जहाँ उपयुक्त हो वहाँ जिप्सम या सल्फर का प्रयोग करें। बहुत क्षारीय या खारे पानी से सिंचाई न करें।\n';
     } else {
-      msg += 'This pH is already suitable for many crops. Focus on good fertiliser balance, crop rotation, and proper irrigation to keep it stable.\n';
+      msg += 'यह pH पहले से ही कई फसलों के लिये अच्छा है, बस संतुलित उर्वरक और सही सिंचाई पर ध्यान रखें और पानी को गंदा होने से बचाएँ।\n';
     }
-    msg += 'You can also use the Smart pH helper and crop advice boxes next to this assistant.';
     return msg;
   }
 
   function cropsForPH(ph) {
     const good = [];
-    for (const crop in cropPHRanges) {
-      const r = cropPHRanges[crop];
-      if (ph >= r.min && ph <= r.max) good.push(crop);
+    for (const name in cropPH) {
+      const r = cropPH[name];
+      if (ph >= r.min && ph <= r.max) good.push(name);
     }
     if (!good.length) {
-      return `At pH ${ph.toFixed(2)}, very few common crops are comfortable. Try to correct pH closer to 6.0–7.5 using amendments and better quality water.`;
+      return `pH ${ph.toFixed(2)} पर आम फसलों के लिये स्थिति मुश्किल है, पहले pH सुधार करना बेहतर रहेगा।`;
     }
-    return `At pH ${ph.toFixed(2)}, water/soil is ${phStatus(ph)}\nGood matching crops include: ${good.map(capitalize).join(', ')}.\nAlways also check climate, soil type and local variety recommendations.`;
+    return `pH ${ph.toFixed(2)} (${phStatusHindi(ph)})\nइस स्तर पर सामान्यतः ये फसलें ठीक रहती हैं: ${good.join(', ')}।\nफिर भी जलवायु, मिट्टी की बनावट और स्थानीय सिफ़ारिश ज़रूर देखें।`;
   }
 
-  function evaluateCropPH(cropKey, ph) {
-    const r = cropPHRanges[cropKey];
-    const base = `${capitalize(cropKey)} usually likes pH about ${r.min} to ${r.max}. ${r.note} `;
+  function cropWithPHAnswer(cropName, ph) {
+    const r = cropPH[cropName];
+    if (!r) return `${cropName} के लिये मेरे पास अभी पूरी जानकारी नहीं है।`;
+    let msg = `${cropName} के लिये सामान्य pH ${r.min} से ${r.max} के बीच अच्छा माना जाता है। ${r.note} `;
     if (ph < r.min - 0.3) {
-      return base + `Your pH ${ph.toFixed(2)} is more acidic than this, so growth may reduce unless acidity is corrected.`;
+      msg += `आपका pH ${ph.toFixed(2)} इससे कम (ज़्यादा अम्लीय) है, इसलिए उपज थोड़ी कम हो सकती है, pH सुधार की ज़रूरत पड़ेगी।`;
+    } else if (ph > r.max + 0.3) {
+      msg += `आपका pH ${ph.toFixed(2)} इससे ज़्यादा (ज़्यादा क्षारीय) है, इसलिए पोषक तत्वों की दिक्कत आ सकती है, मिट्टी सुधार पर ध्यान दें।`;
+    } else {
+      msg += `आपका pH ${ph.toFixed(2)} इस फसल के आरामदायक दायरे के क़रीब है, अगर बाकी हालत सही हों तो फसल ठीक रहनी चाहिए।`;
     }
-    if (ph > r.max + 0.3) {
-      return base + `Your pH ${ph.toFixed(2)} is more alkaline than ideal, so watch for nutrient problems and consider amendments.`;
-    }
-    return base + `Your pH ${ph.toFixed(2)} is inside or close to the good range, so this crop is generally suitable if climate and nutrients are okay.`;
+    return msg;
   }
 
-  function getAIResponse(userText) {
-    const t = userText.toLowerCase();
+  function getHindiResponse(textRaw) {
+    const t = textRaw.toLowerCase();
 
-    if (/(hello|hi|hey|namaste)/.test(t)) {
-      return 'Namaste! You can ask about this website, pH meaning, which crops fit a pH value, irrigation tips, fertiliser basics, or how to use your saved readings.';
-    }
-
-    if (t.includes('website') || t.includes('this site') || t.includes('water health index')) {
+    if (t.includes('website') || t.includes('वेबसाइट') || t.includes('water health index')) {
       return websiteAnswer();
     }
 
-    if (t.includes('saved reading') || t.includes('latest reading') || t.includes('measure page')) {
-      return savedReadingAnswer();
-    }
-
-    if (t.includes('irrigation') || t.includes('watering')) {
+    if (t.includes('सिंचाई') || t.includes('पानी देना') || t.includes('irrigation')) {
       return irrigationAnswer();
     }
 
-    if (t.includes('fertiliser') || t.includes('fertilizer') || t.includes('npk') || t.includes('manure')) {
+    if (t.includes('उर्वरक') || t.includes('fertiliser') || t.includes('fertilizer') || t.includes('खाद')) {
       return fertiliserAnswer();
     }
 
-    const cropKey = findCrop(t);
-    const ph = extractPH(t);
-
-    if (cropKey && ph !== null) {
-      return evaluateCropPH(cropKey, ph);
+    if (t.includes('saved reading') || t.includes('रीडिंग') || t.includes('measure')) {
+      return savedReadingAnswer();
     }
 
-    if ((t.includes('which crop') || t.includes('what crop') || t.includes('best crop')) && ph !== null) {
+    const ph = extractPH(t);
+    const cropName = findCrop(t);
+
+    if (cropName && ph !== null) {
+      return cropWithPHAnswer(cropName, ph);
+    }
+
+    if (ph !== null && (t.includes('कौन सी फसल') || t.includes('कौनसा फसल') || t.includes('which crop') || t.includes('best crop'))) {
       return cropsForPH(ph);
     }
 
-    if (t.includes('ph')) {
-      if (ph !== null) return genericPHAdvice(ph);
-      return 'pH shows if water/soil is acidic or alkaline. 7 is neutral, lower is acidic, higher is alkaline. Most crops like around 6.0–7.5. You can ask: "What does pH 5.5 mean?" or "Which crops are good at pH 7?".';
+    if (t.includes('ph') || t.includes('पीएच') || t.includes('ph ')) {
+      if (ph !== null) return phAdvice(ph);
+      return 'pH यह बताता है कि पानी या मिट्टी कितनी अम्लीय (खट्टी) या क्षारीय (खारी) है। 7 न्यूट्रल, 7 से कम अम्लीय और 7 से ज़्यादा क्षारीय। ज़्यादातर फसलें 6 से 7.5 के बीच अच्छा महसूस करती हैं। आप पूछ सकते हैं, "pH 6.5 पर कौन सी फसलें अच्छी हैं?"';
     }
 
-    if (t.includes('help') || t.includes('what can you do')) {
-      return 'I can explain this website, tell pH meaning, suggest crops for a pH value, check if a crop fits your pH, give irrigation tips, fertiliser basics, and how to use your saved readings. Example: "Explain this website", "Which crops are good at pH 6.5?", "Is rice ok at pH 7.5?".';
+    if (t.includes('मदद') || t.includes('help')) {
+      return 'आप मुझसे यह पूछ सकते हैं: "यह वेबसाइट क्या करती है?", "pH 6.5 पर कौन सी फसलें अच्छी हैं?", "धान pH 7.8 पर कैसा रहेगा?", "सिंचाई के लिये क्या टिप्स हैं?", "उर्वरक कैसे डालें?" वगैरह।';
     }
 
-    return 'I answer questions about this website, pH, crops, irrigation and fertiliser. Try: "Explain this website", "Which crops are good at pH 6.5?", or "Is wheat ok at pH 5.5?".';
+    return 'मैं अभी इस वेबसाइट, pH, फसल की पसंद, सिंचाई और उर्वरक जैसी बातों पर हिंदी में सलाह दे सकता हूँ। कोई pH और फसल के साथ सवाल पूछिए, जैसे "pH 6.5 पर कौन सी फसलें अच्छी हैं?" या "क्या गेहूं pH 5.5 पर ठीक है?"';
   }
 
-  // ---------- Voice output ----------
+  // --------------- Speech (Hindi) ---------------
   let preferredVoice = null;
 
   function chooseVoice() {
@@ -203,14 +230,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const voices = window.speechSynthesis.getVoices();
     if (!voices || !voices.length) return;
 
-    const targets = ['en-IN', 'en-GB', 'en-US'];
-    for (const t of targets) {
-      const v = voices.find(voice => voice.lang === t && /female|zira|neural/i.test(voice.name));
-      if (v) { preferredVoice = v; break; }
-    }
-    if (!preferredVoice) {
-      preferredVoice = voices.find(v => v.lang.startsWith('en')) || voices[0];
-    }
+    // Try to pick Hindi voice
+    preferredVoice = voices.find(v => v.lang === 'hi-IN') ||
+                     voices.find(v => v.lang.startsWith('hi')) ||
+                     voices.find(v => v.lang.startsWith('en-IN')) ||
+                     voices[0];
   }
 
   if (window.speechSynthesis) {
@@ -218,43 +242,44 @@ document.addEventListener('DOMContentLoaded', () => {
     chooseVoice();
   }
 
-  function speakText(text) {
+  function speak(text) {
     if (!window.speechSynthesis) return;
     const u = new SpeechSynthesisUtterance(text);
     if (preferredVoice) u.voice = preferredVoice;
-    else u.lang = 'en-IN';
+    else u.lang = 'hi-IN';
     u.rate = 1.0;
     u.pitch = 1.0;
-    window.speechSynthesis.cancel();   // stop anything still talking
+    window.speechSynthesis.cancel();
     window.speechSynthesis.speak(u);
   }
 
-  // ---------- Send + events ----------
+  // --------------- Send / events ---------------
   function sendQuery() {
-    const userText = inputField.value.trim();
-    if (!userText) return;
-    addMessage('You', userText);
+    const q = inputField.value.trim();
+    if (!q) return;
+    addMessage('आप', q);
     inputField.value = '';
-    const reply = getAIResponse(userText);
-    addMessage('AI', reply);
-    speakText(reply);
+    const ans = getHindiResponse(q);
+    addMessage('AI', ans);
+    speak(ans);
   }
 
   sendBtn.onclick = sendQuery;
-  inputField.addEventListener('keyup', e => {
+  inputField.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') sendQuery();
   });
 
   openBtn.onclick = () => {
-    chatbox.style.display = 'block';
-    if (chatOutput.childElementCount === 0) {
-      addMessage('AI', 'Namaste! I am your Farmers AI Assistant for the Water Health Index website. Ask me about the website, pH, crops, irrigation or fertiliser.');
-      addMessage('AI', 'Example questions: "Explain this website", "Which crops are good at pH 6.5?", "Is rice ok at pH 7.5?".');
+    box.style.display = 'block';
+    if (!output.innerText.trim()) {
+      const welcome = 'नमस्ते किसान जी! मैं आपका हिंदी किसान सहायक हूँ। pH, फसल, सिंचाई, उर्वरक और इस वेबसाइट के बारे में सवाल पूछ सकते हैं।';
+      addMessage('AI', welcome);
+      speak(welcome);
     }
   };
 
   closeBtn.onclick = () => {
-    chatbox.style.display = 'none';
+    box.style.display = 'none';
     if (window.speechSynthesis) window.speechSynthesis.cancel();
   };
 
@@ -264,65 +289,32 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  // ---------- Voice input ----------
+  // --------------- Hindi speech input ---------------
   let recognition = null;
   try {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SR) {
       recognition = new SR();
-      recognition.lang = 'en-IN';
+      recognition.lang = 'hi-IN';
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
 
-      recognition.onresult = e => {
-        const transcript = e.results[0][0].transcript;
-        inputField.value = transcript;
+      recognition.onresult = (e) => {
+        const text = e.results[0][0].transcript;
+        inputField.value = text;
         sendQuery();
       };
     }
   } catch (err) {
-    console.log('Speech recognition error:', err);
+    console.log('Speech recognition init error', err);
   }
 
   if (voiceBtn) {
     if (!recognition) {
       voiceBtn.disabled = true;
-      voiceBtn.title = 'Voice recognition not supported in this browser';
+      voiceBtn.title = 'यह ब्राउज़र हिंदी वॉइस इनपुट सपोर्ट नहीं करता';
     } else {
       voiceBtn.onclick = () => recognition.start();
     }
   }
-
-  // ---------- Quick question buttons ----------
-  const quickBar = document.createElement('div');
-  quickBar.style.marginTop = '6px';
-  quickBar.style.display = 'flex';
-  quickBar.style.flexWrap = 'wrap';
-  quickBar.style.gap = '4px';
-
-  function quick(label, q) {
-    const b = document.createElement('button');
-    b.textContent = label;
-    b.style.borderRadius = '10px';
-    b.style.border = '1px solid #55ebca';
-    b.style.background = '#15313e';
-    b.style.color = '#e3fbfa';
-    b.style.fontSize = '11px';
-    b.style.padding = '3px 6px';
-    b.style.cursor = 'pointer';
-    b.onclick = () => {
-      inputField.value = q;
-      sendQuery();
-    };
-    return b;
-  }
-
-  quickBar.appendChild(quick('Best crops at pH 6.5', 'Which crops are good at pH 6.5?'));
-  quickBar.appendChild(quick('Improve pH', 'How can I improve my water pH? My pH is 5.5.'));
-  quickBar.appendChild(quick('Irrigation tips', 'Give me irrigation tips.'));
-  quickBar.appendChild(quick('Fertiliser basics', 'Tell me fertiliser basics.'));
-  quickBar.appendChild(quick('Explain website', 'Explain this website for farmers.'));
-  quickBar.appendChild(quick('Saved reading help', 'How do I use my saved reading from the Measure page?'));
-
-  chatbox.appendChild(quickBar);
 });
