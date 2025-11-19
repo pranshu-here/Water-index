@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add language hint so backend can react if you want
     const fullQuestion = `LANG:${langCode.toUpperCase()} | ${question}`;
     try {
-      const res = await fetch('http://localhost:8000/api/farmers-ai', {
+      const res = await fetch('http://localhost:8001/api/farmers-ai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: fullQuestion })
