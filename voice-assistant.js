@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---------- 3. Call local backend ----------
   async function askLocalAI(question, langCode) {
-    // Add language hint so backend can react if you want
     const fullQuestion = `LANG:${langCode.toUpperCase()} | ${question}`;
     try {
       const res = await fetch('http://localhost:8001/api/farmers-ai', {
@@ -185,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SR) {
       recognition = new SR();
-      recognition.lang = 'hi-IN';          // works for Hindi / Hinglish
+      recognition.lang = 'hi-IN';
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
       recognition.onresult = e => {
