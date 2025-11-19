@@ -240,63 +240,9 @@
   <p class="intro" id="introText">
     Use your water pH and crop choice to get simple, practical advice on what to grow, how to correct pH towards 7.0, and how to manage irrigation and soil health.
   </p>
-      <!-- Hindi AI Voice Assistant button -->
-  <button id="open-assistant-btn" class="btn-main" style="margin-bottom:1rem;">
-    किसान हिंदी सहायक खोलें
-  </button>
-
-  <!-- Draggable Hindi AI Assistant box -->
-  <div id="assistant-chatbox" style="
-      display:none;
-      position:fixed;
-      bottom:40px;
-      right:20px;
-      width:360px;
-      max-width:100%;
-      height:420px;
-      background:#102530;
-      border:1px solid #3fd1c9;
-      box-shadow:0 0 18px #000;
-      font-family:'Times New Roman',serif;
-      color:#e3fbfa;
-      z-index:9999;
-    ">
-    <!-- Drag handle / header -->
-    <div id="assistant-header" style="
-        cursor:move;
-        background:#143545;
-        padding:6px 10px;
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-      ">
-      <span style="font-weight:bold; color:#55ebca;">किसान हिंदी सहायक</span>
-      <button id="close-btn" class="btn-ghost" style="padding:2px 8px;">X</button>
-    </div>
-
-    <!-- Messages -->
-    <div id="chat-output" style="
-        height:290px;
-        overflow-y:auto;
-        border-top:1px solid #27536b;
-        border-bottom:1px solid #27536b;
-        padding:6px;
-        background:#0d1b24;
-      "></div>
-
-    <!-- Input + controls -->
-    <div style="padding:6px; display:flex; gap:4px;">
-      <input type="text" id="user-input" placeholder="हिंदी में अपना सवाल लिखिए..." 
-             style="flex:1; padding:5px; font-size:14px; border-radius:6px;
-                    border:1px solid #27536b; background:#16323f; color:#e3fbfa;">
-      <button id="send-btn" class="btn-main" style="padding:4px 10px;">Send</button>
-      <button id="voice-btn" class="btn-ghost" title="बोलकर पूछें" style="padding:4px 8px;">🎤</button>
-      <button id="stop-voice-btn" class="btn-ghost" title="आवाज़ रोकें" style="padding:4px 8px;">■</button>
-    </div>
-  </div>
 
   <div class="layout">
-    <!-- rest of your farmers content stays the same -->
+    
     <!-- LEFT: pH-based helper -->
     <section class="panel">
       <h2 id="leftHeading">Smart pH helper</h2>
