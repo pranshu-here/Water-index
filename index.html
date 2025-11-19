@@ -83,56 +83,72 @@
       transition: background 0.3s, border 0.2s, color 0.2s;
     }
 
-    /* NEW hero layout */
-    main{
-      max-width:1100px;
-      margin:3vw auto 3.5vw auto;
-      padding:0 1.3rem;
-    }
-    .hero-layout{
-      display:grid;
-      grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
-      gap:2.3rem;
-      align-items:stretch;
-    }
-    @media(max-width:950px){
-      .hero-layout{
-        grid-template-columns:1fr;
-        margin-top:0.8rem;
-      }
-    }
+   /* overall main area */
+main{
+  max-width:1200px;              /* was 1100px */
+  margin:3vw auto 3.5vw auto;
+  padding:0 1.6rem;              /* slightly more breathing room */
+}
 
-    .hero-left{
-      background:var(--card-bg);
-      border-radius:18px;
-      padding:1.7rem 1.6rem 1.9rem;
-      box-shadow:var(--shadow);
-      border:1.5px solid #224155;
-    }
-    .hero-right{
-      display:flex;
-      align-items:stretch;
-      justify-content:center;
-    }
-    .hero-card{
-      width:100%;
-      max-width:420px;
-      background:#1b3240;
-      border-radius:18px;
-      padding:1.3rem 1.2rem 1.4rem;
-      box-shadow:0 10px 30px rgba(0,0,0,0.3);
-      border:1px solid #204055;
-    }
+/* layout, a bit wider gap */
+.hero-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(0,1.05fr);
+  gap:2.6rem;                    /* was 2.3rem */
+  align-items:stretch;
+}
 
-    .hero-check{
-      display:flex;
-      align-items:flex-start;
-      gap:.6rem;
-      margin:.55rem 0;
-      color:#d8fcff;
-      font-size:.96rem;
-      font-weight:600;
-    }
+/* left card */
+.hero-left{
+  background:var(--card-bg);
+  border-radius:22px;            /* was 18px */
+  padding:2.1rem 2rem 2.3rem;    /* more padding */
+  box-shadow:0 12px 32px rgba(0,0,0,0.32);
+  border:1.5px solid #224155;
+}
+
+/* right card */
+.hero-card{
+  width:100%;
+  max-width:460px;               /* was 420px */
+  background:#1b3240;
+  border-radius:22px;
+  padding:1.7rem 1.6rem 1.8rem;
+  box-shadow:0 12px 34px rgba(0,0,0,0.35);
+  border:1px solid #204055;
+}
+
+/* main heading a bit larger */
+.hero-left h1{
+  margin:.1rem 0 .5rem;
+  font-size:2.4rem;              /* was 2.2rem */
+}
+
+/* text slightly larger */
+.hero-text{
+  font-size:1.01rem;             /* was .97rem */
+  line-height:1.7;
+}
+.hero-quote{
+  font-size:1.22rem;             /* was 1.18rem */
+}
+
+/* buttons a touch larger */
+.hero-primary,
+.hero-secondary{
+  font-size:1.0rem;              /* was .96rem */
+  padding:.6rem 1.35rem;
+}
+
+/* checklist text larger */
+.hero-check{
+  font-size:1.0rem;              /* was .96rem */
+}
+.check-icon{
+  width:26px;
+  height:26px;
+  font-size:.9rem;
+}
     .check-icon{
       width:24px;
       height:24px;
