@@ -1,4 +1,5 @@
-// voice-assistant.js – EN default, toggle to HI
+// voice-assistant.js
+// Bilingual (EN default, HI option) + local backend + voice
 
 document.addEventListener('DOMContentLoaded', () => {
   const openBtn      = document.getElementById('open-assistant-btn');
@@ -13,11 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const langSelect   = document.getElementById('assistant-lang');
 
   if (!openBtn || !box || !header || !chatOutput || !inputField || !sendBtn || !langSelect) {
-    console.log('Voice assistant: elements missing.');
+    console.log('Farmers voice assistant: elements missing.');
     return;
   }
 
-  // ---------- Draggable ----------
+  // ---------- 1. Draggable box ----------
   (function makeDraggable() {
     let isDown = false, offsetX = 0, offsetY = 0;
     header.addEventListener('mousedown', e => {
@@ -45,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
-  // ---------- Chat helpers ----------
+  // ---------- 2. Chat UI helpers ----------
   function addMessage(sender, text) {
     const row = document.createElement('div');
     row.style.margin = '6px 0';
@@ -66,9 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
     chatOutput.scrollTop = chatOutput.scrollHeight;
   }
 
-  // ---------- Backend call ----------
+  // ---------- 3. Call local backend ----------
   async function askLocalAI(question, langCode) {
-    // add a small language hint that backend can read if needed
+    // Add language hint so backend can react if you want
     const fullQuestion = `LANG:${langCode.toUpperCase()} | ${question}`;
     try {
       const res = await fetch('http://localhost:8000/api/farmers-ai', {
@@ -77,17 +78,23 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ question: fullQuestion })
       });
       if (!res.ok) {
-        return `Local AI server error (status ${res.status}).`;
+        return langCode === 'hi'
+          ? `लोकल AI server में समस्या है (status ${res.status}).`
+          : `Local AI server error (status ${res.status}).`;
       }
       const data = await res.json();
-      return data.answer || 'Local AI did not return any text.';
+      return data.answer || (langCode === 'hi'
+        ? 'Local AI ने कोई टेक्स्ट नहीं लौटाया।'
+        : 'Local AI did not return any text.');
     } catch (err) {
       console.error('Error calling local AI:', err);
-      return 'Could not reach local AI backend. Make sure Python server and Ollama are running.';
+      return langCode === 'hi'
+        ? 'Local AI backend नहीं मिल रहा है। कृपया देखें कि Python server और Ollama दोनों चालू हैं।'
+        : 'Local AI backend could not be reached. Please check that the Python server and Ollama are both running.';
     }
   }
 
-  // ---------- Speech ----------
+  // ---------- 4. Speech output ----------
   let hiVoice = null;
   let enVoice = null;
 
@@ -113,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function speak(text) {
     if (!window.speechSynthesis) return;
-    const lang = langSelect.value;  // 'en' or 'hi'
+    const lang = langSelect.value; // 'en' or 'hi'
     const u = new SpeechSynthesisUtterance(text);
 
     if (lang === 'hi' && hiVoice) {
@@ -130,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.speechSynthesis.speak(u);
   }
 
-  // ---------- Send ----------
+  // ---------- 5. Send logic ----------
   async function sendQuery() {
     const q = inputField.value.trim();
     if (!q) return;
@@ -149,12 +156,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Enter') sendQuery();
   });
 
-  // ---------- Open / close ----------
+  // ---------- 6. Open / close / stop ----------
   openBtn.onclick = () => {
     box.style.display = 'block';
     if (!chatOutput.innerText.trim()) {
-      const enWelcome = 'Hi! I am the local AI assistant for your Water Health Index website. Ask about pH, crops, irrigation, fertiliser, or how to use the pages.';
-      const hiWelcome = 'नमस्ते किसान जी! यह स्थानीय AI आपकी Water Health Index वेबसाइट के लिये है। pH, फसल, सिंचाई और उर्वरक के बारे में पूछ सकते हैं।';
+      const enWelcome =
+        'Hi! I am the local AI assistant for your Water Health Index website. Ask about pH, crops, irrigation, fertiliser, or how to use the pages.';
+      const hiWelcome =
+        'नमस्ते किसान जी! यह स्थानीय AI आपकी Water Health Index वेबसाइट के लिये है। pH, फसल, सिंचाई और उर्वरक के बारे में पूछ सकते हैं।';
       const msg = langSelect.value === 'hi' ? hiWelcome : enWelcome;
       addMessage('AI', msg);
       speak(msg);
@@ -170,13 +179,13 @@ document.addEventListener('DOMContentLoaded', () => {
     stopVoiceBtn.onclick = () => window.speechSynthesis.cancel();
   }
 
-  // ---------- Voice input (use last selected lang, but recognition hi-IN only) ----------
+  // ---------- 7. Voice input (Hindi recognition) ----------
   let recognition = null;
   try {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SR) {
       recognition = new SR();
-      recognition.lang = 'hi-IN';        // better for Hindi; still works for Hinglish
+      recognition.lang = 'hi-IN';          // works for Hindi / Hinglish
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
       recognition.onresult = e => {
