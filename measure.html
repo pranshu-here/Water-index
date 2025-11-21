@@ -627,8 +627,7 @@ function rgbDistance(a,b){
     (a[2]-b[2])**2
   );
 }
-
-function rgbToPh(r,g,b){
+  function rgbToPh(r,g,b){
   // Find two closest points for interpolation
   let bestIdx = 0, minDist = Infinity;
   let nextBestIdx = 0, nextMinDist = Infinity;
@@ -645,7 +644,6 @@ function rgbToPh(r,g,b){
   const bestPh = phReference[bestIdx].pH;
   const nextPh = phReference[nextBestIdx].pH;
   if (Math.abs(bestPh - nextPh) === 1) {
-    // weighted average for smoother results
     return ((bestPh * nextMinDist) + (nextPh * minDist)) / (minDist + nextMinDist);
   }
   return bestPh;
@@ -656,7 +654,7 @@ function rgbToPh(r,g,b){
     return ((closestPh * secDist) + (secondPh * minDist)) / (secDist + minDist);
   }
   return closestPh;
-})
+}
   
   function captureColor(){
     if (!ctx){ alert("Canvas not available."); return; }
