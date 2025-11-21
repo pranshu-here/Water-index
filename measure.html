@@ -648,14 +648,6 @@ function rgbDistance(a,b){
   }
   return bestPh;
 }
-
-  // Interpolate if possible
-  if (secondPh !== null && secDist < minDist * 2) {
-    return ((closestPh * secDist) + (secondPh * minDist)) / (secDist + minDist);
-  }
-  return closestPh;
-}
-  
   function captureColor(){
     if (!ctx){ alert("Canvas not available."); return; }
     if (!video.videoWidth){ alert("Open the camera and wait, then try again."); return; }
