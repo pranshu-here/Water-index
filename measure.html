@@ -784,15 +784,18 @@ function rgbToPh(r,g,b){
     place: currentPlace
   });
   localStorage.setItem('whReadings',JSON.stringify(hist));
-  renderHistory();
-}
       document.getElementById('btnSave').addEventListener('click', saveReading);
   document.getElementById('btnClear').addEventListener('click',()=>{
     if(confirm("Clear all saved readings?")){
       localStorage.removeItem('whReadings');
-        renderHistory();
-}; // <--- add this closing bracket + parenthesis!
+      renderHistory();
+    }
+  });
+
+  renderHistory();
+}); // ONE parenthesis, ONE curly brace. This is document.addEventListener close.
 </script>
 </body>
 </html>
-     
+
+  
