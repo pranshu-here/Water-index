@@ -769,22 +769,25 @@ function rgbToPh(r,g,b){
       historyBody.appendChild(tr);
     });
   }
-  function saveReading(){
-  const result = analyze();
-  if(!result) return;
-  const hist = JSON.parse(localStorage.getItem('whReadings') || '[]');
-  hist.push({
-    when:new Date().toLocaleString(),
-    ph:result.ph.toFixed(2),
-    temp:result.temp.toFixed(1),
-    turb:result.turb,
-    index:result.index,
-    lat: currentLat,
-    lng: currentLng,
-    place: currentPlace
-  });
-  localStorage.setItem('whReadings',JSON.stringify(hist));
-      document.getElementById('btnSave').addEventListener('click', saveReading);
+    function saveReading(){
+    const result = analyze();
+    if(!result) return;
+    const hist = JSON.parse(localStorage.getItem('whReadings') || '[]');
+    hist.push({
+      when:new Date().toLocaleString(),
+      ph:result.ph.toFixed(2),
+      temp:result.temp.toFixed(1),
+      turb:result.turb,
+      index:result.index,
+      lat: currentLat,
+      lng: currentLng,
+      place: currentPlace
+    });
+    localStorage.setItem('whReadings',JSON.stringify(hist));
+    renderHistory();
+  }
+
+  document.getElementById('btnSave').addEventListener('click', saveReading);
   document.getElementById('btnClear').addEventListener('click',()=>{
     if(confirm("Clear all saved readings?")){
       localStorage.removeItem('whReadings');
@@ -793,9 +796,5 @@ function rgbToPh(r,g,b){
   });
 
   renderHistory();
-}); // ONE parenthesis, ONE curly brace. This is document.addEventListener close.
+}); // <--- ends DOMContentLoaded callback!
 </script>
-</body>
-</html>
-
-  
