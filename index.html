@@ -216,6 +216,35 @@ main{
   font-size: 0.96rem;
   color: #2cb5d6;
 }
+    .corner-credits {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 10;
+  /* You can adjust 'right' and 'bottom' if you want it more or less tucked */
+}
+
+.corner-credits-inner {
+  background: #213a4a;
+  border: 1.3px solid #2cb5d6;
+  border-radius: 13px;
+  box-shadow: 0 0 9px #16667865;
+  padding: 0.65rem 1.02rem 0.57rem 0.93rem;
+  font-size: 0.96rem;
+  color: #e3fbfa;
+  width: 150px;
+}
+
+.corner-list {
+  margin: 7px 0 2px 11px;
+  padding: 0;
+  color: #e3fbfa;
+  font-size: 0.92rem;
+}
+.corner-list li {
+  margin-bottom: 1px;
+  list-style: disc;
+}
 
 footer {
   text-align: center;
@@ -310,17 +339,31 @@ footer {
         </div>
       </div>
     </div>
-        <!-- Credits Card NEW! -->
-  <div class="credits-card">
-    <h3 style="color: #55ebca; font-size: 1.16rem; margin-bottom: 8px;">🌱 Credits</h3>
-    <ul class="credits-list">
-      <li>Pranshu (Developer & UI)</li>
-      <li>Mentor: Ashish sir</li>
-      <li>Ollama & Llama-3 (local AI)</li>
-      <li>FastAPI, GitHub, Open Source</li>
-      <li>Special thanks to participating farmers</li>
-    </ul>
-    <div class="credits-bottom">School Project · 2025</div>
+        <div class="hero-card" style="position:relative;">
+  <div class="hero-check">
+    <span class="check-icon">✔</span>
+    <span id="cardLine1"></span>
+  </div>
+  <div class="hero-check">
+    <span class="check-icon">✔</span>
+    <span id="cardLine2"></span>
+  </div>
+  <div class="hero-check">
+    <span class="check-icon">✔</span>
+    <span id="cardLine3"></span>
+  </div>
+  <!-- Credits corner box (NEW) -->
+  <div class="corner-credits">
+    <div class="corner-credits-inner">
+      <b style="color:#55ebca; font-size:1rem;">🌱 Credits</b>
+      <ul class="corner-list">
+        <li>Pranshu (Dev & UI)</li>
+        <li>Mentor: Ashish sir</li>
+        <li>Ollama & Llama-3</li>
+        <li>FastAPI, GitHub</li>
+      </ul>
+      <div style="margin-top:3px; font-size:.92rem; color:#2cb5d6;">2025</div>
+    </div>
   </div>
 </div>
   </section>
