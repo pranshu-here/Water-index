@@ -82,7 +82,6 @@ nav {
   box-shadow: 0 2px 9px #0002;
   transition: background 0.3s, border 0.2s, color 0.2s;
 }
-
 /* overall main area */
 main{
   max-width:1200px;
@@ -96,7 +95,6 @@ main{
   gap: 2.6rem;
   align-items: stretch;
 }
-
 /* left card */
 .hero-left{
   background: var(--card-bg);
@@ -105,7 +103,6 @@ main{
   box-shadow: 0 12px 32px rgba(0,0,0,0.32);
   border: 1.5px solid #224155;
 }
-
 /* tabs */
 .hero-tabs{
   display:flex;
@@ -183,69 +180,36 @@ main{
 }
 .hero-secondary:hover{background:#163747;}
 
-/* checklist + credits side */
-.hero-right{
+.hero-right {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: 1.05rem;
-  height: 100%;
-}
-
-/* checklist card */
-.hero-card{
-  width:100%;
-  max-width:460px;
-  background:#1b3240;
-  border-radius:22px;
-  padding:1.7rem 1.6rem 1.8rem;
-  box-shadow:0 12px 34px rgba(0,0,0,0.35);
-  border:1px solid #204055;
-}
-
-/* checklist rows */
-.hero-check{
-  font-size:1.0rem;
-  display: flex;
   align-items: flex-start;
-  gap: .68rem;
-  margin: .7rem 0 .7rem 0;
-}
-.check-icon{
-  width:24px;
-  height:24px;
-  border-radius:50%;
-  background:#20c997;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:.86rem;
-  font-weight:bold;
-  color:#042322;
-  flex-shrink:0;
+  position: relative;
+  gap: 0;
 }
 
-/* credits card: directly below hero-card inside hero-right */
+/* Floating credits card below checklist */
+.credits-float {
+  width: 260px;
+  min-height: 30px;
+  margin-top: 5.6rem;      /* creates the vertical offset you want! tweak as needed */
+  margin-left: 8.3rem;     /* moves card to the right under the checklist; increase/decrease as needed */
+}
+
 .credits-card {
   background: #213a4a;
   color: #e3fbfa;
   border: 1.5px solid #2cb5d6;
   box-shadow: 0 0 18px #144f5770;
-  border-radius: 17px;
-  padding: 1.06rem 1.3rem 1rem 1.3rem;
-  font-size: 1.05rem;
-  margin-top: 0.4rem;
-  max-width: 460px;
-  width: 100%;
+  border-radius: 16px;
+  padding: 1.1rem 1.15rem 1rem 1.17rem;
+  font-size: 0.98rem;
 }
 .credits-list {
   margin: 0 0 0 7px;
-  padding: 0 0 0 20px;
+  padding-left: 19px;
   color: #e3fbfa;
-  font-size: 1.07rem;
-}
-.credits-list li {
-  margin-bottom: 2px;
+  font-size: 1.01rem;
 }
 .credits-bottom {
   margin-top: 8px;
