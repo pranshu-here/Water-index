@@ -190,7 +190,7 @@
       box-shadow:0 12px 34px rgba(0,0,0,0.35);
       border:1px solid #204055;
       position:relative;
-      min-height: 240px;
+      min-height: 260px;
     }
     .hero-check{
       font-size:1.0rem;
@@ -285,26 +285,24 @@
 
 <main>
   <section class="hero-layout">
-    <!-- LEFT: welcome/about tabs -->
+    <!-- LEFT: welcome/about tabs, unchanged -->
     <div class="hero-left">
-      <!-- ... the rest of your left side as before ... -->
-      <!-- (left side code unchanged for brevity) -->
+      <!-- ... your tabs and about code ... -->
     </div>
-
     <!-- RIGHT: checklist card, credits INSIDE -->
     <div class="hero-right">
       <div class="hero-card">
         <div class="hero-check">
           <span class="check-icon">✔</span>
-          <span id="cardLine1"></span>
+          <span id="cardLine1">Go to <a href="measure.html" target="_blank">Measure</a> to enter your water test data.</span>
         </div>
         <div class="hero-check">
           <span class="check-icon">✔</span>
-          <span id="cardLine2"></span>
+          <span id="cardLine2">Use your camera and location tools to speed up data entry.</span>
         </div>
         <div class="hero-check">
           <span class="check-icon">✔</span>
-          <span id="cardLine3"></span>
+          <span id="cardLine3">Save readings and build your own water-health history over time.</span>
         </div>
         <!-- Credits always in lower right corner -->
         <div class="corner-credits">
@@ -322,8 +320,8 @@
   </section>
 </main>
 
-<footer id="foot"></footer>
-
+<footer id="foot">&copy; 2025 Water Health Index · School level project</footer>
+<!-- (your other JS code for tabs/language can go here if needed) -->
 <script>
 const translations = {
   en: {
