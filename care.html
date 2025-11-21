@@ -938,12 +938,12 @@ const strings = {
     ]
   },
 
-// ---------------- language wiring ----------------
-const langSelect = document.getElementById("langsel"); // CORRECT
+  // ---------------- language wiring ----------------
+const langSelect = document.getElementById('langsel');
 let lang = localStorage.getItem("whilang") || "en";
 langSelect.value = lang;
-
-function t() {
+  
+  function t() {
   return strings[lang] || strings.en;
 }
 
