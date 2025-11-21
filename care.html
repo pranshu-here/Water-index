@@ -946,71 +946,73 @@ langSelect.value = lang;
   function t() {
   return strings[lang] || strings.en;
 }
+// ---------------- language application ----------------
+  function applyLang() {
+    const s = t();
 
-function applyLang() {
-  const s = t();
+    document.getElementById("navHome").textContent    = s.navHome;
+    document.getElementById("navMeasure").textContent = s.navMeasure;
+    document.getElementById("navMap").textContent     = s.navMap;
+    document.getElementById("navFarm").textContent    = s.navFarm;
+    document.getElementById("navCare").textContent    = s.navCare;
+    document.getElementById("navChart").textContent   = s.navChart;
+    document.getElementById("navDetails").textContent = s.navDetails;
 
-  document.getElementById("navHome").textContent    = s.navHome;
-  document.getElementById("navMeasure").textContent = s.navMeasure;
-  document.getElementById("navMap").textContent     = s.navMap;
-  document.getElementById("navFarm").textContent    = s.navFarm;
-  document.getElementById("navCare").textContent    = s.navCare;
-  document.getElementById("navChart").textContent   = s.navChart;
-  document.getElementById("navDetails").textContent = s.navDetails;
+    document.getElementById("pageTitle").textContent        = s.pageTitle;
+    document.getElementById("introText").textContent        = s.intro;
+    document.getElementById("leftHeading").textContent      = s.leftHeading;
+    document.getElementById("lastReadingTitle").textContent = s.lastReadingTitle;
+    document.getElementById("loadLast").textContent         = s.loadLast;
+    document.getElementById("clearChecks").textContent      = s.clearChecks;
+    document.getElementById("noReadingNote").textContent    = s.noReadingNote;
+    document.getElementById("carePlanTitle").textContent    = s.carePlanTitle;
+    document.getElementById("safetyTitle").textContent      = s.safetyTitle;
+    document.getElementById("improveTitle").textContent     = s.improveTitle;
+    document.getElementById("expertTitle").textContent      = s.expertTitle;
+    document.getElementById("checklistTitle").textContent   = s.checklistTitle;
+    document.getElementById("symptomTitle").textContent     = s.symptomTitle;
+    document.getElementById("symptomLabel").textContent     = s.symptomLabel;
+    document.getElementById("symptomCauseTitle").textContent = s.symptomCauseTitle;
+    document.getElementById("symptomActionTitle").textContent = s.symptomActionTitle;
+    document.getElementById("reminderTitle").textContent    = s.reminderTitle;
+    document.getElementById("reminderLabel").textContent    = s.reminderLabel;
+    document.getElementById("saveReminder").textContent     = s.saveReminder;
+    document.getElementById("rightHeading").textContent     = s.rightHeading;
+    document.getElementById("homeCareTitle").textContent    = s.homeCareTitle;
+    document.getElementById("farmCareTitle").textContent    = s.farmCareTitle;
+    document.getElementById("communityCareTitle").textContent = s.communityCareTitle;
+    document.getElementById("factsTitle").textContent       = s.factsTitle;
 
-  document.getElementById("pageTitle").textContent        = s.pageTitle;
-  document.getElementById("introText").textContent        = s.intro;
-  document.getElementById("leftHeading").textContent      = s.leftHeading;
-  document.getElementById("lastReadingTitle").textContent = s.lastReadingTitle;
-  document.getElementById("loadLast").textContent         = s.loadLast;
-  document.getElementById("clearChecks").textContent      = s.clearChecks;
-  document.getElementById("noReadingNote").textContent    = s.noReadingNote;
-  document.getElementById("carePlanTitle").textContent    = s.carePlanTitle;
-  document.getElementById("safetyTitle").textContent      = s.safetyTitle;
-  document.getElementById("improveTitle").textContent     = s.improveTitle;
-  document.getElementById("expertTitle").textContent      = s.expertTitle;
-  document.getElementById("checklistTitle").textContent   = s.checklistTitle;
-  document.getElementById("symptomTitle").textContent     = s.symptomTitle;
-  document.getElementById("symptomLabel").textContent     = s.symptomLabel;
-  document.getElementById("symptomCauseTitle").textContent   = s.symptomCauseTitle;
-  document.getElementById("symptomActionTitle").textContent  = s.symptomActionTitle;
-  document.getElementById("reminderTitle").textContent    = s.reminderTitle;
-  document.getElementById("reminderLabel").textContent    = s.reminderLabel;
-  document.getElementById("saveReminder").textContent     = s.saveReminder;
-  document.getElementById("rightHeading").textContent     = s.rightHeading;
-  document.getElementById("homeCareTitle").textContent    = s.homeCareTitle;
-  document.getElementById("farmCareTitle").textContent    = s.farmCareTitle;
-  document.getElementById("communityCareTitle").textContent = s.communityCareTitle;
-  document.getElementById("factsTitle").textContent       = s.factsTitle;
-
-  function fillList(id, arr) {
-    const ul = document.getElementById(id);
-    ul.innerHTML = "";
-    arr.forEach(text => {
-      const li = document.createElement("li");
-      li.textContent = text;
-      ul.appendChild(li);
-    });
-  }
+    function fillList(id, arr) {
+      const ul = document.getElementById(id);
+      ul.innerHTML = "";
+      arr.forEach(text => {
+        const li = document.createElement("li");
+        li.textContent = text;
+        ul.appendChild(li);
+      });
+    }
 
   fillList("homeCareList",      s.homeCareList);
   fillList("farmCareList",      s.farmCareList);
   fillList("communityCareList", s.communityCareList);
   fillList("factsList",         s.factsList);
 }
-
-applyLang();
-
-langSelect.addEventListener("change", () => {
-  lang = langSelect.value;
-  localStorage.setItem("whilang", lang);
+  // Initial translation apply
   applyLang();
-  if (currentBand) {
-    renderCarePlan(currentBand);
-  }
-  updateReminderBanner();
-});
 
+  // On language change
+  langSelect.addEventListener("change", () => {
+    lang = langSelect.value;
+    localStorage.setItem("whilang", lang);
+    applyLang();
+    if (typeof currentBand !== "undefined" && currentBand) {
+      renderCarePlan(currentBand);
+    }
+    if (typeof updateReminderBanner === "function") {
+      updateReminderBanner();
+    }
+  });
 // ---------------- reading + band classification ----------------
 let currentBand = "";
 let lastReading = null;
