@@ -543,56 +543,48 @@ document.addEventListener('DOMContentLoaded', () => {
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:13,attribution:'© OpenStreetMap'}).addTo(map);
   let marker = null;
 
-  function formatLocation(address, lat, lng){
-  const parts = address || {};
-  // More detail: house number, road, suburb
-  let detail = parts.road || parts.neighbourhood || parts.suburb || "";
-  let number = parts.house_number || "";
-  let city = parts.city || parts.town || parts.village || parts.suburb || "";
-  let state = parts.state || parts.region || "";
-  let country = parts.country || "";
-  let postcode = parts.postcode || "";
-  let label = "";
-  if (number && detail) label += number + " " + detail + ", ";
-  else if (detail) label += detail + ", ";
-  if (city) label += city + ", ";
-  if (state) label += state + ", ";
-  if (country) label += country + ", ";
-  if (postcode) label += postcode + ", ";
-  // Always append precise coordinates
-  label += `Lat ${lat.toFixed(6)} Lng ${lng.toFixed(6)}`;
-  return label;
+  function formatLocation(address){
+  if (!address) return "Unknown location";
+  // Try detailed fields, fallback to city/state
+  let detail = address.road || address.neighbourhood || address.suburb || address.town || address.village || "";
+  let city   = address.city || address.town || address.village || address.suburb || "";
+  let state  = address.state || address.region || "";
+  let country= address.country || "";
+  let postcode = address.postcode || "";
+  // Pick only non-empty values (no coordinates!)
+  let pieces = [];
+  if (detail && detail !== city) pieces.push(detail);
+  if (city) pieces.push(city);
+  if (state) pieces.push(state);
+  if (country) pieces.push(country);
+  if (postcode) pieces.push(postcode);
+  return pieces.join(", ");
 }
-    async function reverseGeocode(lat, lng) {
-    try {
-      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
-      const res = await fetch(url);
-      const data = await res.json();
-      return formatLocation(data.address, lat, lng);
-    } catch {
-      return `Lat ${lat.toFixed(6)}, Lng ${lng.toFixed(6)}`;
-    }
+  async function reverseGeocode(lat, lng){
+  try{
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return formatLocation(data.address);
+  }catch{
+    return "Unknown location";
   }
-
+}
   document.getElementById('btnLocation').addEventListener('click', () => {
-    if (!navigator.geolocation) { alert("Geolocation not supported by this browser."); return; }
-    navigator.geolocation.getCurrentPosition(async pos => {
-      const lat = pos.coords.latitude, lng = pos.coords.longitude;
-      const label = await reverseGeocode(lat, lng);
-      locationMain.textContent = label;
-
-      // remember values for saving (this is what map.html will use)
-      currentLat = lat;
-      currentLng = lng;
-      currentPlace = label;
-
-      if (!marker) marker = L.marker([lat, lng]).addTo(map); else marker.setLatLng([lat, lng]);
-      map.setView([lat, lng], 16); // close zoom
-    }, 
-    () => alert("Could not get location."),
-    {enableHighAccuracy:true, timeout:10000, maximumAge:30000});
-  });
-
+  if (!navigator.geolocation) { alert("Geolocation not supported by this browser."); return; }
+  navigator.geolocation.getCurrentPosition(async pos => {
+    const lat = pos.coords.latitude, lng = pos.coords.longitude;
+    const label = await reverseGeocode(lat, lng); // now returns just the address
+    locationMain.textContent = label;
+    currentLat = lat;
+    currentLng = lng;
+    currentPlace = label;
+    if (!marker) marker = L.marker([lat,lng]).addTo(map); else marker.setLatLng([lat,lng]);
+    map.setView([lat,lng], 16);
+  }, 
+  () => alert("Could not get location."), 
+  {enableHighAccuracy:true, timeout:10000, maximumAge:30000});
+});
   // Camera + capture (camera stays open)
   const video  = document.getElementById('cameraView');
   const canvas = document.getElementById('phCanvas');
