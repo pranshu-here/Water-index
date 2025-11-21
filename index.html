@@ -285,39 +285,61 @@
 
 <main>
   <section class="hero-layout">
-    <!-- LEFT: welcome/about tabs, unchanged -->
-    <div class="hero-left">
-      <!-- ... your tabs and about code ... -->
+  <!-- LEFT: Welcome/About (showing title, quote, description, buttons) -->
+  <div class="hero-left">
+    <div class="hero-tabs">
+      <button class="hero-tab active" data-tab="welcome" id="tabWelcome">Welcome</button>
+      <button class="hero-tab" data-tab="about" id="tabAbout">About</button>
     </div>
-    <!-- RIGHT: checklist card, credits INSIDE -->
-    <div class="hero-right">
-      <div class="hero-card">
-        <div class="hero-check">
-          <span class="check-icon">✔</span>
-          <span id="cardLine1">Go to <a href="measure.html" target="_blank">Measure</a> to enter your water test data.</span>
-        </div>
-        <div class="hero-check">
-          <span class="check-icon">✔</span>
-          <span id="cardLine2">Use your camera and location tools to speed up data entry.</span>
-        </div>
-        <div class="hero-check">
-          <span class="check-icon">✔</span>
-          <span id="cardLine3">Save readings and build your own water-health history over time.</span>
-        </div>
-        <!-- Credits always in lower right corner -->
-        <div class="corner-credits">
-          <b style="color:#55ebca; font-size:1.11rem;"><span style="font-size:1.07rem;">🌱</span> Credits</b>
-          <ul>
-            <li>Pranshu (Dev &amp; UI)</li>
-            <li>Mentor: Ashish sir</li>
-            <li>Ollama &amp; Llama-3</li>
-            <li>FastAPI, GitHub</li>
-          </ul>
-          <div>2025</div>
-        </div>
+    <div class="hero-panel active" id="panelWelcome">
+      <h1 id="home-title">Welcome to Water Health Index</h1>
+      <div class="hero-quote" id="home-quote">
+        <b>"Protecting water today, empowering communities tomorrow."</b>
+      </div>
+      <p class="hero-text" id="home-desc-1">
+        Use simple tools and your device to measure local water quality.
+      </p>
+      <p class="hero-text" id="home-desc-2">
+        Save readings, see them on the map and turn scores into care steps for families and farmers.
+      </p>
+      <div class="hero-buttons">
+        <a href="measure.html" class="hero-primary" id="homeBtnMeasure">Go to Measure</a>
+        <a href="care.html" class="hero-secondary" id="homeBtnCare">See care tips</a>
       </div>
     </div>
-  </section>
+    <div class="hero-panel" id="panelAbout" style="display:none;">
+      <!-- (optional: fill about panel here for tab switching) -->
+    </div>
+  </div>
+  <!-- RIGHT: checklist + credits, FROM EARLIER -->
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="hero-check">
+        <span class="check-icon">✔</span>
+        <span id="cardLine1">Go to <a href="measure.html" target="_blank">Measure</a> to enter your water test data.</span>
+      </div>
+      <div class="hero-check">
+        <span class="check-icon">✔</span>
+        <span id="cardLine2">Use your camera and location tools to speed up data entry.</span>
+      </div>
+      <div class="hero-check">
+        <span class="check-icon">✔</span>
+        <span id="cardLine3">Save readings and build your own water-health history over time.</span>
+      </div>
+      <!-- Credits in lower right -->
+      <div class="corner-credits">
+        <b style="color:#55ebca; font-size:1.11rem;"><span style="font-size:1.07rem;">🌱</span> Credits</b>
+        <ul>
+          <li>Pranshu (Dev &amp; UI)</li>
+          <li>Mentor: Ashish sir</li>
+          <li>Ollama &amp; Llama-3</li>
+          <li>FastAPI, GitHub</li>
+        </ul>
+        <div>2025</div>
+      </div>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer id="foot">&copy; 2025 Water Health Index · School level project</footer>
