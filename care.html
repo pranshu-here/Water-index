@@ -1260,12 +1260,12 @@ document.getElementById('clearChecks').addEventListener('click',()=>{
     if(lastReading) obj.last = lastReading.when;
     saveReminder(obj);
     const s = t();
-    if(days>0){
-      reminderBanner.textContent = s.reminderSaved(days);
-      reminderBanner.style.display="block";
-    }else{
-      reminderBanner.style.display="none";
-    }
+    if (days > 0) {
+  reminderBanner.textContent = s.reminderSaved.replace("{days}", days);
+  reminderBanner.style.display = "block";
+} else {
+  reminderBanner.style.display = "none";
+}
   });
 
   updateReminderBanner();
