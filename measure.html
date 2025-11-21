@@ -604,13 +604,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnSwitch').addEventListener('click', () => { facing = (facing === 'environment') ? 'user' : 'environment'; closeCamera(); openCamera();});
   // 1. Prepare a calibrated RGB-pH table from your actual strip under good lights
 const phReference = [
-  {pH: 1, rgb: [200,30,15]},  // Deep red
-  {pH: 3, rgb: [225,65,20]},  // Orange-red
-  {pH: 5, rgb: [255,190,30]}, // Yellow
-  {pH: 7, rgb: [100,210,110]},// Green
-  {pH: 9, rgb: [60,135,190]}, // Blue-green
-  {pH: 11, rgb: [32,100,220]},// Medium blue
-  {pH: 13, rgb: [21,65,165]}  // Deep blue
+  {pH: 1, rgb: [204, 32, 48]},      // Red (from your image)
+  {pH: 3, rgb: [239, 84, 49]},      // Orange
+  {pH: 5, rgb: [255, 185, 71]},     // Yellow
+  {pH: 7, rgb: [164, 212, 93]},     // Green
+  {pH: 9, rgb: [88, 170, 213]},     // Blue-green
+  {pH: 11, rgb: [43, 120, 185]},    // Medium blue
+  {pH: 13, rgb: [54, 57, 135]},     // Deep blue
+  {pH: 14, rgb: [67, 58, 116]}      // Violet-blue
 ];
 
 function rgbDistance(a,b){
@@ -623,13 +624,22 @@ function rgbDistance(a,b){
 }
 
 function rgbToPh(r, g, b){
-  let minDist = Infinity, closestPh = null;
+  let minDist = Infinity, secDist = Infinity,
+      closestPh = null, secondPh = null;
+
   for (const ref of phReference){
     const dist = rgbDistance([r,g,b], ref.rgb);
     if (dist < minDist){
-      minDist = dist;
-      closestPh = ref.pH;
+      secDist = minDist; secondPh = closestPh;
+      minDist = dist; closestPh = ref.pH;
+    } else if (dist < secDist){
+      secDist = dist; secondPh = ref.pH;
     }
+  }
+
+  // Interpolate if possible
+  if (secondPh !== null && secDist < minDist * 2) {
+    return ((closestPh * secDist) + (secondPh * minDist)) / (secDist + minDist);
   }
   return closestPh;
 }
