@@ -6,111 +6,196 @@
   <title>Water Health Index - Home</title>
   <style>
     :root {
-      --dark-bg: #184757;
-      --dark-grad: linear-gradient(to bottom right, #215871 0%, #184757 100%);
-      --card-bg: #263b4d;
-      --step-bg: #243848e3;
-      --tick-green: #55ebca;
-      --header: #e3fbfa;
-      --mainblue: #39bbe9;
-      --quote: #90e0cf;
-      --accent: #85dad7;
-      --shadow: 0 8px 26px rgba(65,180,202,0.11);
-      --s2: 2.2rem;
-    }
-    html, body {
-      height: 100%; margin: 0; padding: 0;
-      font-family: "Times New Roman", Times, serif;
-      background: var(--dark-grad);
-      color: var(--header);
-    }
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: transparent;
-      padding: 1.1rem 2.2rem 0.3rem 2.2rem;
-    }
-    .logo {
-      font-weight: bold;
-      font-size: var(--s2);
-      display: flex;
-      align-items:center;
-      gap:0.7rem;
-      color: var(--mainblue);
-      letter-spacing:.03em;
-    }
-    .logo .waveemoji {
-      font-size: 2.5rem;
-      display: inline-block;
-      will-change: transform;
-      animation: floatTide 2s infinite alternate cubic-bezier(.55,.06,.87,.6);
-      filter: drop-shadow(0 4px 10px #1daed865);
-    }
-    @keyframes floatTide {
-      0% {transform:translateY(0);}
-      100%{transform:translateY(-10px);}
-    }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      align-items:center;
-    }
-    .nav-links a {
-      text-decoration: none;
-      color: var(--header);
-      font-weight: bold;
-      font-size: 1.17rem;
-      border-bottom: 2px solid transparent;
-      transition: color 0.18s, border-bottom 0.18s;
-      padding-bottom: 4px;
-    }
-    .nav-links a.active, .nav-links a:hover {
-      color: var(--tick-green);
-      border-bottom: 2px solid var(--tick-green);
-    }
-    .langbar { margin-left: 2.3rem; }
-    .langbar select {
-      font-family: inherit;
-      font-size: 1.11rem;
-      border-radius: 7px;
-      padding: 0.32rem 0.9rem;
-      border: 1.4px solid #74c6e0;
-      background: #15313e;
-      color: var(--mainblue);
-      font-weight: 700;
-      box-shadow: 0 2px 9px #0002;
-      transition: background 0.3s, border 0.2s, color 0.2s;
-    }
-
-   /* overall main area */
-main{
-  max-width:1200px;              /* was 1100px */
-  margin:3vw auto 3.5vw auto;
-  padding:0 1.6rem;              /* slightly more breathing room */
+  --dark-bg: #184757;
+  --dark-grad: linear-gradient(to bottom right, #215871 0%, #184757 100%);
+  --card-bg: #263b4d;
+  --step-bg: #243848e3;
+  --tick-green: #55ebca;
+  --header: #e3fbfa;
+  --mainblue: #39bbe9;
+  --quote: #90e0cf;
+  --accent: #85dad7;
+  --shadow: 0 8px 26px rgba(65,180,202,0.11);
+  --s2: 2.2rem;
+}
+html, body {
+  height: 100%; margin: 0; padding: 0;
+  font-family: "Times New Roman", Times, serif;
+  background: var(--dark-grad);
+  color: var(--header);
+}
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  padding: 1.1rem 2.2rem 0.3rem 2.2rem;
+}
+.logo {
+  font-weight: bold;
+  font-size: var(--s2);
+  display: flex;
+  align-items:center;
+  gap:0.7rem;
+  color: var(--mainblue);
+  letter-spacing:.03em;
+}
+.logo .waveemoji {
+  font-size: 2.5rem;
+  display: inline-block;
+  will-change: transform;
+  animation: floatTide 2s infinite alternate cubic-bezier(.55,.06,.87,.6);
+  filter: drop-shadow(0 4px 10px #1daed865);
+}
+@keyframes floatTide {
+  0% {transform:translateY(0);}
+  100%{transform:translateY(-10px);}
+}
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items:center;
+}
+.nav-links a {
+  text-decoration: none;
+  color: var(--header);
+  font-weight: bold;
+  font-size: 1.17rem;
+  border-bottom: 2px solid transparent;
+  transition: color 0.18s, border-bottom 0.18s;
+  padding-bottom: 4px;
+}
+.nav-links a.active, .nav-links a:hover {
+  color: var(--tick-green);
+  border-bottom: 2px solid var(--tick-green);
+}
+.langbar { margin-left: 2.3rem; }
+.langbar select {
+  font-family: inherit;
+  font-size: 1.11rem;
+  border-radius: 7px;
+  padding: 0.32rem 0.9rem;
+  border: 1.4px solid #74c6e0;
+  background: #15313e;
+  color: var(--mainblue);
+  font-weight: 700;
+  box-shadow: 0 2px 9px #0002;
+  transition: background 0.3s, border 0.2s, color 0.2s;
 }
 
-/* layout, a bit wider gap */
-.hero-layout{
-  display:grid;
-  grid-template-columns:minmax(0,1.35fr) minmax(0,1.05fr);
-  gap:2.6rem;                    /* was 2.3rem */
-  align-items:stretch;
+/* overall main area */
+main{
+  max-width:1200px;
+  margin:3vw auto 3.5vw auto;
+  padding:0 1.6rem;
+}
+
+.hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0,1.35fr) minmax(0,1.05fr);
+  gap: 2.6rem;
+  align-items: stretch;
 }
 
 /* left card */
 .hero-left{
-  background:var(--card-bg);
-  border-radius:22px;            /* was 18px */
-  padding:2.1rem 2rem 2.3rem;    /* more padding */
-  box-shadow:0 12px 32px rgba(0,0,0,0.32);
-  border:1.5px solid #224155;
+  background: var(--card-bg);
+  border-radius: 22px;
+  padding: 2.1rem 2rem 2.3rem;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.32);
+  border: 1.5px solid #224155;
 }
 
-/* right card */
+/* tabs */
+.hero-tabs{
+  display:flex;
+  gap:.6rem;
+  margin-bottom:.85rem;
+}
+.hero-tab{
+  flex:0 0 auto;
+  border-radius:999px;
+  border:1px solid #3b8fb1;
+  padding:.3rem .95rem;
+  background:transparent;
+  color:#ccefff;
+  font-family:"Times New Roman",Times,serif;
+  font-size:.94rem;
+  cursor:pointer;
+}
+.hero-tab.active{
+  background:#2cb5d6;
+  color:#ffffff;
+  border-color:#2cb5d6;
+}
+.hero-panel{display:none;}
+.hero-panel.active{display:block;}
+
+.hero-left h1{
+  margin:.1rem 0 .5rem;
+  font-size:2.4rem;
+  color:var(--tick-green);
+  letter-spacing:0.03em;
+  text-shadow:0 2px 10px #24aac9ad;
+}
+.hero-quote{
+  font-size:1.22rem;
+  font-style:italic;
+  color:var(--quote);
+  margin:0 0 .9rem;
+  font-weight:700;
+}
+.hero-text{
+  font-size:1.01rem;
+  color:#d9fbff;
+  margin:.15rem 0 .45rem;
+  line-height:1.6;
+}
+.hero-list{
+  margin:.2rem 0 .7rem;
+  padding-left:1.1rem;
+  color:#d9fbff;
+  font-size:.94rem;
+}
+.hero-buttons{
+  margin-top:.6rem;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.7rem;
+}
+.hero-primary,
+.hero-secondary{
+  text-decoration:none;
+  font-weight:bold;
+  font-size:.96rem;
+  padding:.55rem 1.25rem;
+  border-radius:999px;
+  border:1px solid #2cb5d6;
+}
+.hero-primary{
+  background:#2cb5d6;
+  color:#ffffff;
+}
+.hero-primary:hover{background:#168eaf;}
+.hero-secondary{
+  background:transparent;
+  color:#9ee8ff;
+}
+.hero-secondary:hover{background:#163747;}
+
+/* checklist + credits side */
+.hero-right{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.05rem;
+  height: 100%;
+}
+
+/* checklist card */
 .hero-card{
   width:100%;
-  max-width:460px;               /* was 420px */
+  max-width:460px;
   background:#1b3240;
   border-radius:22px;
   padding:1.7rem 1.6rem 1.8rem;
@@ -118,176 +203,65 @@ main{
   border:1px solid #204055;
 }
 
-/* main heading a bit larger */
-.hero-left h1{
-  margin:.1rem 0 .5rem;
-  font-size:2.4rem;              /* was 2.2rem */
-}
-
-/* text slightly larger */
-.hero-text{
-  font-size:1.01rem;             /* was .97rem */
-  line-height:1.7;
-}
-.hero-quote{
-  font-size:1.22rem;             /* was 1.18rem */
-}
-
-/* buttons a touch larger */
-.hero-primary,
-.hero-secondary{
-  font-size:1.0rem;              /* was .96rem */
-  padding:.6rem 1.35rem;
-}
-
-/* checklist text larger */
+/* checklist rows */
 .hero-check{
-  font-size:1.0rem;              /* was .96rem */
-}
-.check-icon{
-  width:26px;
-  height:26px;
-  font-size:.9rem;
-}
-    .check-icon{
-      width:24px;
-      height:24px;
-      border-radius:50%;
-      background:#20c997;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:.86rem;
-      font-weight:bold;
-      color:#042322;
-      flex-shrink:0;
-    }
-
-    /* tabs */
-    .hero-tabs{
-      display:flex;
-      gap:.6rem;
-      margin-bottom:.85rem;
-    }
-    .hero-tab{
-      flex:0 0 auto;
-      border-radius:999px;
-      border:1px solid #3b8fb1;
-      padding:.3rem .95rem;
-      background:transparent;
-      color:#ccefff;
-      font-family:"Times New Roman",Times,serif;
-      font-size:.94rem;
-      cursor:pointer;
-    }
-    .hero-tab.active{
-      background:#2cb5d6;
-      color:#ffffff;
-      border-color:#2cb5d6;
-    }
-    .hero-panel{display:none;}
-    .hero-panel.active{display:block;}
-
-    .hero-left h1{
-      margin:.1rem 0 .45rem;
-      font-size:2.2rem;
-      color:var(--tick-green);
-      letter-spacing:0.03em;
-      text-shadow:0 2px 10px #24aac9ad;
-    }
-    .hero-quote{
-      font-size:1.18rem;
-      font-style:italic;
-      color:var(--quote);
-      margin:0 0 .9rem;
-      font-weight:700;
-    }
-    .hero-text{
-      font-size:.97rem;
-      color:#d9fbff;
-      margin:.15rem 0 .45rem;
-      line-height:1.6;
-    }
-    .hero-list{
-      margin:.2rem 0 .7rem;
-      padding-left:1.1rem;
-      color:#d9fbff;
-      font-size:.94rem;
-    }
-    .hero-buttons{
-      margin-top:.6rem;
-      display:flex;
-      flex-wrap:wrap;
-      gap:.7rem;
-    }
-    .hero-primary,
-    .hero-secondary{
-      text-decoration:none;
-      font-weight:bold;
-      font-size:.96rem;
-      padding:.55rem 1.25rem;
-      border-radius:999px;
-      border:1px solid #2cb5d6;
-    }
-    .hero-primary{
-      background:#2cb5d6;
-      color:#ffffff;
-    }
-    .hero-primary:hover{background:#168eaf;}
-    .hero-secondary{
-      background:transparent;
-      color:#9ee8ff;
-    }
-    .hero-secondary:hover{background:#163747;}
-
-    footer {
-      text-align: center;
-      padding: 0.9rem 1rem 0.6rem 1rem;
-      font-style: italic;
-      color: #b7fff6;
-      font-weight: 700;
-      font-size:1.03rem;
-      margin-bottom: 0.7rem;
-      letter-spacing:.04em;
-    }
-    /* Credits card styling */
-.hero-layout {
-  display: grid;
-  grid-template-columns: minmax(0,1.25fr) minmax(0,1fr) minmax(0,1fr);
-  gap: 2.6rem;
-  align-items: stretch;
-}
-.hero-credits {
+  font-size:1.0rem;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  gap: .68rem;
+  margin: .7rem 0 .7rem 0;
 }
+.check-icon{
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:#20c997;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.86rem;
+  font-weight:bold;
+  color:#042322;
+  flex-shrink:0;
+}
+
+/* credits card: directly below hero-card inside hero-right */
 .credits-card {
   background: #213a4a;
   color: #e3fbfa;
   border: 1.5px solid #2cb5d6;
-  box-shadow: 0 0 24px #144f57a0;
-  border-radius: 20px;
-  padding: 1.7rem 1.4rem 1.3rem 1.7rem;
-  min-width: 250px;
-  max-width: 310px;
+  box-shadow: 0 0 18px #144f5770;
+  border-radius: 17px;
+  padding: 1.06rem 1.3rem 1rem 1.3rem;
+  font-size: 1.05rem;
+  margin-top: 0.4rem;
+  max-width: 460px;
   width: 100%;
-  font-size: 1.08rem;
-  margin-top: 0.2rem;
 }
 .credits-list {
   margin: 0 0 0 7px;
-  padding: 0 0 0 21px;
+  padding: 0 0 0 20px;
   color: #e3fbfa;
-  font-size: 1.08rem;
+  font-size: 1.07rem;
 }
 .credits-list li {
   margin-bottom: 2px;
 }
 .credits-bottom {
   margin-top: 8px;
-  font-size: 0.99rem;
+  font-size: 0.96rem;
   color: #2cb5d6;
+}
+
+footer {
+  text-align: center;
+  padding: 0.9rem 1rem 0.6rem 1rem;
+  font-style: italic;
+  color: #b7fff6;
+  font-weight: 700;
+  font-size:1.03rem;
+  margin-bottom: 0.7rem;
+  letter-spacing:.04em;
 }
   </style>
 </head>
@@ -372,20 +346,19 @@ main{
         </div>
       </div>
     </div>
-        <!-- CREDITS: credits card in rightmost/empty space -->
-    <div class="hero-credits">
-      <div class="credits-card">
-        <h3 style="color: #55ebca; font-size: 1.32rem; margin-bottom: 10px;">🌱 Credits</h3>
-        <ul class="credits-list">
-          <li>Pranshu (Developer & UI)</li>
-          <li>Mentor:Ashish sir</li>
-          <li>Ollama & Llama-3 (local AI)</li>
-          <li>FastAPI, GitHub, Open Source</li>
-          <li>Special thanks to participating farmers</li>
-        </ul>
-        <div class="credits-bottom">School Project · 2025</div>
-      </div>
-    </div>
+        <!-- Credits Card NEW! -->
+  <div class="credits-card">
+    <h3 style="color: #55ebca; font-size: 1.16rem; margin-bottom: 8px;">🌱 Credits</h3>
+    <ul class="credits-list">
+      <li>Pranshu (Developer & UI)</li>
+      <li>Mentor: Ashish sir</li>
+      <li>Ollama & Llama-3 (local AI)</li>
+      <li>FastAPI, GitHub, Open Source</li>
+      <li>Special thanks to participating farmers</li>
+    </ul>
+    <div class="credits-bottom">School Project · 2025</div>
+  </div>
+</div>
   </section>
 </main>
 
