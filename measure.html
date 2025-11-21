@@ -563,35 +563,35 @@ document.addEventListener('DOMContentLoaded', () => {
   label += `Lat ${lat.toFixed(6)} Lng ${lng.toFixed(6)}`;
   return label;
 }
-
-  async function reverseGeocode(lat,lng){
-    try{
+    async function reverseGeocode(lat, lng) {
+    try {
       const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
       const res = await fetch(url);
       const data = await res.json();
-      return formatLocation(data.address || {});
-    }catch{
-      return `Lat ${lat.toFixed(4)}, Lng ${lng.toFixed(4)}`;
+      return formatLocation(data.address, lat, lng);
+    } catch {
+      return `Lat ${lat.toFixed(6)}, Lng ${lng.toFixed(6)}`;
     }
   }
 
   document.getElementById('btnLocation').addEventListener('click', () => {
-  if (!navigator.geolocation) { alert("Geolocation not supported by this browser."); return; }
-  navigator.geolocation.getCurrentPosition(async pos => {
-    const lat = pos.coords.latitude, lng = pos.coords.longitude;
-    const label = formatLocation(data.address, lat, lng);
-    locationMain.textContent = label;
+    if (!navigator.geolocation) { alert("Geolocation not supported by this browser."); return; }
+    navigator.geolocation.getCurrentPosition(async pos => {
+      const lat = pos.coords.latitude, lng = pos.coords.longitude;
+      const label = await reverseGeocode(lat, lng);
+      locationMain.textContent = label;
 
-    // remember values for saving (this is what map.html will use)
-    currentLat = lat;
-    currentLng = lng;
-    currentPlace = label;
+      // remember values for saving (this is what map.html will use)
+      currentLat = lat;
+      currentLng = lng;
+      currentPlace = label;
 
-    if (!marker) marker = L.marker([lat,lng]).addTo(map); else marker.setLatLng([lat,lng]);
-    map.setView([lat,lng], 16);
+      if (!marker) marker = L.marker([lat, lng]).addTo(map); else marker.setLatLng([lat, lng]);
+      map.setView([lat, lng], 16); // close zoom
     }, 
-() => alert("Could not get location."), 
-{enableHighAccuracy:true, timeout:10000, maximumAge:30000});
+    () => alert("Could not get location."),
+    {enableHighAccuracy:true, timeout:10000, maximumAge:30000});
+  });
 
   // Camera + capture (camera stays open)
   const video  = document.getElementById('cameraView');
@@ -786,8 +786,7 @@ function rgbToPh(r,g,b){
   localStorage.setItem('whReadings',JSON.stringify(hist));
   renderHistory();
 }
-
-  document.getElementById('btnSave').addEventListener('click', saveReading);
+      document.getElementById('btnSave').addEventListener('click', saveReading);
   document.getElementById('btnClear').addEventListener('click',()=>{
     if(confirm("Clear all saved readings?")){
       localStorage.removeItem('whReadings');
@@ -796,7 +795,7 @@ function rgbToPh(r,g,b){
   });
 
   renderHistory();
-});
+}); // <-- Finally, close the DOMContentLoaded block
 </script>
 </body>
 </html>
