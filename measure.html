@@ -790,12 +790,9 @@ function rgbToPh(r,g,b){
   document.getElementById('btnClear').addEventListener('click',()=>{
     if(confirm("Clear all saved readings?")){
       localStorage.removeItem('whReadings');
-      renderHistory();
-    }
-  });
-
-  renderHistory();
-}); // <-- Finally, close the DOMContentLoaded block
+        renderHistory();
+}); // <--- add this closing bracket + parenthesis!
 </script>
 </body>
 </html>
+     
