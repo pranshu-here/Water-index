@@ -601,15 +601,39 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeCamera(){ if (stream){stream.getTracks().forEach(t=>t.stop());stream=null;} video.style.display='none'; canvas.style.display='none'; }
   document.getElementById('btnCamera').addEventListener('click', openCamera);
   document.getElementById('btnCloseCam').addEventListener('click', closeCamera);
-  document.getElementById('btnSwitch').addEventListener('click', () => { facing = (facing === 'environment') ? 'user' : 'environment'; closeCamera(); openCamera(); });
+  document.getElementById('btnSwitch').addEventListener('click', () => { facing = (facing === 'environment') ? 'user' : 'environment'; closeCamera(); openCamera();});
+  // 1. Prepare a calibrated RGB-pH table from your actual strip under good lights
+const phReference = [
+  {pH: 1, rgb: [200,30,15]},  // Deep red
+  {pH: 3, rgb: [225,65,20]},  // Orange-red
+  {pH: 5, rgb: [255,190,30]}, // Yellow
+  {pH: 7, rgb: [100,210,110]},// Green
+  {pH: 9, rgb: [60,135,190]}, // Blue-green
+  {pH: 11, rgb: [32,100,220]},// Medium blue
+  {pH: 13, rgb: [21,65,165]}  // Deep blue
+];
 
-  function rgbToPh(r,g,b){
-    let ph;
-    if (r>g && r>b)      ph = 3 + (14-3)*(255-r)/255;
-    else if (b>r && b>g) ph = 8 + (14-8)*b/255;
-    else                 ph = 6 + (8-6)*g/255;
-    return Math.max(0,Math.min(14,ph));
+function rgbDistance(a,b){
+  // Euclidean distance in RGB space
+  return Math.sqrt(
+    (a[0]-b[0])**2 +
+    (a[1]-b[1])**2 +
+    (a[2]-b[2])**2
+  );
+}
+
+function rgbToPh(r, g, b){
+  let minDist = Infinity, closestPh = null;
+  for (const ref of phReference){
+    const dist = rgbDistance([r,g,b], ref.rgb);
+    if (dist < minDist){
+      minDist = dist;
+      closestPh = ref.pH;
+    }
   }
+  return closestPh;
+}
+  
   function captureColor(){
     if (!ctx){ alert("Canvas not available."); return; }
     if (!video.videoWidth){ alert("Open the camera and wait, then try again."); return; }
