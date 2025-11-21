@@ -604,16 +604,21 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnSwitch').addEventListener('click', () => { facing = (facing === 'environment') ? 'user' : 'environment'; closeCamera(); openCamera();});
   // 1. Prepare a calibrated RGB-pH table from your actual strip under good lights
 const phReference = [
-  {pH: 1, rgb: [204, 32, 48]},      // Red (from your image)
-  {pH: 3, rgb: [239, 84, 49]},      // Orange
-  {pH: 5, rgb: [255, 185, 71]},     // Yellow
-  {pH: 7, rgb: [164, 212, 93]},     // Green
-  {pH: 9, rgb: [88, 170, 213]},     // Blue-green
-  {pH: 11, rgb: [43, 120, 185]},    // Medium blue
-  {pH: 13, rgb: [54, 57, 135]},     // Deep blue
-  {pH: 14, rgb: [67, 58, 116]}      // Violet-blue
+  {pH: 1,   rgb: [230, 80, 120]},   // Deep red/pinkish (acidic)
+  {pH: 2,   rgb: [240, 120, 100]},  // Orange-red
+  {pH: 3,   rgb: [245, 160, 80]},   // Orange
+  {pH: 4,   rgb: [240, 200, 90]},   // Yellow-orange
+  {pH: 5,   rgb: [223, 205, 92]},   // Yellow
+  {pH: 6,   rgb: [192, 192, 89]},   // Yellow-green
+  {pH: 7,   rgb: [146, 182, 101]},  // Green (neutral, from your reading)
+  {pH: 8,   rgb: [120, 189, 164]},  // Green-cyan
+  {pH: 9,   rgb: [127, 188, 193]},  // Cyan
+  {pH: 10,  rgb: [108, 179, 223]},  // Blue-cyan
+  {pH: 11,  rgb: [104, 125, 172]},  // Blue
+  {pH: 12,  rgb: [101, 136, 190]},  // Blue-violet
+  {pH: 13,  rgb: [104, 125, 172]},  // Violet
+  {pH: 14,  rgb: [98, 110, 160]}    // Deep violet/blue
 ];
-
 function rgbDistance(a,b){
   // Euclidean distance in RGB space
   return Math.sqrt(
@@ -623,19 +628,28 @@ function rgbDistance(a,b){
   );
 }
 
-function rgbToPh(r, g, b){
-  let minDist = Infinity, secDist = Infinity,
-      closestPh = null, secondPh = null;
-
-  for (const ref of phReference){
-    const dist = rgbDistance([r,g,b], ref.rgb);
-    if (dist < minDist){
-      secDist = minDist; secondPh = closestPh;
-      minDist = dist; closestPh = ref.pH;
-    } else if (dist < secDist){
-      secDist = dist; secondPh = ref.pH;
+function rgbToPh(r,g,b){
+  // Find two closest points for interpolation
+  let bestIdx = 0, minDist = Infinity;
+  let nextBestIdx = 0, nextMinDist = Infinity;
+  for (let i = 0; i < phReference.length; i++) {
+    const dist = rgbDistance([r,g,b], phReference[i].rgb);
+    if (dist < minDist) {
+      nextBestIdx = bestIdx; nextMinDist = minDist;
+      bestIdx = i; minDist = dist;
+    } else if (dist < nextMinDist) {
+      nextBestIdx = i; nextMinDist = dist;
     }
   }
+  // Simple interpolation if close in pH
+  const bestPh = phReference[bestIdx].pH;
+  const nextPh = phReference[nextBestIdx].pH;
+  if (Math.abs(bestPh - nextPh) === 1) {
+    // weighted average for smoother results
+    return ((bestPh * nextMinDist) + (nextPh * minDist)) / (minDist + nextMinDist);
+  }
+  return bestPh;
+}
 
   // Interpolate if possible
   if (secondPh !== null && secDist < minDist * 2) {
