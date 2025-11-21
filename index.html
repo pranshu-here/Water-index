@@ -250,6 +250,45 @@ main{
       margin-bottom: 0.7rem;
       letter-spacing:.04em;
     }
+    /* Credits card styling */
+.hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0,1.25fr) minmax(0,1fr) minmax(0,1fr);
+  gap: 2.6rem;
+  align-items: stretch;
+}
+.hero-credits {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.credits-card {
+  background: #213a4a;
+  color: #e3fbfa;
+  border: 1.5px solid #2cb5d6;
+  box-shadow: 0 0 24px #144f57a0;
+  border-radius: 20px;
+  padding: 1.7rem 1.4rem 1.3rem 1.7rem;
+  min-width: 250px;
+  max-width: 310px;
+  width: 100%;
+  font-size: 1.08rem;
+  margin-top: 0.2rem;
+}
+.credits-list {
+  margin: 0 0 0 7px;
+  padding: 0 0 0 21px;
+  color: #e3fbfa;
+  font-size: 1.08rem;
+}
+.credits-list li {
+  margin-bottom: 2px;
+}
+.credits-bottom {
+  margin-top: 8px;
+  font-size: 0.99rem;
+  color: #2cb5d6;
+}
   </style>
 </head>
 <body>
@@ -331,6 +370,20 @@ main{
           <span class="check-icon">✔</span>
           <span id="cardLine3"></span>
         </div>
+      </div>
+    </div>
+        <!-- CREDITS: credits card in rightmost/empty space -->
+    <div class="hero-credits">
+      <div class="credits-card">
+        <h3 style="color: #55ebca; font-size: 1.32rem; margin-bottom: 10px;">🌱 Credits</h3>
+        <ul class="credits-list">
+          <li>Pranshu (Developer & UI)</li>
+          <li>Mentor:Ashish sir</li>
+          <li>Ollama & Llama-3 (local AI)</li>
+          <li>FastAPI, GitHub, Open Source</li>
+          <li>Special thanks to participating farmers</li>
+        </ul>
+        <div class="credits-bottom">School Project · 2025</div>
       </div>
     </div>
   </section>
