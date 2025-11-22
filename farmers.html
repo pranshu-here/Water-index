@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Farmers Assistance | Water Health Index</title>
+  <link rel="stylesheet" href="style/farmers.css"/>
+</head>
+<body>
+  <header>
+    <h1>Water Health Index</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="measure.html">Measure</a>
+      <a href="map.html">Map</a>
+      <a href="farmers.html" class="active">Farmers Assistance</a>
+      <a href="care.html">Care</a>
+      <a href="chart.html">Chart</a>
+      <a href="details.html">Details</a>
+      <select id="langSelect">
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+        <option value="bn">Bengali</option>
+        <option value="ta">Tamil</option>
+        <option value="te">Telugu</option>
+        <option value="kn">Kannada</option>
+        <option value="mr">Marathi</option>
+        <option value="gu">Gujarati</option>
+        <option value="pa">Punjabi</option>
+        <option value="ur">Urdu</option>
+        <!-- More languages as needed -->
+      </select>
+    </nav>
+  </header>
+  <main>
+    <section class="welcome-section">
+      <h2>Welcome, Farmers!</h2>
+      <p>
+        Use this page for easy water health tips, crop selection advice, and region-wise guidance in your language.
+      </p>
+      <button id="aiAssistantBtn">Open Farmers AI Assistant</button>
+    </section>
+
+    <section class="quick-tasks">
+      <h3>Quick Tasks</h3>
+      <div>
+        <button onclick="showPHHelper()">Check pH Advice</button>
+        <button onclick="showCropTips()">Crop Tips</button>
+        <button onclick="showAskQuestion()">Ask a Question</button>
+        <button onclick="downloadGuide()">Download Care Guide</button>
+      </div>
+    </section>
+
+    <section id="dynamic-section">
+      <!-- Interactive results and advice appear here -->
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Water Health Index. Helping Farmers Across India.</p>
+  </footer>
+  <script src="farmers-details.js"></script>
+  <script src="farmers-translations.js"></script>
+</body>
+</html>
